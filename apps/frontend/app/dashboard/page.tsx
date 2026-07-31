@@ -6,6 +6,7 @@
  */
 
 import { useEffect, useState } from "react";
+import { apiGet } from "../../lib/api/client";
 
 interface Booking {
   id: string;
@@ -26,9 +27,8 @@ export default function DashboardPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("/api/v1/bookings?limit=20")
-      .then((r) => r.json())
-      .then((bookings: Booking[]) => {
+    apiGet<Booking[]>("/api/v1/bookings", { limit: 20 })
+      .then((bookings) => {
         const now = new Date();
         const upcoming = bookings.filter(
           (b) => b.status === "CONFIRMED" && new Date(b.offerSnapshot?.summary?.departureDate ?? 0) > now,

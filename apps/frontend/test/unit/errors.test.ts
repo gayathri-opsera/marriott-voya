@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { ApiError, parseErrorBody, ErrorCode } from "../../lib/api/errors.js";
+import { ApiError, parseErrorBody, ErrorCode } from "../../lib/api/errors";
 
 describe("ApiError", () => {
   it("creates error with status, code, message", () => {
@@ -11,9 +11,9 @@ describe("ApiError", () => {
     expect(e instanceof Error).toBe(true);
   });
 
-  it("stores fieldErrors", () => {
-    const e = new ApiError(422, "validation_failed", "Validation error", { email: "Invalid email" });
-    expect(e.fieldErrors?.email).toBe("Invalid email");
+  it("stores field for single-field validation errors", () => {
+    const e = new ApiError(422, "validation_failed", "Validation error", "email");
+    expect(e.field).toBe("email");
   });
 
   it("defaults retryable to false", () => {
@@ -23,6 +23,14 @@ describe("ApiError", () => {
 });
 
 describe("parseErrorBody", () => {
+  it("extracts field from nested error object", () => {
+    const body = {
+      error: { code: "validation_failed", message: "Invalid origin", field: "origin" },
+    };
+    const e = parseErrorBody(422, body);
+    expect(e.field).toBe("origin");
+  });
+
   it("extracts code and message from nested error object", () => {
     const body = { error: { code: "not_found", message: "Not found" } };
     const e = parseErrorBody(404, body);

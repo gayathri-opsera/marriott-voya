@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { cn } from "../../lib/utils.js";
+import { cn } from "../../lib/utils";
 
 const Drawer = DialogPrimitive.Root;
 const DrawerTrigger = DialogPrimitive.Trigger;
@@ -18,11 +18,11 @@ const DrawerContent = React.forwardRef<
 >(function DrawerContent({ side = "right", className, children, ...props }, ref) {
   return (
     <DialogPrimitive.Portal>
-      <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-black/50" />
+      <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-overlay" />
       <DialogPrimitive.Content
         ref={ref}
         className={cn(
-          "fixed inset-y-0 z-50 flex h-full w-full flex-col bg-white shadow-xl",
+          "fixed inset-y-0 z-50 flex h-full w-full flex-col bg-surface-default shadow-xl",
           "max-w-xs sm:max-w-sm",
           side === "right" ? "right-0" : "left-0",
           "data-[state=open]:animate-in data-[state=closed]:animate-out",

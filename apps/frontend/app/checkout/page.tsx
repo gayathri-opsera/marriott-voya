@@ -2,13 +2,13 @@
 
 import * as React from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { Button } from "../../components/ui/Button.js";
-import { Input } from "../../components/ui/Input.js";
-import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/Card.js";
-import { Skeleton } from "../../components/ui/Skeleton.js";
-import { useToast } from "../../components/ui/Toast.js";
-import { apiGet, apiPost } from "../../lib/api/client.js";
-import { ApiError } from "../../lib/api/errors.js";
+import { Button } from "../../components/ui/Button";
+import { Input } from "../../components/ui/Input";
+import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/Card";
+import { Skeleton } from "../../components/ui/Skeleton";
+import { useToast } from "../../components/ui/Toast";
+import { apiGet, apiPost } from "../../lib/api/client";
+import { ApiError } from "../../lib/api/errors";
 
 type CheckoutStep = "review" | "traveler" | "payment" | "confirmation";
 

@@ -2,12 +2,12 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { Button } from "../../../components/ui/Button.js";
-import { Input } from "../../../components/ui/Input.js";
-import { Card, CardContent, CardHeader, CardTitle } from "../../../components/ui/Card.js";
-import { useToast } from "../../../components/ui/Toast.js";
-import { apiPost } from "../../../lib/api/client.js";
-import { ApiError } from "../../../lib/api/errors.js";
+import { Button } from "../../../components/ui/Button";
+import { Input } from "../../../components/ui/Input";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../components/ui/Card";
+import { useToast } from "../../../components/ui/Toast";
+import { apiPost } from "../../../lib/api/client";
+import { ApiError } from "../../../lib/api/errors";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -39,8 +39,8 @@ export default function RegisterPage() {
       router.push("/auth/login");
     } catch (err) {
       if (err instanceof ApiError) {
-        if (err.fieldErrors) {
-          setErrors(err.fieldErrors as typeof errors);
+        if (err.field) {
+          setErrors({ [err.field]: err.message } as typeof errors);
         } else {
           setErrors({ form: err.message });
         }

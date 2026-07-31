@@ -5,8 +5,8 @@
  * The refresh token is stored in an HttpOnly cookie set by the server.
  */
 
-import { apiPost } from "./api/client.js";
-import { configureAuth } from "./api/client.js";
+import { apiPost } from "./api/client";
+import { configureAuth } from "./api/client";
 
 interface SessionState {
   accessToken: string | null;

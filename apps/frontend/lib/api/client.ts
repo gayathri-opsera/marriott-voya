@@ -7,8 +7,8 @@
  * - Handles 204 No Content gracefully
  */
 
-import { ApiError, parseErrorBody, ErrorCode } from "./errors.js";
-import { env } from "../env.js";
+import { ApiError, parseErrorBody, ErrorCode } from "./errors";
+import { env } from "../env";
 
 // Token provider — injected to allow testing without a real session
 let _getToken: () => string | null = () => null;
@@ -18,7 +18,7 @@ export function configureAuth(getToken: () => string | null): void {
 }
 
 function buildUrl(path: string, params?: Record<string, string | number | boolean | undefined>): string {
-  const base = env.NEXT_PUBLIC_API_BASE_URL.replace(/\/$/, "");
+  const base = env.NEXT_PUBLIC_API_URL.replace(/\/$/, "");
   const url = new URL(`${base}${path}`);
   if (params) {
     for (const [key, value] of Object.entries(params)) {
@@ -71,6 +71,25 @@ async function executeRequest<T>(url: string, init: RequestInit): Promise<T> {
     throw new ApiError(0, ErrorCode.NETWORK_ERROR, message, undefined, true);
   }
   return parseResponse<T>(res);
+}
+
+/**
+ * Low-level fetch that returns the raw Response — for streaming endpoints.
+ * Non-2xx responses are still returned; callers handle error bodies.
+ */
+export async function apiFetch(
+  path: string,
+  init?: RequestInit,
+  params?: Record<string, string | number | boolean | undefined>,
+): Promise<Response> {
+  const url = buildUrl(path, params);
+  const headers = buildHeaders(init?.headers);
+  try {
+    return await fetch(url, { ...init, headers });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Network request failed";
+    throw new ApiError(0, ErrorCode.NETWORK_ERROR, message, undefined, true);
+  }
 }
 
 // ─── HTTP helpers ────────────────────────────────────────────────────────────

@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import React from "react";
 import "./globals.css";
-import { SiteHeader } from "../components/layout/SiteHeader.js";
-import { SiteFooter } from "../components/layout/SiteFooter.js";
-import { ToastProvider } from "../components/ui/Toast.js";
+import { SiteHeader } from "../components/layout/SiteHeader";
+import { SiteFooter } from "../components/layout/SiteFooter";
+import { ToastProvider } from "../components/ui/Toast";
 
 export const metadata: Metadata = {
   title: "Voya — AI Travel Booking",

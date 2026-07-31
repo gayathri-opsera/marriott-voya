@@ -6,7 +6,7 @@ export class ApiError extends Error {
     public readonly status: number,
     public readonly code: string,
     message: string,
-    public readonly fieldErrors?: Record<string, string>,
+    public readonly field?: string,
     public readonly retryable: boolean = false,
   ) {
     super(message);
@@ -30,8 +30,8 @@ export function parseErrorBody(status: number, body: unknown): ApiError {
     const err = (body as Record<string, unknown>).error as Record<string, unknown>;
     const code = (err.code as string) ?? "unknown_error";
     const message = (err.message as string) ?? "An error occurred";
-    const details = err.details as Record<string, string> | undefined;
-    return new ApiError(status, code, message, details);
+    const field = typeof err.field === "string" ? err.field : undefined;
+    return new ApiError(status, code, message, field);
   }
   return new ApiError(status, "unknown_error", `Request failed with status ${status}`);
 }

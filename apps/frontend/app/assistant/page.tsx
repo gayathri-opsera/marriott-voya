@@ -5,6 +5,7 @@
  */
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { apiFetch, apiPost } from "../../lib/api/client";
 
 interface ChatMessage {
   id: string;
@@ -29,9 +30,8 @@ export default function AssistantPage() {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    fetch("/api/v1/ai/sessions", { method: "POST" })
-      .then((r) => r.json())
-      .then((s: { id: string }) => setSessionId(s.id))
+    apiPost<{ id: string }>("/api/v1/ai/sessions", {})
+      .then((s) => setSessionId(s.id))
       .catch(() => {});
   }, []);
 
@@ -52,7 +52,7 @@ export default function AssistantPage() {
 
     abortRef.current = new AbortController();
     try {
-      const res = await fetch("/api/v1/ai/chat", {
+      const res = await apiFetch("/api/v1/ai/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ sessionId, message: input }),

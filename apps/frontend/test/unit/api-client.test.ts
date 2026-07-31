@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { apiGet, apiPost, apiPatch, apiDelete, configureAuth } from "../../lib/api/client.js";
+import { apiGet, apiPost, apiPatch, apiDelete, configureAuth } from "../../lib/api/client";
 
 // Mock fetch globally
 const fetchMock = vi.fn();
@@ -7,7 +7,7 @@ vi.stubGlobal("fetch", fetchMock);
 
 // Mock env
 vi.mock("../../lib/env.js", () => ({
-  env: { NEXT_PUBLIC_API_BASE_URL: "http://api.test", NODE_ENV: "test" },
+  env: { NEXT_PUBLIC_API_URL: "http://api.test", NODE_ENV: "test" },
 }));
 
 function makeResponse(status: number, body: unknown, contentType = "application/json"): Response {

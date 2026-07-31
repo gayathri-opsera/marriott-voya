@@ -1,42 +1,73 @@
 @import "tailwindcss";
 
-/* ── CSS custom properties mirroring Tailwind tokens ─────────────────────── */
-:root {
-  --color-brand-500: theme(colors.brand.500);
-  --color-brand-600: theme(colors.brand.600);
-  --color-surface: theme(colors.surface.DEFAULT);
-  --color-surface-subtle: theme(colors.surface.subtle);
-  --color-text-primary: theme(colors.text.primary);
-  --color-text-secondary: theme(colors.text.secondary);
-  --color-text-muted: theme(colors.text.muted);
-  --color-error: theme(colors.error.DEFAULT);
-  --color-success: theme(colors.success.DEFAULT);
+@layer base {
+  :root {
+    /* Surface */
+    --color-surface-default: #ffffff;
+    --color-surface-subtle: #f8f9fa;
+    --color-surface-muted: #e9ecef;
+    --color-surface-secondary: #f1f3f5;
+    --color-surface-tertiary: #dee2e6;
 
-  --font-sans: "Inter", system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", monospace;
+    /* Text */
+    --color-text-primary: #1a1a2e;
+    --color-text-secondary: #495057;
+    --color-text-muted: #868e96;
+    --color-text-tertiary: #adb5bd;
+    --color-text-inverse: #ffffff;
 
-  --radius: 0.375rem;
-  --radius-lg: 0.5rem;
-}
+    /* Brand */
+    --color-brand-primary: #3b5bdb;
+    --color-brand-secondary: #6080ff;
 
-/* ── Reset & base ────────────────────────────────────────────────────────── */
-*, *::before, *::after {
-  box-sizing: border-box;
-}
+    /* Status */
+    --color-success: #2f9e44;
+    --color-warning: #e67700;
+    --color-danger: #c92a2a;
+    --color-info: #1971c2;
 
-body {
-  background-color: var(--color-surface-subtle);
-  color: var(--color-text-primary);
-  font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+    /* Overlay & borders */
+    --color-overlay: rgb(0 0 0 / 0.5);
+    --color-border-default: #dee2e6;
+    --color-border-subtle: #e9ecef;
 
-/* ── Focus ring ──────────────────────────────────────────────────────────── */
-:focus-visible {
-  outline: 2px solid var(--color-brand-500);
-  outline-offset: 2px;
-  border-radius: 2px;
+    /* Focus */
+    --color-focus-ring: #3b5bdb;
+
+    /* Radius */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.375rem;
+    --radius-lg: 0.5rem;
+    --radius-xl: 0.75rem;
+
+    /* Legacy aliases used by existing components */
+    --color-brand-500: var(--color-brand-primary);
+    --color-brand-600: #2f4ac7;
+    --color-surface: var(--color-surface-default);
+    --color-error: var(--color-danger);
+
+    --font-sans: "Inter", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", monospace;
+    --radius: var(--radius-md);
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: var(--color-surface-subtle);
+    color: var(--color-text-primary);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-focus-ring);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
 }
 
 /* ── Skip link ───────────────────────────────────────────────────────────── */
@@ -46,9 +77,9 @@ body {
   left: 1rem;
   z-index: 9999;
   padding: 0.5rem 1rem;
-  background: var(--color-brand-500);
-  color: white;
-  border-radius: var(--radius);
+  background: var(--color-brand-primary);
+  color: var(--color-text-inverse);
+  border-radius: var(--radius-md);
   font-weight: 600;
 }
 .skip-link:focus {

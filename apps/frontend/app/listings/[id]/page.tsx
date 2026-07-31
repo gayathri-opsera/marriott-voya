@@ -2,13 +2,13 @@
 
 import * as React from "react";
 import { useParams } from "next/navigation";
-import { Card, CardContent, CardHeader, CardTitle } from "../../../components/ui/Card.js";
-import { Badge } from "../../../components/ui/Badge.js";
-import { Button } from "../../../components/ui/Button.js";
-import { Skeleton } from "../../../components/ui/Skeleton.js";
-import { EmptyState } from "../../../components/ui/EmptyState.js";
-import { apiGet } from "../../../lib/api/client.js";
-import { ApiError } from "../../../lib/api/errors.js";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../components/ui/Card";
+import { Badge } from "../../../components/ui/Badge";
+import { Button } from "../../../components/ui/Button";
+import { Skeleton } from "../../../components/ui/Skeleton";
+import { EmptyState } from "../../../components/ui/EmptyState";
+import { apiGet } from "../../../lib/api/client";
+import { ApiError } from "../../../lib/api/errors";
 
 interface Listing {
   id: string;

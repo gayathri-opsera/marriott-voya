@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { cn } from "../../lib/utils.js";
+import { cn } from "../../lib/utils";
 
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: "default" | "bordered" | "elevated";
@@ -13,7 +13,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
       <div
         ref={ref}
         className={cn(
-          "rounded-xl bg-white p-6",
+          "rounded-xl bg-surface-default p-6",
           variant === "default"  && "shadow-sm",
           variant === "bordered" && "border border-surface-muted",
           variant === "elevated" && "shadow-lg",

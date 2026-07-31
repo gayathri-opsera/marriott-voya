@@ -3,8 +3,8 @@
 import * as React from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { Drawer, DrawerClose, DrawerContent, DrawerTrigger } from "../ui/Drawer.js";
-import { cn } from "../../lib/utils.js";
+import { Drawer, DrawerClose, DrawerContent, DrawerTrigger } from "../ui/Drawer";
+import { cn } from "../../lib/utils";
 
 const NAV_LINKS = [
   { href: "/search", label: "Search" },

@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { cn } from "../../lib/utils.js";
+import { cn } from "../../lib/utils";
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary" | "ghost" | "destructive" | "outline";
@@ -11,13 +11,13 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 
 const variantClasses: Record<NonNullable<ButtonProps["variant"]>, string> = {
   primary:
-    "bg-brand-500 text-white hover:bg-brand-600 focus-visible:ring-brand-500 shadow-sm",
+    "bg-brand-500 text-text-inverse hover:bg-brand-600 focus-visible:ring-brand-500 shadow-sm",
   secondary:
     "bg-surface-muted text-text-primary hover:bg-surface-subtle border border-surface-muted",
   ghost:
     "text-text-primary hover:bg-surface-subtle",
   destructive:
-    "bg-error text-white hover:bg-red-800 focus-visible:ring-red-500 shadow-sm",
+    "bg-danger text-text-inverse hover:bg-danger/90 focus-visible:ring-danger shadow-sm",
   outline:
     "border border-brand-500 text-brand-500 hover:bg-brand-50 focus-visible:ring-brand-500",
 };

@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { cn } from "../../lib/utils.js";
+import { cn } from "../../lib/utils";
 
 const NAV_LINKS = [
   { href: "/search", label: "Search" },
