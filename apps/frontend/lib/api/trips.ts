@@ -10,9 +10,9 @@ export interface Trip {
 }
 
 export async function fetchTrips(): Promise<Trip[]> {
-  return apiGet<Trip[]>("/api/trips");
+  return apiGet<Trip[]>("/api/v1/bookings");
 }
 
 export async function fetchTrip(id: string): Promise<Trip> {
-  return apiGet<Trip>(`/api/trips/${id}`);
+  return apiGet<Trip>(`/api/v1/bookings/${id}`);
 }

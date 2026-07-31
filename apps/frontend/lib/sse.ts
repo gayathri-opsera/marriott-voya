@@ -17,21 +17,25 @@ export function parseSseChunk(line: string): ChatChunk | null {
     if (!parsed.type || typeof parsed.type !== "string") return null;
 
     switch (parsed.type) {
+      // "delta" is what the AI service streams word-by-word; normalize to "text"
+      case "delta":
       case "text":
         if (typeof parsed.content !== "string") return null;
         return { type: "text", content: parsed.content };
+      // "tool_start" emitted when a tool begins; normalize to "tool_use"
+      case "tool_start":
       case "tool_use":
         if (typeof parsed.toolName !== "string") return null;
-        return { type: "tool_use", toolName: parsed.toolName, input: parsed.input };
+        return { type: "tool_use", toolName: parsed.toolName as string, input: parsed.input };
+      // "tool_result" emitted after tool execution (AI service sends toolName + toolUseId, no content)
       case "tool_result":
-        if (typeof parsed.toolUseId !== "string" || typeof parsed.content !== "string") return null;
-        return { type: "tool_result", toolUseId: parsed.toolUseId, content: parsed.content };
+        return { type: "tool_result", toolUseId: (parsed.toolUseId as string) ?? "", content: (parsed.toolName as string) ?? "" };
       case "error":
         if (typeof parsed.message !== "string") return null;
         return { type: "error", message: parsed.message };
+      // "done" may have usage instead of finishReason
       case "done":
-        if (typeof parsed.finishReason !== "string") return null;
-        return { type: "done", finishReason: parsed.finishReason };
+        return { type: "done", finishReason: (parsed.finishReason as string) ?? "end_turn" };
       default:
         return null;
     }

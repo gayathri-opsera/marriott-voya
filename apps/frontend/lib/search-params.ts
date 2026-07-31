@@ -21,9 +21,11 @@ export function parseSearchParams(params: URLSearchParams): SearchState {
   const q = params.get("q");
   if (q) state.q = q;
 
-  const type = params.get("type");
-  if (type === "flights" || type === "hotels" || type === "cars") {
-    state.type = type;
+  // Accept both singular "type" and plural "types", and singular values like "hotel" → "hotels"
+  const typeRaw = params.get("type") ?? params.get("types") ?? "";
+  const typeNorm = typeRaw === "hotel" ? "hotels" : typeRaw === "flight" ? "flights" : typeRaw === "car" ? "cars" : typeRaw;
+  if (typeNorm === "flights" || typeNorm === "hotels" || typeNorm === "cars") {
+    state.type = typeNorm as TravelType;
   }
 
   const sort = params.get("sort");
