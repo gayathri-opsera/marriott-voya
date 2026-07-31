@@ -1,189 +1,257 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import {
-  Button,
-  Input,
-  Badge,
-  Card,
-  CardContent,
-  Skeleton,
-  EmptyState,
-} from "@travel/design-system";
+import { useRouter, useSearchParams } from "next/navigation";
 import type { SearchResponse, UnifiedOffer } from "@travel/contracts/search";
 import { apiGet } from "../../lib/api/client";
 import { ApiError } from "../../lib/api/errors";
-import { getProvenanceBadgeVariant } from "../../lib/domain/offer";
 import { trackEvent, JOURNEY_EVENTS } from "../../lib/analytics";
+import { StateBoundary } from "../../components/patterns/StateBoundary";
+import {
+  SearchCriteriaForm,
+  type SearchCriteria,
+} from "../../components/search/SearchCriteriaForm";
+import { FilterPanel, type Filters } from "../../components/search/FilterPanel";
+import { ResultsList } from "../../components/results/ResultsList";
+import { parseSearchParams, toSearchParams, type SearchState } from "../../lib/search-params";
+import { getEntryCriteria } from "../../lib/entry-criteria";
 
-const SORT_OPTIONS = [
-  { value: "price_asc", label: "Price: Low to High" },
-  { value: "price_desc", label: "Price: High to Low" },
-  { value: "relevance", label: "Best Match" },
-];
-
-const TYPE_FILTERS = [
-  { value: "flight", label: "Flights" },
-  { value: "hotel", label: "Hotels" },
-  { value: "car", label: "Cars" },
-];
-
-function formatPrice(amount: string, currency: string) {
-  return new Intl.NumberFormat("en-US", { style: "currency", currency }).format(Number(amount));
-}
-
-function getOfferType(offer: UnifiedOffer): string {
-  if ("departureAirport" in offer.details) return "flight";
-  if ("hotelName" in offer.details || "starRating" in offer.details) return "hotel";
+function mapTypeToApi(type: SearchCriteria["type"]): string {
+  if (type === "flights") return "flight";
+  if (type === "hotels") return "hotel";
   return "car";
 }
 
-function ResultCard({ offer }: { offer: UnifiedOffer }) {
-  const type = getOfferType(offer);
+function applyClientFilters(offers: UnifiedOffer[], filters: Filters): UnifiedOffer[] {
+  let result = [...offers];
 
-  return (
-    <Card className="border border-border-default hover:shadow-md transition-shadow">
-      <CardContent className="flex items-start justify-between gap-4 p-4">
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1">
-            <Badge variant={type === "flight" ? "info" : type === "hotel" ? "success" : "warning"}>
-              {type}
-            </Badge>
-            <Badge variant={getProvenanceBadgeVariant(offer.provenance) as "default"}>
-              {offer.provenance}
-            </Badge>
-          </div>
-          <h3 className="font-semibold text-text-primary truncate">{offer.title}</h3>
-          <p className="text-sm text-text-secondary mt-0.5">
-            Freshness: {offer.freshness}
-          </p>
-        </div>
-        <div className="flex flex-col items-end gap-2 shrink-0">
-          <div className="text-right">
-            <div className="text-xl font-bold text-brand-primary">
-              {formatPrice(offer.price, offer.currency)}
-            </div>
-          </div>
-          <Button size="sm" asChild>
-            <Link href={`/listings/${offer.id}`}>View details</Link>
-          </Button>
-        </div>
-      </CardContent>
-    </Card>
-  );
+  if (filters.minPrice !== undefined) {
+    result = result.filter((o) => Number(o.price) >= filters.minPrice!);
+  }
+  if (filters.maxPrice !== undefined) {
+    result = result.filter((o) => Number(o.price) <= filters.maxPrice!);
+  }
+
+  switch (filters.sort) {
+    case "price_asc":
+      result.sort((a, b) => Number(a.price) - Number(b.price));
+      break;
+    case "price_desc":
+      result.sort((a, b) => Number(b.price) - Number(a.price));
+      break;
+    case "rating":
+      result.sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0));
+      break;
+    case "duration":
+      result.sort((a, b) => {
+        const durA = "duration" in a.details ? String(a.details.duration ?? "") : "";
+        const durB = "duration" in b.details ? String(b.details.duration ?? "") : "";
+        return durA.localeCompare(durB);
+      });
+      break;
+  }
+
+  return result;
 }
 
-export default function SearchPage() {
+function getScreenState(
+  loading: boolean,
+  error: Error | null,
+  hasQuery: boolean,
+  resultCount: number,
+): "idle" | "loading" | "empty" | "error" {
+  if (loading) return "loading";
+  if (error) return "error";
+  if (hasQuery && resultCount === 0) return "empty";
+  return "idle";
+}
+
+export default function SearchPage(): React.JSX.Element {
+  const router = useRouter();
   const searchParams = useSearchParams();
-  const query = searchParams.get("q") ?? "";
+  const urlState = React.useMemo(
+    () => parseSearchParams(searchParams),
+    [searchParams],
+  );
+
   const [results, setResults] = React.useState<UnifiedOffer[]>([]);
   const [loading, setLoading] = React.useState(false);
-  const [error, setError] = React.useState<string | null>(null);
-  const [sort, setSort] = React.useState("relevance");
-  const [typeFilter, setTypeFilter] = React.useState<string[]>([]);
-  const [searchInput, setSearchInput] = React.useState(query);
+  const [error, setError] = React.useState<Error | null>(null);
+  const [filters, setFilters] = React.useState<Filters>({
+    sort: urlState.sort ?? "price_asc",
+    density: urlState.density ?? "comfortable",
+    minPrice: urlState.minPrice,
+    maxPrice: urlState.maxPrice,
+  });
 
-  const fetchResults = React.useCallback(async (q: string) => {
-    if (!q.trim()) return;
-    setLoading(true);
-    setError(null);
-    trackEvent(JOURNEY_EVENTS.SEARCH_STARTED, { query: q, sort });
-    try {
-      const data = await apiGet<SearchResponse>("/search", {
-        q,
-        sort,
-        types: typeFilter.join(",") || undefined,
+  const entryCriteria = React.useMemo(() => getEntryCriteria(), []);
+
+  const initialCriteria = React.useMemo(
+    (): Partial<SearchCriteria> => ({
+      destination: urlState.q ?? entryCriteria?.destination ?? "",
+      type: urlState.type ?? entryCriteria?.type ?? "flights",
+      departureDate: urlState.date ?? entryCriteria?.date ?? "",
+      returnDate: urlState.returnDate,
+      passengers: urlState.passengers ?? entryCriteria?.passengers ?? 1,
+    }),
+    [urlState, entryCriteria],
+  );
+
+  const syncUrl = React.useCallback(
+    (state: SearchState) => {
+      const params = toSearchParams(state);
+      const query = params.toString();
+      router.replace(query ? `/search?${query}` : "/search");
+    },
+    [router],
+  );
+
+  const fetchResults = React.useCallback(
+    async (criteria: SearchCriteria, currentFilters: Filters) => {
+      if (!criteria.destination.trim()) return;
+
+      setLoading(true);
+      setError(null);
+
+      trackEvent(JOURNEY_EVENTS.SEARCH_STARTED, {
+        query: criteria.destination,
+        type: criteria.type,
+        sort: currentFilters.sort,
       });
-      setResults(data.offers);
-    } catch (err) {
-      if (err instanceof ApiError) {
-        setError(err.message);
-      } else {
-        setError("Search failed. Please try again.");
+
+      try {
+        const data = await apiGet<SearchResponse>("/search", {
+          q: criteria.destination,
+          sort: currentFilters.sort,
+          types: mapTypeToApi(criteria.type),
+        });
+        setResults(applyClientFilters(data.offers, currentFilters));
+      } catch (err) {
+        setError(err instanceof ApiError ? err : new Error("Search failed. Please try again."));
+        setResults([]);
+      } finally {
+        setLoading(false);
       }
-    } finally {
-      setLoading(false);
-    }
-  }, [sort, typeFilter]);
+    },
+    [],
+  );
 
   React.useEffect(() => {
-    fetchResults(query);
-  }, [query, fetchResults]);
+    setFilters((prev) => ({
+      ...prev,
+      sort: urlState.sort ?? prev.sort,
+      density: urlState.density ?? prev.density,
+      minPrice: urlState.minPrice,
+      maxPrice: urlState.maxPrice,
+    }));
+  }, [urlState.sort, urlState.density, urlState.minPrice, urlState.maxPrice]);
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    fetchResults(searchInput);
+  React.useEffect(() => {
+    const q = urlState.q ?? entryCriteria?.destination;
+    if (!q) return;
+
+    void fetchResults(
+      {
+        destination: q,
+        type: urlState.type ?? entryCriteria?.type ?? "flights",
+        departureDate: urlState.date ?? entryCriteria?.date ?? "",
+        returnDate: urlState.returnDate,
+        passengers: urlState.passengers ?? entryCriteria?.passengers ?? 1,
+      },
+      {
+        sort: urlState.sort ?? "price_asc",
+        density: urlState.density ?? "comfortable",
+        minPrice: urlState.minPrice,
+        maxPrice: urlState.maxPrice,
+      },
+    );
+  }, [urlState, entryCriteria, fetchResults]);
+
+  const handleCriteriaSubmit = (criteria: SearchCriteria): void => {
+    syncUrl({
+      q: criteria.destination,
+      type: criteria.type,
+      date: criteria.departureDate,
+      returnDate: criteria.returnDate,
+      passengers: criteria.passengers,
+      sort: filters.sort,
+      minPrice: filters.minPrice,
+      maxPrice: filters.maxPrice,
+      density: filters.density,
+    });
   };
 
+  const handleFilterChange = (next: Filters): void => {
+    setFilters(next);
+    syncUrl({
+      q: urlState.q ?? initialCriteria.destination,
+      type: urlState.type ?? initialCriteria.type,
+      date: urlState.date ?? initialCriteria.departureDate,
+      returnDate: urlState.returnDate,
+      passengers: urlState.passengers ?? initialCriteria.passengers,
+      sort: next.sort,
+      minPrice: next.minPrice,
+      maxPrice: next.maxPrice,
+      density: next.density,
+    });
+
+    if (urlState.q || initialCriteria.destination) {
+      void fetchResults(
+        {
+          destination: urlState.q ?? initialCriteria.destination ?? "",
+          type: urlState.type ?? initialCriteria.type ?? "flights",
+          departureDate: urlState.date ?? initialCriteria.departureDate ?? "",
+          returnDate: urlState.returnDate,
+          passengers: urlState.passengers ?? initialCriteria.passengers ?? 1,
+        },
+        next,
+      );
+    }
+  };
+
+  const hasQuery = Boolean(urlState.q ?? entryCriteria?.destination);
+  const screenState = getScreenState(loading, error, hasQuery, results.length);
+
   return (
-    <div className="mx-auto max-w-5xl px-4 py-8">
-      <div className="mb-6">
-        <form onSubmit={handleSearch} className="flex gap-2">
-          <Input
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-            placeholder="Search destinations, hotels, flights..."
-            className="flex-1"
-          />
-          <Button type="submit" loading={loading}>Search</Button>
-        </form>
+    <div className="mx-auto max-w-6xl px-4 py-8">
+      <div className="mb-8">
+        <h1 className="text-2xl font-bold text-text-primary mb-4">Search</h1>
+        <SearchCriteriaForm
+          initialValues={initialCriteria}
+          onSubmit={handleCriteriaSubmit}
+          loading={loading}
+        />
       </div>
 
-      <div className="flex gap-6">
-        <aside className="w-48 shrink-0 space-y-4">
-          <div>
-            <h3 className="text-sm font-semibold text-text-primary mb-2">Type</h3>
-            {TYPE_FILTERS.map((f) => (
-              <label key={f.value} className="flex items-center gap-2 text-sm text-text-secondary cursor-pointer mb-1">
-                <input
-                  type="checkbox"
-                  checked={typeFilter.includes(f.value)}
-                  onChange={(e) =>
-                    setTypeFilter((prev) =>
-                      e.target.checked ? [...prev, f.value] : prev.filter((v) => v !== f.value),
-                    )
-                  }
-                  className="accent-brand-primary"
-                />
-                {f.label}
-              </label>
-            ))}
-          </div>
-          <div>
-            <h3 className="text-sm font-semibold text-text-primary mb-2">Sort by</h3>
-            {SORT_OPTIONS.map((o) => (
-              <label key={o.value} className="flex items-center gap-2 text-sm text-text-secondary cursor-pointer mb-1">
-                <input
-                  type="radio"
-                  name="sort"
-                  value={o.value}
-                  checked={sort === o.value}
-                  onChange={() => setSort(o.value)}
-                  className="accent-brand-primary"
-                />
-                {o.label}
-              </label>
-            ))}
-          </div>
-        </aside>
+      <div className="flex flex-col gap-6 lg:flex-row">
+        <FilterPanel filters={filters} onFilterChange={handleFilterChange} />
 
-        <div className="flex-1 space-y-3">
-          {loading ? (
-            Array.from({ length: 4 }).map((_, i) => (
-              <Skeleton key={i} height={120} className="rounded-lg" />
-            ))
-          ) : error ? (
-            <EmptyState title="Search failed" description={error} />
-          ) : results.length === 0 && query ? (
-            <EmptyState
-              title="No results found"
-              description={`We couldn't find anything matching "${query}". Try a different search.`}
+        <div className="flex-1">
+          <StateBoundary
+            state={screenState}
+            error={error}
+            onRetry={() => {
+              if (initialCriteria.destination) {
+                void fetchResults(
+                  {
+                    destination: initialCriteria.destination,
+                    type: initialCriteria.type ?? "flights",
+                    departureDate: initialCriteria.departureDate ?? "",
+                    returnDate: initialCriteria.returnDate,
+                    passengers: initialCriteria.passengers ?? 1,
+                  },
+                  filters,
+                );
+              }
+            }}
+          >
+            <ResultsList
+              offers={results}
+              isLoading={loading}
+              skeleton
+              density={filters.density}
             />
-          ) : (
-            results.map((r) => <ResultCard key={r.id} offer={r} />)
-          )}
+          </StateBoundary>
         </div>
       </div>
     </div>

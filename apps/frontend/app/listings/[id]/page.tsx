@@ -1,168 +1,135 @@
 "use client";
 
 import * as React from "react";
-import { useParams } from "next/navigation";
-import { Card, CardContent, CardHeader, CardTitle } from "../../../components/ui/Card";
-import { Badge } from "../../../components/ui/Badge";
-import { Button as DSButton } from "@travel/design-system";
-import { Skeleton } from "../../../components/ui/Skeleton";
-import { EmptyState } from "../../../components/ui/EmptyState";
 import Link from "next/link";
+import { useParams } from "next/navigation";
+import type { UnifiedOffer } from "@travel/contracts/search";
+import { Badge, Button, Card, CardContent, CardHeader } from "@travel/design-system";
+import { StateBoundary } from "../../../components/patterns/StateBoundary";
+import { ExpiryCountdown } from "../../../components/results/ExpiryCountdown";
 import { apiGet } from "../../../lib/api/client";
 import { ApiError } from "../../../lib/api/errors";
+import { canProceedToCheckout } from "../../../lib/domain/checkout";
+import {
+  getProvenanceBadgeVariant,
+  getProvenanceLabel,
+  isBookable,
+} from "../../../lib/domain/offer";
+import { formatMoney } from "../../../lib/money";
 
-interface Listing {
-  id: string;
-  type: "flight" | "hotel" | "car";
-  provenance: string;
-  title: string;
-  description: string;
-  price: number;
-  currency: string;
-  expiresAt: string;
-  bookable: boolean;
-  details: Record<string, unknown>;
-  availability: {
-    available: boolean;
-    remainingSpots?: number;
-  };
-  reviews?: { rating: number; count: number };
+function getOfferType(offer: UnifiedOffer): string {
+  if ("departureAirport" in offer.details) return "flight";
+  if ("hotelName" in offer.details || "starRating" in offer.details) return "hotel";
+  return "car";
 }
 
-function formatPrice(amount: number, currency: string) {
-  return new Intl.NumberFormat("en-US", { style: "currency", currency }).format(amount);
+function getFreshnessVariant(freshness: UnifiedOffer["freshness"]): "freshness-fresh" | "freshness-stale" | "default" {
+  if (freshness === "FRESH") return "freshness-fresh";
+  if (freshness === "STALE") return "freshness-stale";
+  return "default";
 }
 
-function StarRating({ rating }: { rating: number }) {
-  return (
-    <div className="flex items-center gap-1" aria-label={`Rating: ${rating} out of 5`}>
-      {[1, 2, 3, 4, 5].map((star) => (
-        <svg
-          key={star}
-          className={`w-4 h-4 ${star <= Math.round(rating) ? "text-yellow-400" : "text-gray-300"}`}
-          fill="currentColor"
-          viewBox="0 0 20 20"
-        >
-          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-        </svg>
-      ))}
-      <span className="text-sm text-text-secondary ml-1">{rating.toFixed(1)}</span>
-    </div>
-  );
-}
-
-export default function ListingDetailPage() {
+export default function ListingDetailPage(): React.JSX.Element {
   const params = useParams();
   const offerId = params.id as string;
-  const [listing, setListing] = React.useState<Listing | null>(null);
+  const [offer, setOffer] = React.useState<UnifiedOffer | null>(null);
   const [loading, setLoading] = React.useState(true);
-  const [error, setError] = React.useState<string | null>(null);
+  const [error, setError] = React.useState<Error | null>(null);
 
-  React.useEffect(() => {
-    apiGet<Listing>(`/offers/${offerId}`)
-      .then(setListing)
+  const loadOffer = React.useCallback(() => {
+    setLoading(true);
+    setError(null);
+    apiGet<UnifiedOffer>(`/offers/${offerId}`)
+      .then(setOffer)
       .catch((err) => {
         if (err instanceof ApiError && err.status === 404) {
-          setError("This listing is no longer available.");
+          setError(new Error("This listing is no longer available."));
         } else {
-          setError("Failed to load listing. Please try again.");
+          setError(new Error("Failed to load listing. Please try again."));
         }
       })
       .finally(() => setLoading(false));
   }, [offerId]);
 
-  if (loading) {
-    return (
-      <div className="mx-auto max-w-3xl px-4 py-8 space-y-4">
-        <Skeleton variant="rectangular" height={300} className="rounded-xl" />
-        <Skeleton variant="text" />
-        <Skeleton variant="text" />
-      </div>
-    );
-  }
+  React.useEffect(() => {
+    loadOffer();
+  }, [loadOffer]);
 
-  if (error || !listing) {
-    return (
-      <div className="mx-auto max-w-3xl px-4 py-8">
-        <EmptyState title="Listing not found" description={error ?? "Unknown error"} />
-      </div>
-    );
-  }
+  const screenState = loading ? "loading" : error ? "error" : offer ? "idle" : "empty";
+  const checkoutGuard = offer
+    ? canProceedToCheckout(offer)
+    : { allowed: false, reason: undefined };
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-8">
-      <div className="mb-4 flex items-center gap-2">
-        <Badge variant={listing.type === "flight" ? "info" : listing.type === "hotel" ? "success" : "warning"}>
-          {listing.type}
-        </Badge>
-        {listing.provenance === "ILLUSTRATIVE" && (
-          <Badge variant="outline">Sample listing</Badge>
-        )}
-        {!listing.availability.available && (
-          <Badge variant="error">Unavailable</Badge>
-        )}
-      </div>
+      <StateBoundary state={screenState} error={error} onRetry={loadOffer}>
+        {offer && (
+          <>
+            <div className="mb-4 flex flex-wrap items-center gap-2">
+              <Badge variant="info">{getOfferType(offer)}</Badge>
+              <Badge variant={getProvenanceBadgeVariant(offer.provenance) as "default"}>
+                {getProvenanceLabel(offer.provenance)}
+              </Badge>
+              <Badge variant={getFreshnessVariant(offer.freshness) as "default"}>
+                {offer.freshness}
+              </Badge>
+              {isBookable(offer) ? (
+                <Badge variant="success">Bookable</Badge>
+              ) : (
+                <Badge variant="default">Not bookable</Badge>
+              )}
+            </div>
 
-      <h1 className="text-2xl font-bold text-text-primary mb-2">{listing.title}</h1>
+            <h1 className="mb-2 text-2xl font-bold text-text-primary">{offer.title}</h1>
+            <ExpiryCountdown expiresAt={offer.expiresAt} className="mb-4 text-sm text-warning" />
 
-      {listing.reviews && (
-        <div className="flex items-center gap-2 mb-4">
-          <StarRating rating={listing.reviews.rating} />
-          <span className="text-sm text-text-secondary">({listing.reviews.count} reviews)</span>
-        </div>
-      )}
+            {offer.rating !== undefined && (
+              <p className="mb-4 text-sm text-text-secondary">
+                Rating: {offer.rating.toFixed(1)}
+                {offer.reviews !== undefined ? ` (${offer.reviews} reviews)` : ""}
+              </p>
+            )}
 
-      <p className="text-text-secondary mb-6">{listing.description}</p>
-
-      <Card variant="elevated" className="mb-6">
-        <CardContent className="p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="text-3xl font-bold text-brand-600">
-                {formatPrice(listing.price, listing.currency)}
-              </div>
-              <div className="text-sm text-text-secondary mt-0.5">per person</div>
-              {listing.availability.remainingSpots !== undefined && (
-                <div className="text-sm text-warning mt-1">
-                  Only {listing.availability.remainingSpots} spots left!
+            <Card className="mb-6 shadow-md">
+              <CardContent className="p-4">
+                <div className="flex items-center justify-between gap-4">
+                  <div>
+                    <div className="text-3xl font-bold text-brand-primary">
+                      {formatMoney(offer.price, offer.currency)}
+                    </div>
+                    {!checkoutGuard.allowed && checkoutGuard.reason && (
+                      <p className="mt-2 text-sm text-text-secondary">{checkoutGuard.reason}</p>
+                    )}
+                  </div>
+                  {checkoutGuard.allowed && (
+                    <Button size="lg" asChild>
+                      <Link href={`/checkout?offerId=${offer.id}`}>Book Now</Link>
+                    </Button>
+                  )}
                 </div>
-              )}
-            </div>
-            <div className="flex flex-col gap-2">
-              <DSButton
-                disabled={!listing.availability.available || !listing.bookable}
-                asChild
-                size="lg"
-              >
-                <Link href={`/checkout?offerId=${listing.id}`}>Book now</Link>
-              </DSButton>
-              {!listing.bookable && (
-                <p className="text-xs text-text-secondary text-center">Not available for booking</p>
-              )}
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+              </CardContent>
+            </Card>
 
-      {Object.keys(listing.details).length > 0 && (
-        <Card variant="bordered">
-          <CardHeader>
-            <CardTitle>Details</CardTitle>
-          </CardHeader>
-          <CardContent className="p-4">
-            <dl className="grid grid-cols-2 gap-x-4 gap-y-2">
-              {Object.entries(listing.details).map(([key, value]) => (
-                <React.Fragment key={key}>
-                  <dt className="text-sm font-medium text-text-secondary capitalize">
-                    {key.replace(/_/g, " ")}
-                  </dt>
-                  <dd className="text-sm text-text-primary">{String(value)}</dd>
-                </React.Fragment>
-              ))}
-            </dl>
-          </CardContent>
-        </Card>
-      )}
+            <Card className="mb-6">
+              <CardHeader>
+                <h2 className="text-lg font-semibold text-text-primary">Details</h2>
+              </CardHeader>
+              <CardContent className="p-4">
+                <dl className="grid grid-cols-2 gap-x-4 gap-y-2">
+                  {Object.entries(offer.details).map(([key, value]) => (
+                    <React.Fragment key={key}>
+                      <dt className="text-sm font-medium capitalize text-text-secondary">
+                        {key.replace(/([A-Z])/g, " $1").trim()}
+                      </dt>
+                      <dd className="text-sm text-text-primary">{String(value)}</dd>
+                    </React.Fragment>
+                  ))}
+                </dl>
+              </CardContent>
+            </Card>
+          </>
+        )}
+      </StateBoundary>
     </div>
   );
 }
