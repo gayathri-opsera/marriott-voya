@@ -41,26 +41,25 @@ function applyClientFilters(offers: UnifiedOffer[], filters: Filters): UnifiedOf
     result = result.filter((o) => Number(o.price) <= filters.maxPrice!);
   }
 
-  switch (filters.sort) {
-    case "price_asc":
-      result.sort((a, b) => Number(a.price) - Number(b.price));
-      break;
-    case "price_desc":
-      result.sort((a, b) => Number(b.price) - Number(a.price));
-      break;
-    case "rating":
-      result.sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0));
-      break;
-    case "duration":
-      result.sort((a, b) => {
+  // HVMI-first sourcing rule: always pin HVMI properties above fallbacks,
+  // then sort within each tier so user sort preferences are preserved.
+  const isHvmi = (o: UnifiedOffer) => typeof (o as { tag?: string }).tag === "string" && ((o as { tag?: string }).tag ?? "").includes("HVMI");
+  const sortFn = (a: UnifiedOffer, b: UnifiedOffer): number => {
+    switch (filters.sort) {
+      case "price_desc": return Number(b.price) - Number(a.price);
+      case "rating": return (b.rating ?? 0) - (a.rating ?? 0);
+      case "duration": {
         const durA = "duration" in a.details ? String(a.details.duration ?? "") : "";
         const durB = "duration" in b.details ? String(b.details.duration ?? "") : "";
         return durA.localeCompare(durB);
-      });
-      break;
-  }
+      }
+      default: return Number(a.price) - Number(b.price); // price_asc
+    }
+  };
 
-  return result;
+  const hvmi = result.filter(isHvmi).sort(sortFn);
+  const rest = result.filter((o) => !isHvmi(o)).sort(sortFn);
+  return [...hvmi, ...rest];
 }
 
 function mapSearchError(error: Error): Error {
