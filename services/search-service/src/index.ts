@@ -206,6 +206,35 @@ app.get("/api/v1/search/flights", (req: Request, res: Response) => { req.query["
 app.get("/api/v1/search/hotels",  (req: Request, res: Response) => { req.query["types"] = "hotel";  handleSearch(req, res); });
 app.get("/api/v1/search/cars",    (req: Request, res: Response) => { req.query["types"] = "car";    handleSearch(req, res); });
 
+// ─── Offer detail by ID ───────────────────────────────────────────────────────
+// IDs look like: offer-hotel-3-<timestamp>, offer-flight-2-<timestamp>, offer-car-1-<timestamp>
+// We reconstruct the offer deterministically from type + 1-based index.
+const handleOfferById = (req: Request, res: Response) => {
+  const { id } = req.params;
+  const match = id?.match(/^offer-(hotel|flight|car)-(\d+)/);
+  if (!match) { res.status(404).json({ error: "Offer not found" }); return; }
+
+  const [, type, idxStr] = match;
+  const idx = parseInt(idxStr, 10) - 1; // 0-based
+
+  const q = (req.query["q"] as string) ?? (type === "hotel" ? "Lucca" : type === "flight" ? "LHR" : "Pisa");
+  const sort = "price_asc";
+
+  let offers: object[];
+  if (type === "flight")     offers = flightOffers(q, sort);
+  else if (type === "hotel") offers = hotelOffers(q, sort);
+  else                       offers = carOffers(q, sort);
+
+  const offer = offers[idx] ?? offers[0];
+  if (!offer) { res.status(404).json({ error: "Offer not found" }); return; }
+
+  // Return with the original ID so the URL stays consistent
+  res.json({ ...(offer as object), id });
+};
+
+app.get("/offers/:id",        handleOfferById);
+app.get("/api/v1/offers/:id", handleOfferById);
+
 app.listen(PORT, () => {
   console.log(`[search-service] listening on :${PORT}`);
 });

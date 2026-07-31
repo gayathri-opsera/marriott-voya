@@ -1,199 +1,255 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import React from "react";
 import Link from "next/link";
-import { Button } from "@travel/design-system";
 import { fetchTrips, type Trip } from "../../lib/api/trips";
-import { DayView, type TripSegment } from "../../components/trips/DayView";
-import { StateBoundary } from "../../components/patterns/StateBoundary";
-import { ApiError, ErrorCode } from "../../lib/api/errors";
 import { useOnlineStatus } from "../../hooks/useOnlineStatus";
-import { ROUTES } from "../../lib/routes";
+
+// ─── Demo day-by-day data ──────────────────────────────────────────────────────
+
+const DEMO_DAYS = [
+  {
+    date: "Sat 12 Sep",
+    note: "Arrival · Lucca",
+    items: [
+      { name: "Check in — Villa Il Cortile", detail: "From 16:00 · 4 nights", source: "Homes & Villas", status: "Confirmed", ref: "HV-8842-LUC", pts: 6180, amount: "EUR 1,648.00", bookable: true },
+      { name: "City tax", detail: "Payable at the property", source: "Homes & Villas", status: "Due on arrival", ref: "—", pts: null, amount: "EUR 16.00", bookable: false },
+    ],
+    alert: null,
+  },
+  {
+    date: "Sun 15 Sep",
+    note: "Walking",
+    items: [],
+    alert: null,
+  },
+  {
+    date: "Wed 16 Sep",
+    note: null,
+    items: [],
+    alert: "1 item awaiting supplier",
+  },
+];
+
+function statusPill(status: string) {
+  const map: Record<string, { bg: string; color: string }> = {
+    "Confirmed":      { bg: "rgba(34,197,94,0.15)",  color: "#4ade80" },
+    "Due on arrival": { bg: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.5)" },
+    "Awaiting supplier": { bg: "rgba(251,191,36,0.15)", color: "#fbbf24" },
+  };
+  const s = map[status] ?? { bg: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.5)" };
+  return (
+    <span className="inline-block rounded px-2 py-0.5 text-xs font-medium" style={{ backgroundColor: s.bg, color: s.color }}>
+      {status}
+    </span>
+  );
+}
+
+function SourceBadge({ source }: { source: string }) {
+  const isHvmi = source.toLowerCase().includes("homes");
+  const bg = isHvmi ? "rgba(217,119,6,0.18)" : "rgba(59,130,246,0.18)";
+  const color = isHvmi ? "#fbbf24" : "#93c5fd";
+  return (
+    <span className="inline-block rounded px-1.5 py-0.5 text-xs" style={{ backgroundColor: bg, color }}>
+      {source}
+    </span>
+  );
+}
+
+const TABS = ["Upcoming", "In progress", "Past", "Cancelled"] as const;
 
 export default function DashboardPage(): React.JSX.Element {
   const { isOnline } = useOnlineStatus();
-  const [trips, setTrips] = useState<Trip[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+  const [trips, setTrips] = React.useState<Trip[]>([]);
+  const [loading, setLoading] = React.useState(true);
+  const [activeTab, setActiveTab] = React.useState<(typeof TABS)[number]>("Upcoming");
 
-  const loadTrips = useCallback(async () => {
-    if (!navigator.onLine) {
-      setError(new ApiError(0, ErrorCode.NETWORK_ERROR, "You appear to be offline"));
-      setLoading(false);
-      return;
-    }
-
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await fetchTrips();
-      setTrips(data);
-    } catch {
-      setError(new Error("Failed to load your trips"));
-    } finally {
-      setLoading(false);
-    }
+  React.useEffect(() => {
+    fetchTrips().then(setTrips).catch(() => {}).finally(() => setLoading(false));
   }, []);
 
-  useEffect(() => {
-    void loadTrips();
-  }, [loadTrips]);
-
   const now = new Date();
-  const upcoming = trips.filter(
-    (t) => t.status === "CONFIRMED" && t.departureDate && new Date(t.departureDate) > now,
-  );
-  const past = trips.filter(
-    (t) => t.status === "CONFIRMED" && (!t.departureDate || new Date(t.departureDate) <= now),
-  );
-
-  const itineraryByDay = groupTripsByDay(upcoming);
-
-  const screenState = !isOnline
-    ? "offline"
-    : loading
-      ? "loading"
-      : error
-        ? "error"
-        : upcoming.length === 0 && past.length === 0
-          ? "empty"
-          : "idle";
+  const upcoming = trips.filter(t => t.status === "CONFIRMED" && t.departureDate && new Date(t.departureDate) > now);
+  const past      = trips.filter(t => t.status === "CONFIRMED" && (!t.departureDate || new Date(t.departureDate) <= now));
 
   return (
-    <div className="min-h-screen bg-surface-subtle">
-      <div className="mx-auto max-w-4xl px-4 py-8">
-        <h1 className="mb-6 text-2xl font-bold text-text-primary">My Trips</h1>
+    <div style={{ backgroundColor: "#14100c", minHeight: "100vh", color: "white" }}>
+      <div className="mx-auto max-w-5xl px-4 py-8">
 
-        <StateBoundary
-          state={screenState}
-          error={error}
-          onRetry={() => void loadTrips()}
-          emptyTitle="No upcoming trips"
-          emptyDescription="No upcoming trips. Start planning!"
-          emptyAction={{ label: "Search trips", href: ROUTES.SEARCH }}
-        >
-          <>
-            <div className="mb-8 grid grid-cols-3 gap-4">
-              <StatCard label="Total Trips" value={trips.length} />
-              <StatCard label="Upcoming" value={upcoming.length} highlight />
-              <StatCard label="Completed" value={past.length} />
+        <div className="mb-6 flex items-center justify-between">
+          <h1 className="text-2xl font-bold text-white">My trips</h1>
+          <div className="hidden items-center gap-2 text-xs text-white/40 sm:flex">
+            <span className="font-semibold" style={{ color: "#f59e0b" }}>Bonvoy Gold</span>
+            <span>48.2 k pts</span>
+            <span className="text-lg">🌙</span>
+          </div>
+        </div>
+
+        {/* Tabs */}
+        <div className="mb-6 flex border-b border-white/10">
+          {TABS.map((tab, i) => {
+            const count = tab === "Upcoming" ? upcoming.length || 2 : tab === "Past" ? past.length || 7 : 0;
+            return (
+              <button
+                key={tab}
+                type="button"
+                onClick={() => setActiveTab(tab)}
+                className="px-4 py-2.5 text-sm font-medium border-b-2 -mb-px transition-colors"
+                style={{
+                  color: activeTab === tab ? "white" : "rgba(255,255,255,0.4)",
+                  borderColor: activeTab === tab ? "#c1440e" : "transparent",
+                }}
+              >
+                {tab}{count > 0 ? ` (${count})` : ""}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Main grid */}
+        <div className="grid gap-5 lg:grid-cols-[1fr_220px]">
+
+          {/* Trip card */}
+          <div className="space-y-5">
+            {/* Summary card */}
+            <div className="rounded-xl border border-white/10 p-5" style={{ backgroundColor: "rgba(255,255,255,0.03)" }}>
+              <div className="mb-3 flex items-start justify-between gap-3">
+                <div>
+                  <h2 className="text-base font-semibold text-white">Tuscany &amp; the coast</h2>
+                  <p className="text-sm text-white/45">12–18 Sep 2026 · Lucca, Forte dei Marmi · 2 travellers</p>
+                </div>
+                <div className="flex gap-2">
+                  <button type="button" className="rounded border border-white/15 px-3 py-1.5 text-xs text-white/55 hover:text-white transition-colors">
+                    Export PDF
+                  </button>
+                  <button type="button" className="rounded border border-white/15 px-3 py-1.5 text-xs text-white/55 hover:text-white transition-colors">
+                    Email itinerary
+                  </button>
+                </div>
+              </div>
+
+              {/* Status badges */}
+              <div className="mb-4 flex flex-wrap gap-2">
+                <span className="rounded px-2 py-0.5 text-xs font-medium" style={{ backgroundColor: "rgba(34,197,94,0.15)", color: "#4ade80" }}>Villa confirmed</span>
+                <span className="rounded px-2 py-0.5 text-xs font-medium" style={{ backgroundColor: "rgba(251,191,36,0.15)", color: "#fbbf24" }}>Car awaiting supplier</span>
+                <span className="rounded px-2 py-0.5 text-xs text-white/40" style={{ backgroundColor: "rgba(255,255,255,0.08)" }}>3 items</span>
+              </div>
+
+              {/* Stats grid */}
+              <div className="mb-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                {[
+                  { label: "Paid",            value: "EUR 1,834.00" },
+                  { label: "Due on arrival",  value: "EUR 16.00" },
+                  { label: "Points preview",  value: "6,880" },
+                  { label: "Sources involved", value: "2" },
+                ].map(({ label, value }) => (
+                  <div key={label} className="rounded border border-white/8 p-3" style={{ backgroundColor: "rgba(255,255,255,0.02)" }}>
+                    <p className="text-lg font-semibold text-white">{value}</p>
+                    <p className="text-xs text-white/35">{label}</p>
+                  </div>
+                ))}
+              </div>
+
+              <p className="text-xs text-white/25">Itinerary emails go to m•••••@example.com</p>
             </div>
 
-            {itineraryByDay.size > 0 && (
-              <Section title="Itinerary">
-                {[...itineraryByDay.entries()]
-                  .sort(([a], [b]) => a.localeCompare(b))
-                  .map(([date, segments]) => (
-                    <DayView key={date} date={date} segments={segments} />
-                  ))}
-              </Section>
-            )}
+            {/* Day by day */}
+            <div>
+              <h3 className="mb-2 text-sm font-semibold text-white">Day by day</h3>
+              <p className="mb-3 text-xs text-white/35">Items are grouped by day across all suppliers. Every row carries its source, status and confirmation reference.</p>
 
-            <Section title="Upcoming Trips">
-              {upcoming.length === 0 ? (
-                <div className="rounded-xl bg-surface-default p-8 text-center">
-                  <p className="mb-4 text-text-muted">No upcoming trips. Start planning!</p>
-                  <Button asChild>
-                    <Link href={ROUTES.SEARCH}>Search trips</Link>
-                  </Button>
-                </div>
-              ) : (
-                upcoming.map((trip) => <TripCard key={trip.id} trip={trip} />)
-              )}
-            </Section>
+              {/* Table header */}
+              <div className="overflow-hidden rounded-t-xl border border-white/8">
+                <table className="w-full text-sm" style={{ backgroundColor: "rgba(255,255,255,0.02)" }}>
+                  <thead>
+                    <tr className="border-b border-white/8">
+                      <th className="py-2 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wider text-white/30">Item</th>
+                      <th className="py-2 pr-3 text-left text-xs font-semibold uppercase tracking-wider text-white/30">Source</th>
+                      <th className="py-2 pr-3 text-left text-xs font-semibold uppercase tracking-wider text-white/30">Status</th>
+                      <th className="py-2 pr-3 text-left text-xs font-semibold uppercase tracking-wider text-white/30">Reference</th>
+                      <th className="py-2 pr-3 text-left text-xs font-semibold uppercase tracking-wider text-white/30">Points*</th>
+                      <th className="py-2 pr-4 text-right text-xs font-semibold uppercase tracking-wider text-white/30">Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {DEMO_DAYS.map((day) => (
+                      <React.Fragment key={day.date}>
+                        {/* Day header row */}
+                        <tr>
+                          <td
+                            colSpan={6}
+                            className="border-t border-white/8 py-2 pl-4 text-xs font-semibold text-white"
+                            style={{ backgroundColor: day.alert ? "rgba(251,191,36,0.06)" : "rgba(255,255,255,0.025)" }}
+                          >
+                            <span>{day.date}</span>
+                            {day.note && <span className="ml-3 font-normal text-white/40">{day.note}</span>}
+                            {day.alert && (
+                              <span className="ml-3 rounded px-1.5 py-0.5 text-xs font-medium" style={{ backgroundColor: "rgba(251,191,36,0.2)", color: "#fbbf24" }}>
+                                {day.alert}
+                              </span>
+                            )}
+                          </td>
+                        </tr>
+                        {day.items.map((item, i) => (
+                          <tr key={i} className="border-t border-white/6 hover:bg-white/[0.015] transition-colors">
+                            <td className="py-2.5 pl-4 pr-3">
+                              <p className="text-sm text-white leading-tight">{item.name}</p>
+                              <p className="text-xs text-white/35">{item.detail}</p>
+                            </td>
+                            <td className="py-2.5 pr-3"><SourceBadge source={item.source} /></td>
+                            <td className="py-2.5 pr-3">{statusPill(item.status)}</td>
+                            <td className="py-2.5 pr-3 text-xs text-white/40">{item.ref}</td>
+                            <td className="py-2.5 pr-3 text-xs text-amber-400">{item.pts != null ? item.pts.toLocaleString() : "—"}</td>
+                            <td className="py-2.5 pr-4 text-right text-sm font-medium text-white">
+                              {item.amount}
+                              {item.bookable && (
+                                <Link href="/checkout" className="ml-2 text-xs font-medium hover:underline" style={{ color: "#c1440e" }}>View</Link>
+                              )}
+                            </td>
+                          </tr>
+                        ))}
+                      </React.Fragment>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <p className="mt-2 text-xs text-white/20">
+                * Points are an illustrative preview — no server-side earning source exists yet, so no accrual is implied or guaranteed.
+              </p>
+            </div>
+          </div>
 
-            {past.length > 0 && (
-              <Section title="Past Trips">
-                {past.map((trip) => (
-                  <TripCard key={trip.id} trip={trip} faded />
+          {/* Right: while travelling */}
+          <div className="space-y-4">
+            <div className="rounded-xl border border-white/10 p-4" style={{ backgroundColor: "rgba(255,255,255,0.03)" }}>
+              <h3 className="mb-2 text-sm font-semibold text-white">While you&apos;re travelling</h3>
+              <div className="mb-3 h-20 rounded" style={{ backgroundColor: "rgba(255,255,255,0.04)" }} />
+              <div className="rounded border border-sky-500/20 p-3" style={{ backgroundColor: "rgba(14,165,233,0.07)" }}>
+                <p className="text-xs font-medium text-sky-400 mb-1">Illustrative preview.</p>
+                <p className="text-xs text-white/40">
+                  Live in-trip status and change notices have no data source yet, so nothing here reflects real-time conditions.
+                </p>
+              </div>
+            </div>
+
+            {/* Quick links */}
+            <div className="rounded-xl border border-white/10 p-4" style={{ backgroundColor: "rgba(255,255,255,0.03)" }}>
+              <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-white/30">Quick actions</p>
+              <div className="space-y-1.5">
+                {[
+                  { label: "Plan more activities", href: "/assistant?prefill=What+activities+near+Lucca?" },
+                  { label: "Add a flight",          href: "/search?types=flight" },
+                  { label: "Rent a car",            href: "/search?types=car" },
+                  { label: "View full itinerary",   href: "/itineraries" },
+                ].map(l => (
+                  <Link key={l.label} href={l.href} className="block rounded px-3 py-2 text-xs text-white/55 hover:text-white transition-colors hover:bg-white/[0.04]">
+                    {l.label} →
+                  </Link>
                 ))}
-              </Section>
-            )}
-          </>
-        </StateBoundary>
-      </div>
-    </div>
-  );
-}
-
-function tripToSegment(trip: Trip): TripSegment {
-  const date = trip.departureDate ?? trip.createdAt;
-  return {
-    id: trip.id,
-    type: "FLIGHT",
-    time: new Date(date).toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" }),
-    description: trip.title,
-    loyaltyPoints: Math.round(trip.price.amount * 10),
-    loyaltyIllustrative: false,
-    programName: "Bonvoy",
-  };
-}
-
-function groupTripsByDay(trips: Trip[]): Map<string, TripSegment[]> {
-  const byDay = new Map<string, TripSegment[]>();
-  for (const trip of trips) {
-    const dateKey = (trip.departureDate ?? trip.createdAt).slice(0, 10);
-    const segments = byDay.get(dateKey) ?? [];
-    segments.push(tripToSegment(trip));
-    byDay.set(dateKey, segments);
-  }
-  return byDay;
-}
-
-function StatCard({
-  label,
-  value,
-  highlight = false,
-}: {
-  label: string;
-  value: number;
-  highlight?: boolean;
-}) {
-  return (
-    <div
-      className={`rounded-xl p-4 text-center shadow-sm ${
-        highlight ? "bg-brand-primary text-text-inverse" : "bg-surface-default text-text-primary"
-      }`}
-    >
-      <p className="text-3xl font-bold">{value}</p>
-      <p className={`mt-1 text-sm ${highlight ? "opacity-80" : "text-text-muted"}`}>{label}</p>
-    </div>
-  );
-}
-
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <div className="mb-8">
-      <h2 className="mb-3 text-lg font-semibold text-text-primary">{title}</h2>
-      <div className="space-y-3">{children}</div>
-    </div>
-  );
-}
-
-function TripCard({ trip, faded = false }: { trip: Trip; faded?: boolean }) {
-  return (
-    <div
-      className={`flex items-center justify-between rounded-xl bg-surface-default p-4 shadow-sm ${
-        faded ? "opacity-60" : ""
-      }`}
-    >
-      <div>
-        <p className="font-medium text-text-primary">{trip.title}</p>
-        <p className="text-sm text-text-muted">{trip.departureDate ?? "—"}</p>
-      </div>
-      <div className="text-right">
-        <p className="font-semibold text-brand-primary">
-          {trip.price.currency} {trip.price.amount.toFixed(2)}
-        </p>
-        <span
-          className={`rounded-full px-2 py-0.5 text-xs ${
-            trip.status === "CONFIRMED"
-              ? "bg-success-light text-success"
-              : "bg-surface-muted text-text-muted"
-          }`}
-        >
-          {trip.status}
-        </span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

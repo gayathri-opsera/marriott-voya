@@ -1,11 +1,10 @@
 "use client";
 
 import * as React from "react";
-import type { UnifiedOffer } from "@travel/contracts/search";
-import type { Message } from "../../lib/assistant-stream";
+import type { Message, TripDraftItem } from "../../lib/assistant-stream";
 import { MessageStream } from "./MessageStream";
 import { ToolActivityIndicator } from "./ToolActivityIndicator";
-import { InlineOfferCard } from "./InlineOfferCard";
+import { TripDraftPanel } from "./TripDraftPanel";
 import { StreamErrorBanner, type StreamErrorKind } from "./StreamErrorBanner";
 import { Composer } from "./Composer";
 
@@ -13,7 +12,9 @@ export interface AssistantChatProps {
   messages: Message[];
   isStreaming: boolean;
   activeTool?: string | null;
-  toolResults?: UnifiedOffer[];
+  tripDraft?: TripDraftItem[] | null;
+  budgetCommitted?: number;
+  budgetTotal?: number;
   errorKind?: StreamErrorKind | null;
   errorMessage?: string | null;
   onRetry?: () => void;
@@ -26,7 +27,9 @@ export function AssistantChat({
   messages,
   isStreaming,
   activeTool,
-  toolResults = [],
+  tripDraft,
+  budgetCommitted,
+  budgetTotal,
   errorKind,
   errorMessage,
   onRetry,
@@ -34,30 +37,58 @@ export function AssistantChat({
   onSend,
   onStop,
 }: AssistantChatProps): React.JSX.Element {
+  const [composerPrefill, setComposerPrefill] = React.useState<string | undefined>();
+
+  const handleChipClick = React.useCallback((chip: string) => {
+    setComposerPrefill(chip);
+    // Clear after a tick so it can be re-used
+    setTimeout(() => setComposerPrefill(undefined), 100);
+  }, []);
+
   return (
     <div className="flex min-h-0 flex-1 flex-col">
-      <MessageStream messages={messages} isStreaming={isStreaming && !activeTool} />
+      {/* Messages */}
+      <MessageStream
+        messages={messages}
+        isStreaming={isStreaming && !activeTool}
+        onSend={handleChipClick}
+      />
 
+      {/* Active tool spinner */}
       {activeTool && (
-        <ToolActivityIndicator toolName={activeTool} isActive={isStreaming} />
+        <div className="px-4 pb-2">
+          <ToolActivityIndicator toolName={activeTool} isActive={isStreaming} />
+        </div>
       )}
 
-      {toolResults.map((offer) => (
-        <div key={offer.id} className="px-4 pb-2">
-          <InlineOfferCard offer={offer} />
-        </div>
-      ))}
-
+      {/* Error banner */}
       {errorKind && (
-        <StreamErrorBanner
-          errorKind={errorKind}
-          message={errorMessage ?? undefined}
-          onRetry={onRetry}
-          retryCount={retryCount}
+        <div className="px-4 pb-2">
+          <StreamErrorBanner
+            errorKind={errorKind}
+            message={errorMessage ?? undefined}
+            onRetry={onRetry}
+            retryCount={retryCount}
+          />
+        </div>
+      )}
+
+      {/* Live trip draft panel */}
+      {tripDraft && tripDraft.length > 0 && (
+        <TripDraftPanel
+          items={tripDraft}
+          budgetCommitted={budgetCommitted}
+          budgetTotal={budgetTotal}
         />
       )}
 
-      <Composer onSend={onSend} onStop={onStop} isStreaming={isStreaming} />
+      {/* Composer */}
+      <Composer
+        onSend={onSend}
+        onStop={onStop}
+        isStreaming={isStreaming}
+        prefill={composerPrefill}
+      />
     </div>
   );
 }

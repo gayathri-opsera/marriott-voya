@@ -1,142 +1,99 @@
 "use client";
 
-import * as React from "react";
+import React from "react";
 import Link from "next/link";
-import { Button, Card, CardContent, CardHeader, Modal } from "@travel/design-system";
-import { apiDelete, apiGet } from "../../../lib/api/client";
-import { useToast } from "../../../components/ui/Toast";
-import { StateBoundary } from "../../../components/patterns/StateBoundary";
+import { AccountLayout } from "../../../components/layout/AccountLayout";
 
-interface Document {
-  id: string;
-  type: string;
-  maskedNumber: string;
-}
+const RETENTION = [
+  { category: "Diagnostic logs",           classification: "Internal",      retention: "30 days" },
+  { category: "Journey analytics (non-personal)", classification: "Internal", retention: "13 months" },
+  { category: "Booking & payment audit records", classification: "Confidential", retention: "7 years (regulatory)" },
+  { category: "Travel document numbers",   classification: "Restricted",    retention: "Until trip completion + 90 days" },
+];
 
-function maskPassportNumber(number: string): string {
-  const lastFour = number.slice(-4);
-  return `••••••${lastFour}`;
+function Toggle({ on, onToggle }: { on: boolean; onToggle: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onToggle}
+      className="relative inline-flex h-5 w-9 shrink-0 items-center rounded-full transition-colors"
+      style={{ backgroundColor: on ? "#c1440e" : "rgba(255,255,255,0.15)" }}
+      aria-pressed={on}
+    >
+      <span className="inline-block h-3.5 w-3.5 rounded-full bg-white shadow transition-transform" style={{ transform: on ? "translateX(18px)" : "translateX(2px)" }} />
+    </button>
+  );
 }
 
 export default function PrivacyPage(): React.JSX.Element {
-  const { addToast } = useToast();
-  const [documents, setDocuments] = React.useState<Document[]>([]);
-  const [loading, setLoading] = React.useState(true);
-  const [error, setError] = React.useState<Error | null>(null);
-  const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
-  const [exporting, setExporting] = React.useState(false);
-  const [deleting, setDeleting] = React.useState(false);
-
-  React.useEffect(() => {
-    apiGet<{ documents: Document[] }>("/api/v1/users/documents")
-      .then((data) => setDocuments(data.documents ?? []))
-      .catch(() => setDocuments([]))
-      .finally(() => setLoading(false));
-  }, []);
-
-  const handleExport = async (): Promise<void> => {
-    setExporting(true);
-    try {
-      await apiGet("/api/v1/gdpr/export");
-      addToast({ title: "Data export started", description: "Check your email for the download link.", variant: "success" });
-    } catch {
-      addToast({ title: "Export failed", variant: "error" });
-    } finally {
-      setExporting(false);
-    }
-  };
-
-  const handleDeleteAccount = async (): Promise<void> => {
-    setDeleting(true);
-    try {
-      await apiDelete("/api/v1/gdpr/erase");
-      addToast({ title: "Account deletion requested", variant: "success" });
-      setDeleteDialogOpen(false);
-    } catch {
-      addToast({ title: "Deletion failed", variant: "error" });
-    } finally {
-      setDeleting(false);
-    }
-  };
-
-  const screenState = loading ? "loading" : error ? "error" : "idle";
+  const [analytics, setAnalytics] = React.useState(true);
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-8">
-      <Link href="/profile" className="text-sm text-brand-primary hover:underline">
-        ← Back to Profile
-      </Link>
-      <h1 className="mt-4 mb-6 text-2xl font-bold text-text-primary">Privacy Centre</h1>
+    <AccountLayout>
+      <div className="rounded-xl border border-white/10 p-6" style={{ backgroundColor: "rgba(255,255,255,0.03)" }}>
+        <h1 className="mb-1 text-lg font-semibold text-white">Privacy &amp; my data</h1>
+        <p className="mb-5 text-xs text-white/35">Your rights of access, rectification, erasure and portability are all actionable from this screen.</p>
 
-      <StateBoundary state={screenState} error={error}>
-        <div className="space-y-6">
-          <Card>
-            <CardHeader>
-              <h2 className="text-lg font-semibold text-text-primary">My Data</h2>
-            </CardHeader>
-            <CardContent>
-              <p className="mb-4 text-sm text-text-secondary">
-                Download a copy of all personal data we hold about you.
-              </p>
-              <Button onClick={() => void handleExport()} loading={exporting}>
-                Download my data
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <h2 className="text-lg font-semibold text-text-primary">Passport &amp; Documents</h2>
-            </CardHeader>
-            <CardContent>
-              {documents.length === 0 ? (
-                <p className="text-sm text-text-muted">No documents on file.</p>
+        <div className="space-y-4">
+          {[
+            { label: "Download my data",  desc: "Machine-readable export of profile, preferences, bookings and itineraries.", btn: "Request export", btnAction: () => alert("Export requested") },
+            { label: "Correct my details", desc: "Fix a name, date of birth or document number.", btn: "Open profile", btnHref: "/profile" },
+            { label: "Delete my account",  desc: "Permanent. Records required for financial audit are retained under law.", btn: "Delete account", danger: true, btnAction: () => alert("Confirm in the modal") },
+          ].map(item => (
+            <div key={item.label} className="flex items-start justify-between gap-4 border-b border-white/8 pb-4">
+              <div>
+                <p className="text-sm font-medium text-white">{item.label}</p>
+                <p className="text-xs text-white/35">{item.desc}</p>
+              </div>
+              {item.btnHref ? (
+                <Link href={item.btnHref} className="rounded border border-white/15 px-3 py-1.5 text-xs text-white/55 hover:text-white transition-colors whitespace-nowrap">
+                  {item.btn}
+                </Link>
               ) : (
-                <ul className="space-y-2">
-                  {documents.map((doc) => (
-                    <li key={doc.id} className="flex justify-between text-sm">
-                      <span className="text-text-primary">{doc.type}</span>
-                      <span className="font-mono text-text-muted">
-                        {doc.maskedNumber || maskPassportNumber("0000001234")}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
+                <button
+                  type="button"
+                  onClick={item.btnAction}
+                  className="rounded border border-white/15 px-3 py-1.5 text-xs text-white/55 hover:text-white transition-colors whitespace-nowrap"
+                  style={item.danger ? { borderColor: "rgba(239,68,68,0.4)", color: "#f87171" } : undefined}
+                >
+                  {item.btn}
+                </button>
               )}
-            </CardContent>
-          </Card>
+            </div>
+          ))}
 
-          <Card>
-            <CardHeader>
-              <h2 className="text-lg font-semibold text-text-primary">Delete My Account</h2>
-            </CardHeader>
-            <CardContent>
-              <p className="mb-4 text-sm text-text-secondary">
-                Permanently delete your account and all associated data. This action cannot be undone.
-              </p>
-              <Button variant="destructive" onClick={() => setDeleteDialogOpen(true)}>
-                Delete my account
-              </Button>
-            </CardContent>
-          </Card>
+          <div className="flex items-start justify-between gap-4 pb-4">
+            <div>
+              <p className="text-sm font-medium text-white">Product analytics</p>
+              <p className="text-xs text-white/35">Named journey events only — never your name, email, date of birth or document numbers.</p>
+            </div>
+            <Toggle on={analytics} onToggle={() => setAnalytics(v => !v)} />
+          </div>
         </div>
-      </StateBoundary>
 
-      <Modal
-        open={deleteDialogOpen}
-        onOpenChange={setDeleteDialogOpen}
-        title="Confirm account deletion"
-        description="Are you sure you want to permanently delete your account? All bookings and data will be erased."
-      >
-        <div className="flex gap-3">
-          <Button variant="outline" onClick={() => setDeleteDialogOpen(false)}>
-            Cancel
-          </Button>
-          <Button variant="destructive" loading={deleting} onClick={() => void handleDeleteAccount()}>
-            Confirm deletion
-          </Button>
+        <div className="mt-2">
+          <h2 className="mb-3 text-sm font-semibold text-white">How long we keep things</h2>
+          <table className="w-full">
+            <thead>
+              <tr className="border-b border-white/10">
+                {["Category","Classification","Retention"].map(h => (
+                  <th key={h} className="pb-2 text-left text-xs font-semibold uppercase tracking-wider text-white/30">{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {RETENTION.map(r => (
+                <tr key={r.category} className="border-b border-white/6">
+                  <td className="py-2.5 text-sm text-white/70">{r.category}</td>
+                  <td className="py-2.5 text-sm text-white/45">{r.classification}</td>
+                  <td className="py-2.5 text-sm text-white/45">{r.retention}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <p className="mt-2 text-xs text-white/20">Deletion is a cryptographic erasure, not a hidden record.</p>
         </div>
-      </Modal>
-    </div>
+      </div>
+    </AccountLayout>
   );
 }

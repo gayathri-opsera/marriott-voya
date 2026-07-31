@@ -47,6 +47,8 @@ app.use("/api/v1/bookings",      proxy(BOOKING_URL, "/api/v1/bookings"));
 app.use("/api/v1/payments",      proxy(PAYMENT_URL, "/api/v1/payments"));
 app.use("/api/v1/search",        proxy(SEARCH_URL,  "/api/v1/search"));
 app.use("/search",               proxy(SEARCH_URL,  "/search"));
+app.use("/offers",               proxy(SEARCH_URL,  "/offers"));
+app.use("/api/v1/offers",        proxy(SEARCH_URL,  "/api/v1/offers"));
 app.use("/api/v1/ai",            proxy(AI_URL,      "/api/v1/ai"));
 app.use("/api/v1/notifications", proxy(NOTIF_URL,   "/api/v1/notifications"));
 

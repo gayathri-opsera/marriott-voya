@@ -58,8 +58,8 @@
   }
 
   body {
-    background-color: var(--color-surface-subtle);
-    color: var(--color-text-primary);
+    background-color: #14100c;
+    color: #f0ece8;
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

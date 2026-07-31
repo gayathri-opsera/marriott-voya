@@ -28,7 +28,7 @@ export default function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body className="min-h-screen flex flex-col bg-surface-subtle">
+      <body className="min-h-screen flex flex-col" style={{ backgroundColor: "#14100c" }}>
         <SkipLink />
         <WebVitalsReporter />
         <ToastProvider>

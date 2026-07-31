@@ -1,13 +1,13 @@
 "use client";
 
 import * as React from "react";
-import { Button } from "@travel/design-system";
 
 export interface ComposerProps {
   onSend: (text: string) => void;
   onStop: () => void;
   isStreaming: boolean;
   disabled?: boolean;
+  prefill?: string;
 }
 
 export function Composer({
@@ -15,13 +15,23 @@ export function Composer({
   onStop,
   isStreaming,
   disabled = false,
+  prefill,
 }: ComposerProps): React.JSX.Element {
   const [value, setValue] = React.useState("");
+  const textareaRef = React.useRef<HTMLTextAreaElement>(null);
+
+  // Accept prefill from quick-reply chips
+  React.useEffect(() => {
+    if (prefill) {
+      setValue(prefill);
+      textareaRef.current?.focus();
+    }
+  }, [prefill]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const trimmed = value.trim();
-    if (!trimmed || isStreaming || disabled) return;
+    if (!trimmed || disabled) return;
     onSend(trimmed);
     setValue("");
   };
@@ -33,27 +43,49 @@ export function Composer({
     }
   };
 
+  const canSend = value.trim().length > 0 && !disabled;
+
   return (
-    <form onSubmit={handleSubmit} className="flex gap-2 border-t border-border-default bg-surface-default px-4 py-3">
+    <form
+      onSubmit={handleSubmit}
+      className="flex items-end gap-2 border-t border-border-default bg-surface-default px-4 py-3"
+    >
       <textarea
+        ref={textareaRef}
         aria-label="Message"
         value={value}
         onChange={(e) => setValue(e.target.value)}
         onKeyDown={handleKeyDown}
-        disabled={disabled || isStreaming}
-        placeholder="Type a message..."
+        disabled={disabled}
+        placeholder="Type a message…"
         rows={1}
-        className="flex-1 resize-none rounded-md border border-border-default px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary disabled:opacity-50"
+        className="flex-1 resize-none rounded-xl border border-border-default bg-surface-subtle px-3 py-2 text-sm text-text-primary placeholder:text-text-tertiary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary disabled:opacity-50 transition-shadow"
+        style={{ maxHeight: "120px" }}
+        onInput={(e) => {
+          const el = e.currentTarget;
+          el.style.height = "auto";
+          el.style.height = `${el.scrollHeight}px`;
+        }}
       />
-      {isStreaming ? (
-        <Button type="button" variant="destructive" onClick={onStop}>
-          Stop
-        </Button>
-      ) : (
-        <Button type="submit" disabled={disabled || !value.trim()}>
-          Send
-        </Button>
+
+      {/* Wireframe shows Stopped + Send both visible while streaming */}
+      {isStreaming && (
+        <button
+          type="button"
+          onClick={onStop}
+          className="shrink-0 rounded-xl border border-border-default bg-surface-default px-4 py-2 text-sm font-medium text-text-secondary hover:bg-surface-subtle transition-colors"
+        >
+          Stopped
+        </button>
       )}
+
+      <button
+        type="submit"
+        disabled={!canSend}
+        className="shrink-0 rounded-xl bg-brand-primary px-4 py-2 text-sm font-semibold text-white hover:bg-brand-primary/90 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+      >
+        Send
+      </button>
     </form>
   );
 }

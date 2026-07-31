@@ -1,145 +1,110 @@
 "use client";
 
-import * as React from "react";
-import Link from "next/link";
-import { Button, Input, Card, CardContent, CardHeader } from "@travel/design-system";
-import { apiGet, apiPatch } from "../../../lib/api/client";
+import React from "react";
+import { AccountLayout } from "../../../components/layout/AccountLayout";
 import { useToast } from "../../../components/ui/Toast";
-import { StateBoundary } from "../../../components/patterns/StateBoundary";
 
-interface UserPreferences {
-  preferredCabinClass: string;
-  preferredAirlines: string;
-  mealPreference: string;
-  seatPreference: string;
-  accessibilityNeeds: string;
+function Toggle({ on, onToggle, label }: { on: boolean; onToggle: () => void; label?: string }) {
+  return (
+    <button
+      type="button"
+      onClick={onToggle}
+      className="relative inline-flex h-5 w-9 shrink-0 items-center rounded-full transition-colors"
+      style={{ backgroundColor: on ? "#c1440e" : "rgba(255,255,255,0.15)" }}
+      aria-pressed={on}
+      aria-label={label}
+    >
+      <span
+        className="inline-block h-3.5 w-3.5 rounded-full bg-white shadow transition-transform"
+        style={{ transform: on ? "translateX(18px)" : "translateX(2px)" }}
+      />
+    </button>
+  );
 }
 
-const DEFAULT_PREFERENCES: UserPreferences = {
-  preferredCabinClass: "economy",
-  preferredAirlines: "",
-  mealPreference: "standard",
-  seatPreference: "aisle",
-  accessibilityNeeds: "",
-};
+function Select({ value, options, onChange, label }: { value: string; options: string[]; onChange: (v: string) => void; label: string }) {
+  return (
+    <div>
+      <label className="block text-xs text-white/40 mb-1">{label}</label>
+      <select
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        className="w-full rounded border border-white/10 px-3 py-2 text-sm text-white focus:outline-none focus:border-white/30"
+        style={{ backgroundColor: "#2a1f18", colorScheme: "dark" }}
+      >
+        {options.map(o => <option key={o}>{o}</option>)}
+      </select>
+    </div>
+  );
+}
 
-export default function PreferencesPage(): React.JSX.Element {
+export default function TravelPreferencesPage(): React.JSX.Element {
   const { addToast } = useToast();
-  const [prefs, setPrefs] = React.useState<UserPreferences>(DEFAULT_PREFERENCES);
-  const [loading, setLoading] = React.useState(true);
-  const [saving, setSaving] = React.useState(false);
-  const [error, setError] = React.useState<Error | null>(null);
+  const [prefs, setPrefs] = React.useState({
+    cabin: "Premium economy",
+    stayType: "Homes & Villas",
+    carClass: "Compact automatic",
+    currency: "EUR — Euro",
+    dietary: "Step-free access preferred; no shellfish",
+    marriottOnly: true,
+    priceAlerts: false,
+  });
 
-  React.useEffect(() => {
-    apiGet<UserPreferences>("/api/v1/users/preferences")
-      .then(setPrefs)
-      .catch((err) => setError(err instanceof Error ? err : new Error("Failed to load preferences")))
-      .finally(() => setLoading(false));
-  }, []);
-
-  const handleSave = async (e: React.FormEvent): Promise<void> => {
-    e.preventDefault();
-    setSaving(true);
-    try {
-      await apiPatch("/api/v1/users/preferences", prefs);
-      addToast({ title: "Preferences saved", variant: "success" });
-    } catch {
-      addToast({ title: "Failed to save preferences", variant: "error" });
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  const screenState = loading ? "loading" : error ? "error" : "idle";
+  function save() {
+    addToast({ title: "Preferences saved", variant: "success" });
+  }
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-8">
-      <Link href="/profile" className="text-sm text-brand-primary hover:underline">
-        ← Back to Profile
-      </Link>
-      <h1 className="mt-4 mb-6 text-2xl font-bold text-text-primary">Travel Preferences</h1>
+    <AccountLayout>
+      <div className="rounded-xl border border-white/10 p-6" style={{ backgroundColor: "rgba(255,255,255,0.03)" }}>
+        <h1 className="mb-1 text-lg font-semibold text-white">Travel preferences</h1>
+        <p className="mb-5 text-xs text-white/35">Used to pre-fill searches and to guide the assistant. Changing these never books anything.</p>
 
-      <StateBoundary state={screenState} error={error}>
-        <form onSubmit={(e) => void handleSave(e)} className="space-y-6">
-          <Card>
-            <CardHeader>
-              <h2 className="text-lg font-semibold text-text-primary">Flight preferences</h2>
-            </CardHeader>
-            <CardContent className="space-y-4">
+        <div className="space-y-5">
+          <div className="grid grid-cols-2 gap-4">
+            <Select label="Preferred cabin" value={prefs.cabin} options={["Economy","Premium economy","Business","First"]} onChange={v => setPrefs(p => ({ ...p, cabin: v }))} />
+            <Select label="Preferred stay type" value={prefs.stayType} options={["Homes & Villas","Marriott Hotels","Any"]} onChange={v => setPrefs(p => ({ ...p, stayType: v }))} />
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <Select label="Car class" value={prefs.carClass} options={["Economy","Compact automatic","Standard SUV","Luxury"]} onChange={v => setPrefs(p => ({ ...p, carClass: v }))} />
+            <Select label="Display currency" value={prefs.currency} options={["EUR — Euro","USD — US Dollar","GBP — Sterling","JPY — Yen"]} onChange={v => setPrefs(p => ({ ...p, currency: v }))} />
+          </div>
+          <p className="text-xs text-white/30">Offers are always also shown in the supplier&apos;s own currency.</p>
+
+          <div>
+            <label className="block text-xs text-white/40 mb-1">Dietary and accessibility notes</label>
+            <input
+              value={prefs.dietary}
+              onChange={e => setPrefs(p => ({ ...p, dietary: e.target.value }))}
+              className="w-full rounded border border-white/10 px-3 py-2 text-sm text-white focus:outline-none focus:border-white/30"
+              style={{ backgroundColor: "rgba(255,255,255,0.06)" }}
+            />
+          </div>
+
+          <div className="space-y-4 pt-1">
+            <div className="flex items-start justify-between gap-4">
               <div>
-                <label htmlFor="cabin-class" className="text-sm font-medium text-text-primary">
-                  Preferred cabin class
-                </label>
-                <select
-                  id="cabin-class"
-                  value={prefs.preferredCabinClass}
-                  onChange={(e) => setPrefs({ ...prefs, preferredCabinClass: e.target.value })}
-                  className="mt-1 h-10 w-full rounded-md border border-border-default bg-surface-default px-3 text-sm"
-                >
-                  <option value="economy">Economy</option>
-                  <option value="premium_economy">Premium Economy</option>
-                  <option value="business">Business</option>
-                  <option value="first">First</option>
-                </select>
+                <p className="text-sm font-medium text-white">Marriott inventory only</p>
+                <p className="text-xs text-white/35">Hide named-partner inventory from results</p>
               </div>
-
-              <Input
-                label="Preferred airlines"
-                id="preferred-airlines"
-                value={prefs.preferredAirlines}
-                onChange={(e) => setPrefs({ ...prefs, preferredAirlines: e.target.value })}
-                placeholder="e.g. Delta, United"
-              />
-
+              <Toggle on={prefs.marriottOnly} onToggle={() => setPrefs(p => ({ ...p, marriottOnly: !p.marriottOnly }))} />
+            </div>
+            <div className="flex items-start justify-between gap-4">
               <div>
-                <label htmlFor="meal-preference" className="text-sm font-medium text-text-primary">
-                  Meal preference
-                </label>
-                <select
-                  id="meal-preference"
-                  value={prefs.mealPreference}
-                  onChange={(e) => setPrefs({ ...prefs, mealPreference: e.target.value })}
-                  className="mt-1 h-10 w-full rounded-md border border-border-default bg-surface-default px-3 text-sm"
-                >
-                  <option value="standard">Standard</option>
-                  <option value="vegetarian">Vegetarian</option>
-                  <option value="vegan">Vegan</option>
-                  <option value="kosher">Kosher</option>
-                  <option value="halal">Halal</option>
-                </select>
+                <p className="text-sm font-medium text-white">Email me price changes</p>
+                <p className="text-xs text-white/35">For saved offers, at most once a day</p>
               </div>
+              <Toggle on={prefs.priceAlerts} onToggle={() => setPrefs(p => ({ ...p, priceAlerts: !p.priceAlerts }))} />
+            </div>
+          </div>
+        </div>
 
-              <div>
-                <label htmlFor="seat-preference" className="text-sm font-medium text-text-primary">
-                  Seat preference
-                </label>
-                <select
-                  id="seat-preference"
-                  value={prefs.seatPreference}
-                  onChange={(e) => setPrefs({ ...prefs, seatPreference: e.target.value })}
-                  className="mt-1 h-10 w-full rounded-md border border-border-default bg-surface-default px-3 text-sm"
-                >
-                  <option value="aisle">Aisle</option>
-                  <option value="window">Window</option>
-                  <option value="middle">Middle</option>
-                </select>
-              </div>
-
-              <Input
-                label="Accessibility needs"
-                id="accessibility-needs"
-                value={prefs.accessibilityNeeds}
-                onChange={(e) => setPrefs({ ...prefs, accessibilityNeeds: e.target.value })}
-                placeholder="Wheelchair, assistance, etc."
-              />
-            </CardContent>
-          </Card>
-
-          <Button type="submit" loading={saving}>
+        <div className="mt-5">
+          <button type="button" onClick={save} className="rounded px-4 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-85" style={{ backgroundColor: "#c1440e" }}>
             Save preferences
-          </Button>
-        </form>
-      </StateBoundary>
-    </div>
+          </button>
+        </div>
+      </div>
+    </AccountLayout>
   );
 }
