@@ -21,8 +21,13 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }): React.JSX.Element {
+  const themeScript = `(function(){try{var t=localStorage.getItem('voya-theme');var d=t==='dark'||(t!=='light'&&window.matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.classList.toggle('dark',d);}catch(e){}})();`;
+
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body className="min-h-screen flex flex-col bg-surface-subtle">
         <SkipLink />
         <WebVitalsReporter />

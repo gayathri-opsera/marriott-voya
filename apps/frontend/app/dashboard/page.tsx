@@ -1,26 +1,43 @@
 "use client";
 
-/**
- * Traveler account dashboard — My Trips.
- */
-
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { Button } from "@travel/design-system";
 import { fetchTrips, type Trip } from "../../lib/api/trips";
 import { DayView, type TripSegment } from "../../components/trips/DayView";
+import { StateBoundary } from "../../components/patterns/StateBoundary";
+import { ApiError, ErrorCode } from "../../lib/api/errors";
+import { useOnlineStatus } from "../../hooks/useOnlineStatus";
+import { ROUTES } from "../../lib/routes";
 
-export default function DashboardPage() {
+export default function DashboardPage(): React.JSX.Element {
+  const { isOnline } = useOnlineStatus();
   const [trips, setTrips] = useState<Trip[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<Error | null>(null);
+
+  const loadTrips = useCallback(async () => {
+    if (!navigator.onLine) {
+      setError(new ApiError(0, ErrorCode.NETWORK_ERROR, "You appear to be offline"));
+      setLoading(false);
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await fetchTrips();
+      setTrips(data);
+    } catch {
+      setError(new Error("Failed to load your trips"));
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
-    fetchTrips()
-      .then(setTrips)
-      .catch(() => setError("Failed to load your trips"))
-      .finally(() => setLoading(false));
-  }, []);
+    void loadTrips();
+  }, [loadTrips]);
 
   const now = new Date();
   const upcoming = trips.filter(
@@ -32,61 +49,68 @@ export default function DashboardPage() {
 
   const itineraryByDay = groupTripsByDay(upcoming);
 
-  if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-surface-subtle">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-brand-primary border-t-transparent" />
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-surface-subtle">
-        <p className="text-danger">{error}</p>
-      </div>
-    );
-  }
+  const screenState = !isOnline
+    ? "offline"
+    : loading
+      ? "loading"
+      : error
+        ? "error"
+        : upcoming.length === 0 && past.length === 0
+          ? "empty"
+          : "idle";
 
   return (
     <div className="min-h-screen bg-surface-subtle">
       <div className="mx-auto max-w-4xl px-4 py-8">
         <h1 className="mb-6 text-2xl font-bold text-text-primary">My Trips</h1>
 
-        <div className="mb-8 grid grid-cols-3 gap-4">
-          <StatCard label="Total Trips" value={trips.length} />
-          <StatCard label="Upcoming" value={upcoming.length} highlight />
-          <StatCard label="Completed" value={past.length} />
-        </div>
+        <StateBoundary
+          state={screenState}
+          error={error}
+          onRetry={() => void loadTrips()}
+          emptyTitle="No upcoming trips"
+          emptyDescription="No upcoming trips. Start planning!"
+          emptyAction={{ label: "Search trips", href: ROUTES.SEARCH }}
+        >
+          <>
+            <div className="mb-8 grid grid-cols-3 gap-4">
+              <StatCard label="Total Trips" value={trips.length} />
+              <StatCard label="Upcoming" value={upcoming.length} highlight />
+              <StatCard label="Completed" value={past.length} />
+            </div>
 
-        {itineraryByDay.size > 0 && (
-          <Section title="Itinerary">
-            {[...itineraryByDay.entries()]
-              .sort(([a], [b]) => a.localeCompare(b))
-              .map(([date, segments]) => (
-                <DayView key={date} date={date} segments={segments} />
-              ))}
-          </Section>
-        )}
+            {itineraryByDay.size > 0 && (
+              <Section title="Itinerary">
+                {[...itineraryByDay.entries()]
+                  .sort(([a], [b]) => a.localeCompare(b))
+                  .map(([date, segments]) => (
+                    <DayView key={date} date={date} segments={segments} />
+                  ))}
+              </Section>
+            )}
 
-        <Section title="Upcoming Trips">
-          {upcoming.length === 0 ? (
-            <EmptyState
-              message="No upcoming trips. Start planning your next adventure!"
-              cta={{ label: "Search Flights", href: "/search" }}
-            />
-          ) : (
-            upcoming.map((trip) => <TripCard key={trip.id} trip={trip} />)
-          )}
-        </Section>
+            <Section title="Upcoming Trips">
+              {upcoming.length === 0 ? (
+                <div className="rounded-xl bg-surface-default p-8 text-center">
+                  <p className="mb-4 text-text-muted">No upcoming trips. Start planning!</p>
+                  <Button asChild>
+                    <Link href={ROUTES.SEARCH}>Search trips</Link>
+                  </Button>
+                </div>
+              ) : (
+                upcoming.map((trip) => <TripCard key={trip.id} trip={trip} />)
+              )}
+            </Section>
 
-        {past.length > 0 && (
-          <Section title="Past Trips">
-            {past.map((trip) => (
-              <TripCard key={trip.id} trip={trip} faded />
-            ))}
-          </Section>
-        )}
+            {past.length > 0 && (
+              <Section title="Past Trips">
+                {past.map((trip) => (
+                  <TripCard key={trip.id} trip={trip} faded />
+                ))}
+              </Section>
+            )}
+          </>
+        </StateBoundary>
       </div>
     </div>
   );
@@ -171,23 +195,6 @@ function TripCard({ trip, faded = false }: { trip: Trip; faded?: boolean }) {
           {trip.status}
         </span>
       </div>
-    </div>
-  );
-}
-
-function EmptyState({
-  message,
-  cta,
-}: {
-  message: string;
-  cta: { label: string; href: string };
-}) {
-  return (
-    <div className="rounded-xl bg-surface-default p-8 text-center">
-      <p className="mb-4 text-text-muted">{message}</p>
-      <Button asChild>
-        <Link href={cta.href}>{cta.label}</Link>
-      </Button>
     </div>
   );
 }

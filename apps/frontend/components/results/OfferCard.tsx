@@ -5,6 +5,7 @@ import Link from "next/link";
 import type { UnifiedOffer } from "@travel/contracts/search";
 import { Badge, Button, Card, CardContent } from "@travel/design-system";
 import { formatMoney } from "../../lib/money";
+import { useLocaleCurrency } from "../../hooks/useLocaleCurrency";
 import {
   getProvenanceBadgeVariant,
   getProvenanceLabel,
@@ -26,6 +27,8 @@ const densityPadding: Record<ResultDensity, string> = {
 };
 
 export function OfferCard({ offer, density = "comfortable" }: OfferCardProps): React.JSX.Element {
+  const { locale, currency } = useLocaleCurrency();
+  const displayCurrency = currency || offer.currency;
   const bookable = isBookable(offer);
   const illustrative = offer.provenance === "ILLUSTRATIVE" || !bookable;
 
@@ -39,7 +42,7 @@ export function OfferCard({ offer, density = "comfortable" }: OfferCardProps): R
   return (
     <Card
       role="article"
-      aria-label={`${offer.title}, ${formatMoney(offer.price, offer.currency)}`}
+      aria-label={`${offer.title}, ${formatMoney(offer.price, displayCurrency, locale)}`}
       className={cn(
         "relative border border-border-default transition-shadow hover:shadow-md",
         illustrative && "opacity-90",
@@ -75,7 +78,7 @@ export function OfferCard({ offer, density = "comfortable" }: OfferCardProps): R
 
         <div className="flex shrink-0 flex-col items-end gap-2">
           <div className="text-right text-xl font-bold text-brand-primary">
-            {formatMoney(offer.price, offer.currency)}
+            {formatMoney(offer.price, displayCurrency, locale)}
           </div>
           <Button size="sm" variant="outline" asChild>
             <Link href={`/listings/${offer.id}`}>View Details</Link>

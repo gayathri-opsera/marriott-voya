@@ -69,13 +69,16 @@ function ToastContainer() {
       aria-atomic="false"
       className="fixed bottom-4 right-4 z-[100] flex flex-col gap-2"
     >
-      {ctx.toasts.map((t) => (
+      {ctx.toasts.map((t) => {
+        const variant = t.variant ?? "default";
+        const role = variant === "error" || variant === "warning" ? "alert" : "status";
+        return (
         <div
           key={t.id}
-          role="status"
+          role={role}
           className={cn(
             "flex items-start gap-3 rounded-lg border p-4 shadow-lg min-w-[280px] max-w-sm",
-            variantClasses[t.variant ?? "default"],
+            variantClasses[variant],
           )}
         >
           <div className="flex-1">
@@ -92,7 +95,8 @@ function ToastContainer() {
             ×
           </button>
         </div>
-      ))}
+        );
+      })}
     </div>
   );
 }

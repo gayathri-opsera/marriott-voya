@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
 import {
   Button,
   Input,
@@ -38,6 +39,12 @@ export default function DesignSystemPage() {
         <p className="mt-2 text-text-secondary">
           Visual reference for primitives from <code>@travel/design-system</code>.
         </p>
+        <Link
+          href="/design-system/tokens"
+          className="mt-3 inline-block text-sm font-medium text-brand-primary hover:underline"
+        >
+          View design token reference →
+        </Link>
       </div>
 
       <Section title="Buttons">

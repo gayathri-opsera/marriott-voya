@@ -14,6 +14,8 @@ export default defineConfig({
       ["test/components/**", "jsdom"],
       ["test/routes/**", "jsdom"],
       ["test/accessibility/**", "jsdom"],
+      ["test/responsive/**", "jsdom"],
+      ["test/hooks/**", "jsdom"],
       ["test/lib/assistant-stream.test.ts", "jsdom"],
     ],
     setupFiles: ["./test/setup.ts"],

@@ -4,6 +4,9 @@ export const JOURNEY_EVENTS = {
   CHECKOUT_STARTED: "checkout_started",
   BOOKING_CONFIRMED: "booking_confirmed",
   ASSISTANT_MESSAGE_SENT: "assistant_message_sent",
+  LANDING_VIEWED: "LANDING_VIEWED",
+  ENTRY_CARD_CLICKED: "ENTRY_CARD_CLICKED",
+  QUICK_SEARCH_SUBMITTED: "QUICK_SEARCH_SUBMITTED",
 } as const;
 
 export function trackEvent(

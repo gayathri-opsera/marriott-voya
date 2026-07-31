@@ -4,7 +4,7 @@ import * as React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import type { SearchResponse, UnifiedOffer } from "@travel/contracts/search";
 import { apiGet } from "../../lib/api/client";
-import { ApiError } from "../../lib/api/errors";
+import { ApiError, ErrorCode } from "../../lib/api/errors";
 import { trackEvent, JOURNEY_EVENTS } from "../../lib/analytics";
 import { StateBoundary } from "../../components/patterns/StateBoundary";
 import {
@@ -13,8 +13,17 @@ import {
 } from "../../components/search/SearchCriteriaForm";
 import { FilterPanel, type Filters } from "../../components/search/FilterPanel";
 import { ResultsList } from "../../components/results/ResultsList";
+import {
+  DegradedResultsBanner,
+  type SupplierStatus,
+} from "../../components/search/DegradedResultsBanner";
 import { parseSearchParams, toSearchParams, type SearchState } from "../../lib/search-params";
 import { getEntryCriteria } from "../../lib/entry-criteria";
+import { useOnlineStatus } from "../../hooks/useOnlineStatus";
+
+type SearchResponseWithSuppliers = SearchResponse & {
+  supplierStatuses?: SupplierStatus[];
+};
 
 function mapTypeToApi(type: SearchCriteria["type"]): string {
   if (type === "flights") return "flight";
@@ -54,12 +63,26 @@ function applyClientFilters(offers: UnifiedOffer[], filters: Filters): UnifiedOf
   return result;
 }
 
+function mapSearchError(error: Error): Error {
+  if (error instanceof ApiError) {
+    if (error.code === ErrorCode.NETWORK_ERROR || error.status === 0) {
+      return new ApiError(error.status, error.code, "Check your connection and try again");
+    }
+    if (error.status === 504 || error.code === "timeout") {
+      return new ApiError(error.status, error.code, "Search took too long. Try again with fewer filters");
+    }
+  }
+  return error;
+}
+
 function getScreenState(
+  isOnline: boolean,
   loading: boolean,
   error: Error | null,
   hasQuery: boolean,
   resultCount: number,
-): "idle" | "loading" | "empty" | "error" {
+): "idle" | "loading" | "empty" | "error" | "offline" {
+  if (!isOnline) return "offline";
   if (loading) return "loading";
   if (error) return "error";
   if (hasQuery && resultCount === 0) return "empty";
@@ -69,12 +92,14 @@ function getScreenState(
 export default function SearchPage(): React.JSX.Element {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { isOnline } = useOnlineStatus();
   const urlState = React.useMemo(
     () => parseSearchParams(searchParams),
     [searchParams],
   );
 
   const [results, setResults] = React.useState<UnifiedOffer[]>([]);
+  const [supplierStatuses, setSupplierStatuses] = React.useState<SupplierStatus[]>([]);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<Error | null>(null);
   const [filters, setFilters] = React.useState<Filters>({
@@ -109,6 +134,10 @@ export default function SearchPage(): React.JSX.Element {
   const fetchResults = React.useCallback(
     async (criteria: SearchCriteria, currentFilters: Filters) => {
       if (!criteria.destination.trim()) return;
+      if (!navigator.onLine) {
+        setError(new ApiError(0, ErrorCode.NETWORK_ERROR, "Check your connection and try again"));
+        return;
+      }
 
       setLoading(true);
       setError(null);
@@ -120,15 +149,20 @@ export default function SearchPage(): React.JSX.Element {
       });
 
       try {
-        const data = await apiGet<SearchResponse>("/search", {
+        const data = await apiGet<SearchResponseWithSuppliers>("/search", {
           q: criteria.destination,
           sort: currentFilters.sort,
           types: mapTypeToApi(criteria.type),
         });
         setResults(applyClientFilters(data.offers, currentFilters));
+        setSupplierStatuses(data.supplierStatuses ?? []);
       } catch (err) {
-        setError(err instanceof ApiError ? err : new Error("Search failed. Please try again."));
+        const mapped = mapSearchError(
+          err instanceof ApiError ? err : new Error("Search failed. Please try again."),
+        );
+        setError(mapped);
         setResults([]);
+        setSupplierStatuses([]);
       } finally {
         setLoading(false);
       }
@@ -209,13 +243,29 @@ export default function SearchPage(): React.JSX.Element {
     }
   };
 
+  const handleRetry = (): void => {
+    if (initialCriteria.destination) {
+      void fetchResults(
+        {
+          destination: initialCriteria.destination,
+          type: initialCriteria.type ?? "flights",
+          departureDate: initialCriteria.departureDate ?? "",
+          returnDate: initialCriteria.returnDate,
+          passengers: initialCriteria.passengers ?? 1,
+        },
+        filters,
+      );
+    }
+  };
+
   const hasQuery = Boolean(urlState.q ?? entryCriteria?.destination);
-  const screenState = getScreenState(loading, error, hasQuery, results.length);
+  const screenState = getScreenState(isOnline, loading, error, hasQuery, results.length);
+  const mappedError = error ? mapSearchError(error) : null;
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-text-primary mb-4">Search</h1>
+        <h1 className="mb-4 text-2xl font-bold text-text-primary">Search</h1>
         <SearchCriteriaForm
           initialValues={initialCriteria}
           onSubmit={handleCriteriaSubmit}
@@ -227,23 +277,13 @@ export default function SearchPage(): React.JSX.Element {
         <FilterPanel filters={filters} onFilterChange={handleFilterChange} />
 
         <div className="flex-1">
+          <DegradedResultsBanner supplierStatuses={supplierStatuses} />
           <StateBoundary
             state={screenState}
-            error={error}
-            onRetry={() => {
-              if (initialCriteria.destination) {
-                void fetchResults(
-                  {
-                    destination: initialCriteria.destination,
-                    type: initialCriteria.type ?? "flights",
-                    departureDate: initialCriteria.departureDate ?? "",
-                    returnDate: initialCriteria.returnDate,
-                    passengers: initialCriteria.passengers ?? 1,
-                  },
-                  filters,
-                );
-              }
-            }}
+            error={mappedError}
+            onRetry={handleRetry}
+            emptyTitle="No results found"
+            emptyDescription="No results found. Try adjusting your search"
           >
             <ResultsList
               offers={results}

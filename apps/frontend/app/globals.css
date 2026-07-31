@@ -14,8 +14,8 @@
     /* Text */
     --color-text-primary: #1a1a2e;
     --color-text-secondary: #495057;
-    --color-text-muted: #868e96;
-    --color-text-tertiary: #adb5bd;
+    --color-text-muted: #6c757d;
+    --color-text-tertiary: #868e96;
     --color-text-inverse: #ffffff;
 
     /* Brand */
@@ -69,6 +69,25 @@
     outline: 2px solid var(--color-focus-ring);
     outline-offset: 2px;
     border-radius: 2px;
+  }
+
+  .dark {
+    --color-surface-default: #1a1a2e;
+    --color-surface-subtle: #16162a;
+    --color-surface-muted: #2a2a40;
+    --color-surface-secondary: #222238;
+    --color-surface-tertiary: #333350;
+
+    --color-text-primary: #f8f9fa;
+    --color-text-secondary: #ced4da;
+    --color-text-muted: #868e96;
+    --color-text-tertiary: #6c757d;
+    --color-text-inverse: #1a1a2e;
+
+    --color-border-default: #333350;
+    --color-border-subtle: #2a2a40;
+
+    --color-focus-ring: #6080ff;
   }
 }
 

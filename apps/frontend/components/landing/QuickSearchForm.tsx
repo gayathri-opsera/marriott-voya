@@ -4,6 +4,7 @@ import * as React from "react";
 import { useRouter } from "next/navigation";
 import { Button, Input } from "@travel/design-system";
 import { setEntryCriteria, type TravelType } from "../../lib/entry-criteria";
+import { trackEvent } from "../../lib/analytics";
 
 export function QuickSearchForm(): React.JSX.Element {
   const router = useRouter();
@@ -20,6 +21,8 @@ export function QuickSearchForm(): React.JSX.Element {
       type,
       date: date || undefined,
     });
+
+    trackEvent("QUICK_SEARCH_SUBMITTED", { type, hasDate: !!date });
 
     const params = new URLSearchParams({
       q: destination.trim(),

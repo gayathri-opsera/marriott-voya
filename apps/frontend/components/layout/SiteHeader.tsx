@@ -6,6 +6,8 @@ import { usePathname, useRouter } from "next/navigation";
 import { cn } from "../../lib/utils";
 import { NAV_LINKS, ROUTES } from "../../lib/routes";
 import { clearSession, getSession, isAuthenticated } from "../../lib/session";
+import { LocaleCurrencyPicker } from "./LocaleCurrencyPicker";
+import { ThemeToggle } from "./ThemeToggle";
 import { MobileNavDrawer } from "./MobileNavDrawer";
 
 function isActiveLink(pathname: string, href: string): boolean {
@@ -64,6 +66,10 @@ export function SiteHeader(): React.JSX.Element {
         </nav>
 
         <div className="flex items-center gap-3">
+          <div className="hidden items-center gap-2 md:flex">
+            <LocaleCurrencyPicker />
+            <ThemeToggle />
+          </div>
           <button
             type="button"
             className="rounded-md p-2 text-text-secondary hover:bg-surface-subtle focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 md:hidden"

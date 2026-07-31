@@ -11,6 +11,9 @@ export interface StateBoundaryProps {
   children: React.ReactNode;
   error?: Error | ApiError | null;
   onRetry?: () => void;
+  emptyTitle?: string;
+  emptyDescription?: string;
+  emptyAction?: { label: string; href?: string; onClick?: () => void };
 }
 
 function toErrorBannerError(error: Error | ApiError): { message: string; field?: string; code?: string } {
@@ -29,6 +32,9 @@ export function StateBoundary({
   children,
   error,
   onRetry,
+  emptyTitle = "Nothing here yet",
+  emptyDescription = "There is no content to display.",
+  emptyAction,
 }: StateBoundaryProps): React.JSX.Element {
   if (state === "loading") {
     return (
@@ -41,11 +47,17 @@ export function StateBoundary({
   }
 
   if (state === "empty") {
+    const action = emptyAction
+      ? { label: emptyAction.label, onClick: emptyAction.onClick ?? onRetry ?? (() => {}) }
+      : onRetry
+        ? { label: "Refresh", onClick: onRetry }
+        : undefined;
+
     return (
       <EmptyState
-        title="Nothing here yet"
-        description="There is no content to display."
-        {...(onRetry ? { action: { label: "Refresh", onClick: onRetry } } : {})}
+        title={emptyTitle}
+        description={emptyDescription}
+        {...(action ? { action } : {})}
       />
     );
   }

@@ -13,6 +13,7 @@ import { ReviewStep } from "../../components/checkout/ReviewStep";
 import { TravellerDetailsStep, type TravellerDetails } from "../../components/checkout/TravellerDetailsStep";
 import { PriceChangeBanner } from "../../components/checkout/PriceChangeBanner";
 import { ConfirmationSummary } from "../../components/checkout/ConfirmationSummary";
+import { StateBoundary } from "../../components/patterns/StateBoundary";
 import { apiGet, apiPost } from "../../lib/api/client";
 import { ApiError } from "../../lib/api/errors";
 import { formatMoney } from "../../lib/money";
@@ -50,15 +51,21 @@ export default function CheckoutPage() {
   const [bookingResult, setBookingResult] = React.useState<BookingResponse | null>(null);
   const [submitting, setSubmitting] = React.useState(false);
   const [pendingPriceChange, setPendingPriceChange] = React.useState(false);
+  const [loadError, setLoadError] = React.useState<Error | null>(null);
 
   React.useEffect(() => {
     if (!offerId) return;
+    setLoadingOffer(true);
+    setLoadError(null);
     apiGet<UnifiedOffer>(`/offers/${offerId}`)
       .then((loaded) => {
         setOffer(loaded);
         setOriginalPrice(loaded.price);
       })
-      .catch(() => addToast({ title: "Failed to load offer", variant: "error" }))
+      .catch((err) => {
+        setLoadError(err instanceof Error ? err : new Error("Failed to load offer"));
+        addToast({ title: "Failed to load offer", variant: "error" });
+      })
       .finally(() => setLoadingOffer(false));
   }, [offerId, addToast]);
 
@@ -135,10 +142,29 @@ export default function CheckoutPage() {
     return null;
   }
 
+  const checkoutState = loadingOffer ? "loading" : loadError ? "error" : "idle";
+
   return (
     <div className="mx-auto max-w-2xl px-4 py-8">
       <h1 className="text-2xl font-bold text-text-primary mb-4">Checkout</h1>
       <StepIndicator steps={CHECKOUT_STEPS} currentStep={STEP_INDEX[step]} />
+
+      <StateBoundary
+        state={checkoutState}
+        error={loadError}
+        onRetry={() => {
+          if (!offerId) return;
+          setLoadingOffer(true);
+          setLoadError(null);
+          apiGet<UnifiedOffer>(`/offers/${offerId}`)
+            .then((loaded) => {
+              setOffer(loaded);
+              setOriginalPrice(loaded.price);
+            })
+            .catch((err) => setLoadError(err instanceof Error ? err : new Error("Failed to load offer")))
+            .finally(() => setLoadingOffer(false));
+        }}
+      >
 
       {step === "review" && (
         <>
@@ -228,6 +254,7 @@ export default function CheckoutPage() {
           </div>
         </div>
       )}
+      </StateBoundary>
     </div>
   );
 }

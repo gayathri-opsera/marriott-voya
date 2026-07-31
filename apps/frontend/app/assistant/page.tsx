@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useToast } from "../../components/ui/Toast";
 import { SessionMetadataDisplay } from "../../components/assistant/SessionMetadata";
 import { AssistantChat } from "../../components/assistant/AssistantChat";
+import { StateBoundary } from "../../components/patterns/StateBoundary";
 import { createSession, getSessionMetadata } from "../../lib/assistant-session";
 import type { SessionMetadata } from "../../lib/assistant-session";
 import { useAssistantStream } from "../../lib/assistant-stream";
@@ -15,6 +16,7 @@ export default function AssistantPage() {
   const [sessionId, setSessionId] = React.useState<string | null>(null);
   const [metadata, setMetadata] = React.useState<SessionMetadata | null>(null);
   const [metadataLoading, setMetadataLoading] = React.useState(true);
+  const [initError, setInitError] = React.useState<Error | null>(null);
 
   const {
     messages,
@@ -35,7 +37,10 @@ export default function AssistantPage() {
         return getSessionMetadata(id);
       })
       .then(setMetadata)
-      .catch(() => addToast({ title: "Failed to start assistant session", variant: "error" }))
+      .catch(() => {
+        setInitError(new Error("Failed to start assistant session"));
+        addToast({ title: "Failed to start assistant session", variant: "error" });
+      })
       .finally(() => setMetadataLoading(false));
   }, [addToast]);
 
@@ -47,8 +52,25 @@ export default function AssistantPage() {
   }, [errorKind, addToast, router]);
 
   const showWelcome = messages.length === 0 && !isStreaming;
+  const screenState = metadataLoading ? "loading" : initError ? "error" : "idle";
 
   return (
+    <StateBoundary
+      state={screenState}
+      error={initError}
+      onRetry={() => {
+        setInitError(null);
+        setMetadataLoading(true);
+        createSession()
+          .then(({ sessionId: id }) => {
+            setSessionId(id);
+            return getSessionMetadata(id);
+          })
+          .then(setMetadata)
+          .catch(() => setInitError(new Error("Failed to start assistant session")))
+          .finally(() => setMetadataLoading(false));
+      }}
+    >
     <div className="flex h-[calc(100vh-4rem)] flex-col bg-surface-subtle md:flex-row">
       <aside className="hidden w-64 shrink-0 border-r border-border-default bg-surface-default p-4 md:block">
         <div className="mb-4 flex items-center gap-3">
@@ -109,5 +131,6 @@ export default function AssistantPage() {
         )}
       </div>
     </div>
+    </StateBoundary>
   );
 }

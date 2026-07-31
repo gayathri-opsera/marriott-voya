@@ -12,7 +12,8 @@
     "lint:workspace": "tsx ../../tools/workspace-lint/src/index.ts",
     "lint:tokens": "tsx lint/check-token-usage.ts",
     "bundle-check": "tsx scripts/check-bundle-size.ts",
-    "check-scripts": "tsx scripts/check-script-origins.ts"
+    "check-scripts": "tsx scripts/check-script-origins.ts",
+    "scan-pii": "tsx scripts/scan-pii.ts"
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.3.11",
