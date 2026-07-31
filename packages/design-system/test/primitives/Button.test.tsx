@@ -1,6 +1,5 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import { Button } from "../../src/primitives/Button";
 import { renderWithProviders } from "../utils/render";
 
@@ -27,10 +26,8 @@ describe("Button", () => {
     expect(button).toHaveAttribute("aria-busy", "true");
     expect(button.querySelector("[aria-hidden]")).toBeTruthy();
   });
-});
 
-describe("Button asChild", () => {
-  it("renders as child element", async () => {
+  it("renders as child element when asChild is true", () => {
     renderWithProviders(
       <Button asChild variant="link">
         <a href="/search">Search</a>
