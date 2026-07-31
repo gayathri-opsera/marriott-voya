@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { bookableFlightOffer, illustrativeHotelOffer } from "../fixtures/search-response";
+import { bookableFlightOffer, illustrativeHotelOffer } from "../fixtures/searchResponse";
 
 /**
  * Tests the non-bookable offer guard logic.

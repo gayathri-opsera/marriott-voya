@@ -1,27 +1,19 @@
-export type ChatChunkType = "text" | "tool_use" | "tool_result" | "error" | "done";
+import type { ChatChunk } from "../../lib/sse";
 
-export interface ChatChunkFixture {
-  type: ChatChunkType;
-  content?: string;
-  toolName?: string;
-  toolInput?: unknown;
-  toolResult?: unknown;
-  error?: string;
-  finishReason?: "stop" | "max_tokens" | "tool_use" | "error" | "cancelled";
-}
+export type { ChatChunk };
 
-export function makeTextChunk(content: string): ChatChunkFixture {
+export function makeTextChunk(content = "Hello from the assistant"): ChatChunk {
   return { type: "text", content };
 }
 
-export function makeToolChunk(toolName: string, toolInput: unknown): ChatChunkFixture {
-  return { type: "tool_use", toolName, toolInput };
+export function makeToolChunk(toolName: string, input: unknown): ChatChunk {
+  return { type: "tool_use", toolName, input };
 }
 
-export function makeErrorChunk(error: string): ChatChunkFixture {
-  return { type: "error", error };
+export function makeErrorChunk(message = "Something went wrong"): ChatChunk {
+  return { type: "error", message };
 }
 
-export function makeDoneChunk(finishReason: ChatChunkFixture["finishReason"] = "stop"): ChatChunkFixture {
+export function makeDoneChunk(finishReason = "stop"): ChatChunk {
   return { type: "done", finishReason };
 }

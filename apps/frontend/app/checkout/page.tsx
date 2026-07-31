@@ -2,82 +2,39 @@
 
 import * as React from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import type { UnifiedOffer } from "@travel/contracts/search";
+import type { BookingResponse } from "@travel/contracts/booking";
 import { Button } from "../../components/ui/Button";
-import { Input } from "../../components/ui/Input";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/Card";
 import { Skeleton } from "../../components/ui/Skeleton";
 import { useToast } from "../../components/ui/Toast";
+import { StepIndicator } from "../../components/checkout/StepIndicator";
+import { ReviewStep } from "../../components/checkout/ReviewStep";
+import { TravellerDetailsStep, type TravellerDetails } from "../../components/checkout/TravellerDetailsStep";
+import { PriceChangeBanner } from "../../components/checkout/PriceChangeBanner";
+import { ConfirmationSummary } from "../../components/checkout/ConfirmationSummary";
 import { apiGet, apiPost } from "../../lib/api/client";
 import { ApiError } from "../../lib/api/errors";
+import { formatMoney } from "../../lib/money";
+import { generateIdempotencyKey, IdempotencyStore } from "../../lib/idempotency";
 
 type CheckoutStep = "review" | "traveler" | "payment" | "confirmation";
 
-interface Offer {
-  id: string;
-  type: string;
-  title: string;
-  price: number;
-  currency: string;
-  expiresAt: string;
-  bookable: boolean;
-}
+const CHECKOUT_STEPS = ["Review", "Traveller Details", "Payment", "Confirmation"];
+const STEP_INDEX: Record<CheckoutStep, number> = {
+  review: 0,
+  traveler: 1,
+  payment: 2,
+  confirmation: 3,
+};
 
-interface TravelerInfo {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  dateOfBirth: string;
-}
+const idempotencyStore = new IdempotencyStore();
 
-interface BookingResult {
-  bookingId: string;
-  clientSecret: string;
+function getBookingType(offer: UnifiedOffer): "FLIGHT" | "HOTEL" | "CAR" {
+  if ("seatClass" in offer.details) return "FLIGHT";
+  if ("carClass" in offer.details) return "CAR";
+  return "HOTEL";
 }
-
-function StepIndicator({ current, steps }: { current: CheckoutStep; steps: CheckoutStep[] }) {
-  const labels: Record<CheckoutStep, string> = {
-    review: "Review",
-    traveler: "Traveler",
-    payment: "Payment",
-    confirmation: "Confirmation",
-  };
-  const currentIdx = steps.indexOf(current);
-  return (
-    <nav aria-label="Checkout steps" className="flex items-center gap-2 mb-6">
-      {steps.map((step, idx) => (
-        <React.Fragment key={step}>
-          <div
-            className={`flex items-center gap-1.5 text-sm font-medium ${
-              idx < currentIdx
-                ? "text-brand-600"
-                : idx === currentIdx
-                ? "text-brand-500"
-                : "text-text-tertiary"
-            }`}
-            aria-current={step === current ? "step" : undefined}
-          >
-            <span
-              className={`w-6 h-6 rounded-full flex items-center justify-center text-xs border-2 ${
-                idx < currentIdx
-                  ? "bg-brand-500 border-brand-500 text-white"
-                  : idx === currentIdx
-                  ? "border-brand-500 text-brand-500"
-                  : "border-gray-300 text-gray-400"
-              }`}
-            >
-              {idx < currentIdx ? "✓" : idx + 1}
-            </span>
-            {labels[step]}
-          </div>
-          {idx < steps.length - 1 && <div className="flex-1 h-px bg-gray-200" />}
-        </React.Fragment>
-      ))}
-    </nav>
-  );
-}
-
-const STEPS: CheckoutStep[] = ["review", "traveler", "payment", "confirmation"];
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -86,51 +43,84 @@ export default function CheckoutPage() {
   const { addToast } = useToast();
 
   const [step, setStep] = React.useState<CheckoutStep>("review");
-  const [offer, setOffer] = React.useState<Offer | null>(null);
+  const [offer, setOffer] = React.useState<UnifiedOffer | null>(null);
+  const [originalPrice, setOriginalPrice] = React.useState<string | null>(null);
   const [loadingOffer, setLoadingOffer] = React.useState(true);
-  const [travelerInfo, setTravelerInfo] = React.useState<TravelerInfo>({
-    firstName: "", lastName: "", email: "", phone: "", dateOfBirth: "",
-  });
-  const [bookingResult, setBookingResult] = React.useState<BookingResult | null>(null);
+  const [travelerInfo, setTravelerInfo] = React.useState<TravellerDetails | null>(null);
+  const [bookingResult, setBookingResult] = React.useState<BookingResponse | null>(null);
   const [submitting, setSubmitting] = React.useState(false);
-  const [errors, setErrors] = React.useState<Partial<TravelerInfo>>({});
+  const [pendingPriceChange, setPendingPriceChange] = React.useState(false);
 
   React.useEffect(() => {
     if (!offerId) return;
-    apiGet<Offer>(`/offers/${offerId}`)
-      .then(setOffer)
+    apiGet<UnifiedOffer>(`/offers/${offerId}`)
+      .then((loaded) => {
+        setOffer(loaded);
+        setOriginalPrice(loaded.price);
+      })
       .catch(() => addToast({ title: "Failed to load offer", variant: "error" }))
       .finally(() => setLoadingOffer(false));
-  }, [offerId]);
+  }, [offerId, addToast]);
 
-  async function handleTravelerSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    const errs: Partial<TravelerInfo> = {};
-    if (!travelerInfo.firstName) errs.firstName = "Required";
-    if (!travelerInfo.lastName) errs.lastName = "Required";
-    if (!travelerInfo.email) errs.email = "Required";
-    if (Object.keys(errs).length > 0) { setErrors(errs); return; }
-    setErrors({});
+  function getOrCreateIdempotencyKey(): string {
+    const storeId = `checkout-${offerId}`;
+    const existing = idempotencyStore.get(storeId);
+    if (existing) return existing;
+
+    const key = generateIdempotencyKey("checkout");
+    idempotencyStore.set(storeId, key);
+    return key;
+  }
+
+  function handleTravelerSubmit(data: TravellerDetails) {
+    setTravelerInfo(data);
     setStep("payment");
+  }
+
+  function handleAcceptPriceChange() {
+    if (offer) setOriginalPrice(offer.price);
+    setPendingPriceChange(false);
+    setStep("payment");
+  }
+
+  function handleDeclinePriceChange() {
+    setPendingPriceChange(false);
+    setStep("review");
+    idempotencyStore.clear(`checkout-${offerId}`);
   }
 
   async function handlePaymentSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!offer || !travelerInfo) return;
+
     setSubmitting(true);
     try {
-      const result = await apiPost<BookingResult>("/bookings", {
+      const result = await apiPost<BookingResponse>("/bookings", {
         offerId,
-        traveler: travelerInfo,
-        idempotencyKey: `checkout_${offerId}_${Date.now()}`,
+        bookingType: getBookingType(offer),
+        passengers: [{
+          firstName: travelerInfo.firstName,
+          lastName: travelerInfo.lastName,
+          dateOfBirth: "1990-01-01",
+          passportNumber: travelerInfo.passportNumber,
+        }],
+        contactEmail: travelerInfo.email,
+        contactPhone: travelerInfo.phone,
+        currency: offer.currency,
+        idempotencyKey: getOrCreateIdempotencyKey(),
       });
       setBookingResult(result);
       setStep("confirmation");
     } catch (err) {
       if (err instanceof ApiError) {
         if (err.code === "price_changed") {
+          const refreshed = await apiGet<UnifiedOffer>(`/offers/${offerId}`).catch(() => null);
+          if (refreshed) {
+            setOffer(refreshed);
+            setPendingPriceChange(true);
+            setStep("review");
+          }
           addToast({ title: "Price updated", description: "Please review the new price.", variant: "warning" });
-          setStep("review");
-          apiGet<Offer>(`/offers/${offerId}`).then(setOffer).catch(() => {});
         } else {
           addToast({ title: "Booking failed", description: err.message, variant: "error" });
         }
@@ -148,60 +138,61 @@ export default function CheckoutPage() {
   return (
     <div className="mx-auto max-w-2xl px-4 py-8">
       <h1 className="text-2xl font-bold text-text-primary mb-4">Checkout</h1>
-      <StepIndicator current={step} steps={STEPS} />
+      <StepIndicator steps={CHECKOUT_STEPS} currentStep={STEP_INDEX[step]} />
 
       {step === "review" && (
-        <Card variant="elevated">
-          <CardHeader><CardTitle>Review your selection</CardTitle></CardHeader>
-          <CardContent className="p-4">
-            {loadingOffer ? (
-              <Skeleton variant="rectangular" height={80} />
-            ) : offer ? (
-              <div className="space-y-3">
-                <div className="flex justify-between">
-                  <span className="text-text-secondary">{offer.title}</span>
-                  <span className="font-bold text-brand-600">
-                    {new Intl.NumberFormat("en-US", { style: "currency", currency: offer.currency }).format(offer.price)}
-                  </span>
-                </div>
-                <div className="text-xs text-text-tertiary">
-                  Offer valid until {new Date(offer.expiresAt).toLocaleString()}
-                </div>
-                <Button onClick={() => setStep("traveler")} className="w-full">
-                  Continue
-                </Button>
-              </div>
-            ) : null}
-          </CardContent>
-        </Card>
+        <>
+          {pendingPriceChange && offer && originalPrice && (
+            <div className="mb-4">
+              <PriceChangeBanner
+                originalPrice={originalPrice}
+                newPrice={offer.price}
+                currency={offer.currency}
+                onAccept={handleAcceptPriceChange}
+                onDecline={handleDeclinePriceChange}
+              />
+            </div>
+          )}
+          {loadingOffer ? (
+            <Card variant="elevated">
+              <CardContent className="p-4">
+                <Skeleton variant="rectangular" height={80} />
+              </CardContent>
+            </Card>
+          ) : offer ? (
+            <ReviewStep
+              offer={{
+                title: offer.title,
+                price: offer.price,
+                currency: offer.currency,
+                provenance: offer.provenance,
+                bookable: offer.bookable,
+                expiresAt: offer.expiresAt,
+              }}
+              onContinue={() => setStep("traveler")}
+            />
+          ) : null}
+        </>
       )}
 
       {step === "traveler" && (
-        <form onSubmit={handleTravelerSubmit}>
-          <Card variant="elevated">
-            <CardHeader><CardTitle>Traveler information</CardTitle></CardHeader>
-            <CardContent className="p-4 space-y-3">
-              <div className="grid grid-cols-2 gap-3">
-                <Input label="First name" value={travelerInfo.firstName} onChange={(e) => setTravelerInfo((p) => ({ ...p, firstName: e.target.value }))} error={errors.firstName} required />
-                <Input label="Last name" value={travelerInfo.lastName} onChange={(e) => setTravelerInfo((p) => ({ ...p, lastName: e.target.value }))} error={errors.lastName} required />
-              </div>
-              <Input label="Email" type="email" value={travelerInfo.email} onChange={(e) => setTravelerInfo((p) => ({ ...p, email: e.target.value }))} error={errors.email} required />
-              <Input label="Phone (optional)" type="tel" value={travelerInfo.phone} onChange={(e) => setTravelerInfo((p) => ({ ...p, phone: e.target.value }))} />
-              <Input label="Date of birth (optional)" type="date" value={travelerInfo.dateOfBirth} onChange={(e) => setTravelerInfo((p) => ({ ...p, dateOfBirth: e.target.value }))} />
-              <div className="flex gap-2">
-                <Button variant="secondary" type="button" onClick={() => setStep("review")}>Back</Button>
-                <Button type="submit" className="flex-1">Continue to payment</Button>
-              </div>
-            </CardContent>
-          </Card>
-        </form>
+        <TravellerDetailsStep
+          onSubmit={handleTravelerSubmit}
+          onBack={() => setStep("review")}
+        />
       )}
 
-      {step === "payment" && (
+      {step === "payment" && offer && (
         <form onSubmit={handlePaymentSubmit}>
           <Card variant="elevated">
             <CardHeader><CardTitle>Payment</CardTitle></CardHeader>
             <CardContent className="p-4 space-y-4">
+              <div className="flex justify-between text-sm">
+                <span className="text-text-secondary">{offer.title}</span>
+                <span className="font-bold text-brand-600">
+                  {formatMoney(offer.price, offer.currency)}
+                </span>
+              </div>
               <div className="rounded-md border border-surface-tertiary p-4 bg-surface-secondary text-sm text-text-secondary text-center">
                 Stripe Elements will be mounted here.
                 <br />
@@ -216,17 +207,26 @@ export default function CheckoutPage() {
         </form>
       )}
 
-      {step === "confirmation" && bookingResult && (
-        <Card variant="elevated">
-          <CardContent className="p-6 text-center space-y-4">
-            <div className="text-4xl">✅</div>
-            <h2 className="text-xl font-bold text-text-primary">Booking confirmed!</h2>
-            <p className="text-text-secondary">
-              Your booking reference is <strong>{bookingResult.bookingId}</strong>.
-            </p>
-            <Button as="a" href="/itineraries">View my itineraries</Button>
-          </CardContent>
-        </Card>
+      {step === "confirmation" && bookingResult && offer && (
+        <div className="space-y-4">
+          <ConfirmationSummary
+            bookingRef={bookingResult.bookingReference}
+            items={[{
+              title: offer.title,
+              source: offer.provenance,
+              price: offer.price,
+              currency: offer.currency,
+            }]}
+          />
+          <div className="text-center">
+            <a
+              href="/itineraries"
+              className="inline-flex items-center justify-center gap-2 font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 bg-brand-500 text-text-inverse hover:bg-brand-600 focus-visible:ring-brand-500 shadow-sm h-10 px-4 text-sm rounded-md"
+            >
+              View my itineraries
+            </a>
+          </div>
+        </div>
       )}
     </div>
   );

@@ -4,6 +4,10 @@ import "./globals.css";
 import { SiteHeader } from "../components/layout/SiteHeader";
 import { SiteFooter } from "../components/layout/SiteFooter";
 import { ToastProvider } from "../components/ui/Toast";
+import { WebVitalsReporter } from "../components/WebVitalsReporter";
+import { reportWebVitals } from "../lib/vitals";
+
+export { reportWebVitals };
 
 export const metadata: Metadata = {
   title: "Voya — AI Travel Booking",
@@ -21,6 +25,7 @@ export default function RootLayout({
         <a href="#main-content" className="skip-link">
           Skip to main content
         </a>
+        <WebVitalsReporter />
         <ToastProvider>
           <SiteHeader />
           <main id="main-content" className="flex-1">

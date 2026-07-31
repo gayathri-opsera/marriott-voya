@@ -1,22 +1,50 @@
-export interface OfferFixture {
-  id: string;
-  type: string;
-  title: string;
-  price: number;
-  currency: string;
-  expiresAt: string;
-  bookable: boolean;
+import type { UnifiedOffer } from "@travel/contracts/search";
+
+const defaultFlightOffer: UnifiedOffer = {
+  id: "offer_01J9X0Y2Z3A4B5C6D7E8F9G0H1",
+  provenance: "AMADEUS",
+  bookable: true,
+  title: "British Airways JFK → LHR",
+  price: "450.00",
+  currency: "USD",
+  rating: 4.2,
+  reviews: 1250,
+  details: {
+    airline: "British Airways",
+    flightNumber: "BA178",
+    departureAirport: "JFK",
+    arrivalAirport: "LHR",
+    departureTime: "2099-06-15T21:00:00Z",
+    arrivalTime: "2099-06-16T09:00:00Z",
+    duration: "7h 00m",
+    stops: 0,
+    seatClass: "ECONOMY",
+  },
+  expiresAt: "2099-06-14T21:00:00.000Z",
+  freshness: "FRESH",
+};
+
+export function makeOffer(overrides: Partial<UnifiedOffer> = {}): UnifiedOffer {
+  return { ...defaultFlightOffer, ...overrides };
 }
 
-export function makeOffer(overrides: Partial<OfferFixture> = {}): OfferFixture {
-  return {
-    id: "offer_test_001",
-    type: "flight",
-    title: "JFK → LHR",
-    price: 499.99,
-    currency: "USD",
-    expiresAt: new Date(Date.now() + 3600_000).toISOString(),
-    bookable: true,
-    ...overrides,
-  };
-}
+export const bookableFlightOffer = makeOffer();
+
+export const illustrativeHotelOffer = makeOffer({
+  id: "offer_illustrative_hotel_01",
+  provenance: "ILLUSTRATIVE",
+  bookable: false,
+  title: "Sample Hotel (Not Available for Booking)",
+  price: "120.00",
+  rating: undefined,
+  reviews: undefined,
+  details: {
+    hotelName: "Example Hotel",
+    address: "123 Main St, Paris",
+    starRating: 4,
+    roomType: "Standard",
+    breakfastIncluded: true,
+  },
+  expiresAt: "2099-12-31T23:59:59.000Z",
+  freshness: "FRESH",
+});
