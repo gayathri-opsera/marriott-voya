@@ -102,7 +102,7 @@ export function SiteHeader(): React.JSX.Element {
                 </Link>
                 <Link
                   href={ROUTES.REGISTER}
-                  className="rounded-md bg-brand-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-brand-600"
+                  className="rounded-md bg-brand-primary px-4 py-2 text-sm font-medium text-text-inverse transition-colors hover:bg-brand-600"
                 >
                   Register
                 </Link>

@@ -76,18 +76,26 @@ export async function refreshSession(): Promise<boolean> {
   return refreshLock;
 }
 
-export async function getSession(): Promise<{ accessToken: string | null; userId: string | null }> {
+export async function getSession(): Promise<{
+  accessToken: string | null;
+  userId: string | null;
+  expiresAt: number | null;
+}> {
   const token = getAccessToken();
   if (!token) {
-    return { accessToken: null, userId: null };
+    return { accessToken: null, userId: null, expiresAt: null };
   }
 
   if (state.expiresAt && state.expiresAt - Date.now() <= REFRESH_THRESHOLD_MS) {
     const refreshed = await refreshSession();
     if (!refreshed) {
-      return { accessToken: null, userId: null };
+      return { accessToken: null, userId: null, expiresAt: null };
     }
   }
 
-  return { accessToken: state.accessToken, userId: state.userId };
+  return {
+    accessToken: state.accessToken,
+    userId: state.userId,
+    expiresAt: state.expiresAt,
+  };
 }

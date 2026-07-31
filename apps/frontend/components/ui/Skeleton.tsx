@@ -14,6 +14,7 @@ export const Skeleton = React.forwardRef<HTMLDivElement, SkeletonProps>(
     return (
       <div
         ref={ref}
+        role="status"
         aria-busy="true"
         aria-label="Loading…"
         className={cn(

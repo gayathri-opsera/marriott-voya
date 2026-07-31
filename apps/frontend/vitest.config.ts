@@ -13,6 +13,7 @@ export default defineConfig({
     environmentMatchGlobs: [
       ["test/components/**", "jsdom"],
       ["test/routes/**", "jsdom"],
+      ["test/accessibility/**", "jsdom"],
       ["test/lib/assistant-stream.test.ts", "jsdom"],
     ],
     setupFiles: ["./test/setup.ts"],

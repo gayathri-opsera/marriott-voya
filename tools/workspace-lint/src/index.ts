@@ -14,6 +14,14 @@
 import { readFileSync, readdirSync, statSync, existsSync } from "node:fs";
 import { join, resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import {
+  checkRawColors,
+  formatRawColorReport,
+} from "../rules/no-raw-colors.js";
+import {
+  checkRestatedContracts,
+  formatRestatedContractReport,
+} from "../rules/no-restated-contracts.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -197,10 +205,31 @@ export function formatReport(result: LintResult): string {
   return lines.join("\n");
 }
 
+/** Walk up from cwd to locate the monorepo root (directory containing pnpm-workspace.yaml). */
+export function findMonorepoRoot(startDir: string): string {
+  let dir = resolve(startDir);
+  while (true) {
+    if (existsSync(join(dir, "pnpm-workspace.yaml"))) return dir;
+    const parent = dirname(dir);
+    if (parent === dir) return startDir;
+    dir = parent;
+  }
+}
+
+export function lintFrontendRules(rootDir: string): {
+  rawColorViolations: ReturnType<typeof checkRawColors>;
+  contractViolations: ReturnType<typeof checkRestatedContracts>;
+} {
+  return {
+    rawColorViolations: checkRawColors(rootDir),
+    contractViolations: checkRestatedContracts(rootDir),
+  };
+}
+
 // ─── CLI entry ────────────────────────────────────────────────────────────────
 
 if (process.argv[1] && fileURLToPath(import.meta.url).endsWith(process.argv[1]?.split("/").pop() ?? "")) {
-  const rootDir = resolve(process.cwd());
+  const rootDir = findMonorepoRoot(process.cwd());
   const workspaceYamlPath = join(rootDir, "pnpm-workspace.yaml");
   const rootPkgPath = join(rootDir, "package.json");
 
@@ -230,6 +259,15 @@ if (process.argv[1] && fileURLToPath(import.meta.url).endsWith(process.argv[1]?.
 
   const workspacePackageNames = collectWorkspacePackageNames(manifests);
   const result = lintWorkspace(rootDir, catalogKeys, workspacePackageNames, rootEngines);
+  const frontend = lintFrontendRules(rootDir);
+
   console.log(formatReport(result));
-  process.exit(result.violations.length > 0 ? 1 : 0);
+  console.log(formatRawColorReport(frontend.rawColorViolations));
+  console.log(formatRestatedContractReport(frontend.contractViolations));
+
+  const totalViolations =
+    result.violations.length +
+    frontend.rawColorViolations.length +
+    frontend.contractViolations.length;
+  process.exit(totalViolations > 0 ? 1 : 0);
 }

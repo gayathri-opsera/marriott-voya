@@ -26,7 +26,7 @@ export function FilterPanel({ filters, onFilterChange }: FilterPanelProps): Reac
   return (
     <aside className="w-full shrink-0 space-y-6 lg:w-56" aria-label="Search filters">
       <div>
-        <h3 className="text-sm font-semibold text-text-primary mb-3">Price range</h3>
+        <h2 className="text-sm font-semibold text-text-primary mb-3">Price range</h2>
         <div className="space-y-2">
           <Input
             label="Min price"
@@ -60,7 +60,7 @@ export function FilterPanel({ filters, onFilterChange }: FilterPanelProps): Reac
       <SortControl value={filters.sort} onChange={(sort) => update({ sort })} />
 
       <div>
-        <h3 className="text-sm font-semibold text-text-primary mb-2">Result density</h3>
+        <h2 className="text-sm font-semibold text-text-primary mb-2">Result density</h2>
         <div className="space-y-1">
           {DENSITY_OPTIONS.map((option) => (
             <label

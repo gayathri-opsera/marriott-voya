@@ -54,7 +54,7 @@ export function useToast(): Pick<ToastContextValue, "addToast" | "removeToast"> 
 }
 
 const variantClasses: Record<ToastVariant, string> = {
-  default: "bg-white border-surface-muted text-text-primary",
+  default: "bg-surface-default border-surface-muted text-text-primary",
   success: "bg-success-light border-success text-success",
   warning: "bg-warning-light border-warning text-warning",
   error:   "bg-error-light border-error text-error",

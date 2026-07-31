@@ -2,7 +2,8 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { Button, Input, Card, CardHeader, CardContent } from "@travel/design-system";
+import Link from "next/link";
+import { Button, Input, Card, CardHeader, CardContent, ErrorBanner } from "@travel/design-system";
 import { useToast } from "../../../components/ui/Toast";
 import { apiPost } from "../../../lib/api/client";
 import { setSession } from "../../../lib/session";
@@ -50,21 +51,20 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-[calc(100vh-8rem)] items-center justify-center px-4">
+    <div className="flex min-h-[calc(100vh-8rem)] items-center justify-center bg-surface-subtle px-4 py-8">
       <Card className="w-full max-w-md shadow-lg">
-        <CardHeader>
-          <h1 className="text-lg font-semibold text-text-primary">Sign in to Voya</h1>
+        <CardHeader className="text-center">
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-brand-primary text-lg font-bold text-text-inverse">
+            V
+          </div>
+          <h1 className="text-xl font-semibold text-text-primary">Sign in to Voya</h1>
           <p className="mt-1 text-sm text-text-secondary">
             Welcome back! Enter your credentials to continue.
           </p>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
-            {errors.form && (
-              <div role="alert" className="rounded-md bg-surface-subtle p-3 text-sm text-danger">
-                {errors.form}
-              </div>
-            )}
+            {errors.form && <ErrorBanner error={{ message: errors.form }} />}
 
             <Input
               label="Email address"
@@ -87,12 +87,9 @@ export default function LoginPage() {
             />
 
             <div className="flex items-center justify-between text-sm">
-              <a
-                href="/auth/forgot-password"
-                className="text-brand-primary hover:underline"
-              >
+              <Link href="/auth/forgot-password" className="text-brand-primary hover:underline">
                 Forgot password?
-              </a>
+              </Link>
             </div>
 
             <Button type="submit" loading={loading} className="w-full">
@@ -101,9 +98,9 @@ export default function LoginPage() {
 
             <p className="text-center text-sm text-text-secondary">
               Don&apos;t have an account?{" "}
-              <a href="/auth/register" className="text-brand-primary hover:underline font-medium">
-                Create one
-              </a>
+              <Link href="/auth/register" className="font-medium text-brand-primary hover:underline">
+                Register
+              </Link>
             </p>
           </form>
         </CardContent>

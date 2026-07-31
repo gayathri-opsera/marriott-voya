@@ -4,6 +4,7 @@ import "./globals.css";
 import { SiteHeader } from "../components/layout/SiteHeader";
 import { SiteFooter } from "../components/layout/SiteFooter";
 import { SkipLink } from "../components/layout/SkipLink";
+import { SessionExpiryBanner } from "../components/auth/SessionExpiryBanner";
 import { ToastProvider } from "../components/ui/Toast";
 import { WebVitalsReporter } from "../components/WebVitalsReporter";
 import { reportWebVitals } from "../lib/vitals";
@@ -27,6 +28,7 @@ export default function RootLayout({
         <WebVitalsReporter />
         <ToastProvider>
           <header>
+            <SessionExpiryBanner />
             <SiteHeader />
           </header>
           <main id="main-content" className="flex-1">

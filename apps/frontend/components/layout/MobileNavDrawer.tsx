@@ -82,7 +82,7 @@ export function MobileNavDrawer({
               <Link
                 href={ROUTES.LOGIN}
                 onClick={() => onOpenChange(false)}
-                className="rounded-md bg-brand-500 px-4 py-3 text-center text-base font-medium text-white hover:bg-brand-600"
+                className="rounded-md bg-brand-primary px-4 py-3 text-center text-base font-medium text-text-inverse hover:bg-brand-600"
               >
                 Login
               </Link>

@@ -53,7 +53,9 @@ export async function* streamChat(
   });
 
   if (!response.ok) {
-    throw new Error(`SSE request failed: ${response.status}`);
+    const err = new Error(`SSE request failed: ${response.status}`) as Error & { status: number };
+    err.status = response.status;
+    throw err;
   }
 
   const reader = response.body?.getReader();
