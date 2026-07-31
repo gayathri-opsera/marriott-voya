@@ -32,6 +32,12 @@ export function OfferCard({ offer, density = "comfortable" }: OfferCardProps): R
   const bookable = isBookable(offer);
   const illustrative = offer.provenance === "ILLUSTRATIVE" || !bookable;
 
+  // Extended fields from HVMI-aware search service
+  const extOffer = offer as UnifiedOffer & { tag?: string; hvmiCollection?: string; hvmiCollectionUrl?: string };
+  const isHvmi = extOffer.tag?.startsWith("HVMI");
+  const isFallback = extOffer.tag?.startsWith("FALLBACK");
+  const hvmiCollection = extOffer.hvmiCollection;
+
   const freshnessVariant =
     offer.freshness === "FRESH"
       ? "freshness-fresh"
@@ -44,10 +50,29 @@ export function OfferCard({ offer, density = "comfortable" }: OfferCardProps): R
       role="article"
       aria-label={`${offer.title}, ${formatMoney(offer.price, displayCurrency, locale)}`}
       className={cn(
-        "relative border border-border-default transition-shadow hover:shadow-md",
+        "relative border transition-shadow hover:shadow-md",
+        isHvmi ? "border-brand-primary/30 bg-brand-primary/3" : "border-border-default",
         illustrative && "opacity-90",
       )}
     >
+      {/* HVMI top-strip indicator */}
+      {isHvmi && (
+        <div className="rounded-t-xl bg-brand-primary px-4 py-1 flex items-center justify-between">
+          <span className="text-xs font-semibold text-white tracking-wide">
+            Homes &amp; Villas by Marriott Bonvoy
+          </span>
+          {hvmiCollection && (
+            <span className="text-xs text-white/80">{hvmiCollection}</span>
+          )}
+        </div>
+      )}
+      {/* Fallback disclosure strip */}
+      {isFallback && (
+        <div className="rounded-t-xl bg-surface-secondary px-4 py-1">
+          <span className="text-xs text-text-secondary">Marriott Hotel Brand — shown because no HVMI villa is available at this exact location</span>
+        </div>
+      )}
+
       {illustrative && (
         <div
           className="pointer-events-none absolute inset-0 z-10 flex items-end rounded-xl bg-surface-default/60"
@@ -65,14 +90,14 @@ export function OfferCard({ offer, density = "comfortable" }: OfferCardProps): R
             <Badge variant={getProvenanceBadgeVariant(offer.provenance) as "default"}>
               {getProvenanceLabel(offer.provenance)}
             </Badge>
-            <Badge variant={freshnessVariant as "default"}>{offer.freshness}</Badge>
+            {offer.freshness && <Badge variant={freshnessVariant as "default"}>{offer.freshness}</Badge>}
             {bookable ? (
               <Badge variant="success">Bookable</Badge>
             ) : (
               <Badge variant="default">Not bookable</Badge>
             )}
           </div>
-          <h3 className="truncate font-semibold text-text-primary">{offer.title}</h3>
+          <h3 className="font-semibold text-text-primary leading-snug">{offer.title}</h3>
           <ExpiryCountdown expiresAt={offer.expiresAt} className="mt-1" />
         </div>
 

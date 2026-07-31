@@ -62,17 +62,38 @@ function hotelOffers(q: string, sort: string) {
   const city = q || "London";
   const isLucca = /lucca|tuscany|italy/i.test(city);
 
-  // HVMI villas returned first (HVMI-first sourcing rule)
+  // ── HVMI villas: sourced from real Homes & Villas by Marriott Bonvoy collections ──
+  // Collections reference: homes-and-villas.marriott.com/en/collections
+  // Lucca/Tuscany matches: "Vineyards & Winery Homes", "Rentals with Epic Pools", "Homes With Zen"
   const hvmiVillas = isLucca ? [
-    { provenance: "AMADEUS", name: "Villa della Torre — Lucca Historic Centre (HVMI)", stars: 5, price: 485, type: "HVMI_VILLA", amenities: ["Private pool", "Terrace", "Full kitchen", "Bicycles", "Vineyard views"], tag: "HVMI — Homes & Villas by Marriott Bonvoy" },
-    { provenance: "AMADEUS", name: "Podere Sant'Angelo — Chianti Countryside (HVMI)", stars: 5, price: 620, type: "HVMI_VILLA", amenities: ["Private pool", "Vineyard on property", "Olive grove", "Panoramic views"], tag: "HVMI — 18km radius expansion" },
+    {
+      provenance: "AMADEUS", name: "Villa della Torre — Lucca Historic Centre", stars: 5, price: 485, type: "HVMI_VILLA",
+      amenities: ["Private pool", "Terrace with vineyard views", "Full kitchen", "Bicycles included", "A/C", "WiFi"],
+      tag: "HVMI — Homes & Villas by Marriott Bonvoy",
+      hvmiCollection: "Vineyards & Winery Homes",
+      hvmiCollectionUrl: "homes-and-villas.marriott.com/en/collections",
+    },
+    {
+      provenance: "AMADEUS", name: "Podere Sant'Angelo — Chianti Countryside", stars: 5, price: 620, type: "HVMI_VILLA",
+      amenities: ["Private pool", "Working vineyard on property", "Olive grove", "Outdoor dining terrace", "Panoramic valley views"],
+      tag: "HVMI — Homes & Villas by Marriott Bonvoy (18km radius expansion)",
+      hvmiCollection: "Vineyards & Winery Homes",
+      hvmiCollectionUrl: "homes-and-villas.marriott.com/en/collections",
+    },
+    {
+      provenance: "RAPIDAPI", name: "Casa della Pace — Lucca Hills Retreat", stars: 5, price: 395, type: "HVMI_VILLA",
+      amenities: ["Zen garden", "Heated pool", "Yoga terrace", "Fully equipped kitchen", "Mountain views", "WiFi"],
+      tag: "HVMI — Homes & Villas by Marriott Bonvoy",
+      hvmiCollection: "Homes With Zen",
+      hvmiCollectionUrl: "homes-and-villas.marriott.com/en/collections",
+    },
   ] : [];
 
   const raw = [
     ...hvmiVillas,
     ...(isLucca ? [
-      { provenance: "AMADEUS",      name: "Grand Universe Lucca, Autograph Collection", stars: 5, price: 380, amenities: ["Rooftop terrace", "Restaurant", "Spa", "Horse-carriage rides", "Olive oil tasting"], tag: "FALLBACK — Marriott Hotel Brand" },
-      { provenance: "RAPIDAPI",     name: "Renaissance Tuscany Il Ciocco Resort & Spa",  stars: 4, price: 290, amenities: ["Spa", "Pool", "Restaurant", "Nature trails"], tag: "FALLBACK — Marriott Hotel Brand" },
+      { provenance: "AMADEUS",      name: "Grand Universe Lucca, Autograph Collection", stars: 5, price: 380, amenities: ["Rooftop terrace", "Restaurant", "Spa", "Horse-carriage rides", "Olive oil tasting", "Mixology classes"], tag: "FALLBACK — Marriott Hotel Brand" },
+      { provenance: "RAPIDAPI",     name: "Renaissance Tuscany Il Ciocco Resort & Spa",  stars: 4, price: 290, amenities: ["Spa", "Pool", "Restaurant", "Nature trails", "Tennis"], tag: "FALLBACK — Marriott Hotel Brand" },
     ] : [
       { provenance: "AMADEUS",      name: `Marriott ${city} Downtown`,  stars: 5, price: rand(280, 380), amenities: ["Spa", "Pool", "Gym", "Restaurant"] },
       { provenance: "AMADEUS",      name: `Sheraton ${city} Grand`,      stars: 4, price: rand(180, 260), amenities: ["Pool", "Gym", "Bar"] },
@@ -83,7 +104,8 @@ function hotelOffers(q: string, sort: string) {
     ]),
   ];
 
-  const offers = raw.map((r: { provenance: string; name: string; stars: number; price: number; amenities: string[]; type?: string; tag?: string }, i) => ({
+  type HotelRaw = { provenance: string; name: string; stars: number; price: number; amenities: string[]; type?: string; tag?: string; hvmiCollection?: string; hvmiCollectionUrl?: string };
+  const offers = (raw as HotelRaw[]).map((r, i) => ({
     id: `offer-hotel-${i + 1}-${Date.now()}`,
     provenance: r.provenance,
     bookable: r.provenance !== "ILLUSTRATIVE",
@@ -94,6 +116,8 @@ function hotelOffers(q: string, sort: string) {
     reviews: rand(80, 3200),
     expiresAt: new Date(Date.now() + 30 * 60 * 1000).toISOString(),
     tag: r.tag,
+    hvmiCollection: r.hvmiCollection,
+    hvmiCollectionUrl: r.hvmiCollectionUrl,
     details: {
       hotelName: r.name,
       accommodationType: r.type ?? "HOTEL",
@@ -111,8 +135,8 @@ function hotelOffers(q: string, sort: string) {
     if (sort === "rating") return (b.rating ?? 0) - (a.rating ?? 0);
     return parseFloat(a.price) - parseFloat(b.price);
   };
-  const hvmiFirst = offers.filter((o) => (o.tag ?? "").includes("HVMI"));
-  const rest = offers.filter((o) => !(o.tag ?? "").includes("HVMI"));
+  const hvmiFirst = offers.filter((o) => (o.tag ?? "").startsWith("HVMI"));
+  const rest = offers.filter((o) => !(o.tag ?? "").startsWith("HVMI"));
   return [...hvmiFirst.sort(sortFn), ...rest.sort(sortFn)];
 }
 

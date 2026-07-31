@@ -222,45 +222,70 @@ function executeTool(name: string, input: Record<string, unknown>): string {
       const nights = Math.max(1, Math.round((new Date(checkOut).getTime() - new Date(checkIn).getTime()) / 86400000));
       const guests = (input["guests"] as number) || 2;
 
+      // Real HVMI collection categories from homes-and-villas.marriott.com/en/collections:
+      // Vineyards & Winery Homes | Homes With Zen | Rentals with Epic Pools |
+      // Trending 2026 Home Rentals | Farmhouses and Barns | Mountainside & Trailside Cabins
       const isLucca = dest.toLowerCase().includes("lucca") || dest.toLowerCase().includes("tuscany");
       if (isLucca) {
         return JSON.stringify({
           source: "HVMI — Homes & Villas by Marriott Bonvoy",
-          sourceUrl: "homes-and-villas.marriott.com/en/collections/tuscany",
-          searchRadius: "Lucca proper + 30km Tuscany radius",
+          sourceUrl: "homes-and-villas.marriott.com/en/collections",
+          collectionsSearched: ["Vineyards & Winery Homes", "Homes With Zen", "Rentals with Epic Pools"],
+          searchRadius: "Lucca proper + 30km Tuscany radius (geographic expansion per sourcing rules)",
           results: [
             {
               id: "hvmi-lucca-001",
               name: "Villa della Torre — Lucca Historic Centre",
               type: "HVMI_VILLA",
-              location: "Lucca, Tuscany — 400m from city walls",
+              hvmiCollection: "Vineyards & Winery Homes",
+              hvmiCollectionUrl: "homes-and-villas.marriott.com/en/collections",
+              location: "Lucca, Tuscany — 400m from Renaissance city walls",
               bedrooms: 3, bathrooms: 2, maxGuests: 6,
-              amenities: ["Private pool", "Terrace with vineyard views", "Full kitchen", "Air conditioning", "WiFi", "Bicycles"],
+              amenities: ["Private pool", "Terrace with vineyard views", "Full kitchen", "A/C", "WiFi", "Bicycles included"],
               pricePerNight: 485, totalPrice: 485 * nights, currency: "USD",
-              bonvoyPointsEligible: "Confirm current HVMI loyalty terms — may vary",
-              checkIn, checkOut, nights,
+              bonvoyPointsEligible: "Points eligibility: confirm current HVMI loyalty terms at booking (may differ from hotel stays)",
+              checkIn, checkOut, nights, guests,
               bookingUrl: "homes-and-villas.marriott.com/en/property/hvmi-lucca-001",
-              images: ["villa-exterior.jpg", "pool.jpg", "historic-view.jpg"],
+              radiusExpansion: false,
+            },
+            {
+              id: "hvmi-lucca-zen-003",
+              name: "Casa della Pace — Lucca Hills Retreat",
+              type: "HVMI_VILLA",
+              hvmiCollection: "Homes With Zen",
+              hvmiCollectionUrl: "homes-and-villas.marriott.com/en/collections",
+              location: "Lucca Hills, Tuscany — 8km from Lucca city centre",
+              bedrooms: 2, bathrooms: 2, maxGuests: 4,
+              amenities: ["Zen garden", "Heated pool", "Yoga terrace", "Full kitchen", "Mountain views", "WiFi"],
+              pricePerNight: 395, totalPrice: 395 * nights, currency: "USD",
+              bonvoyPointsEligible: "Points eligibility: confirm current HVMI loyalty terms at booking",
+              checkIn, checkOut, nights, guests,
+              bookingUrl: "homes-and-villas.marriott.com/en/property/hvmi-lucca-zen-003",
+              radiusExpansion: false,
             },
             {
               id: "hvmi-tuscany-002",
               name: "Podere Sant'Angelo — Chianti Countryside",
               type: "HVMI_VILLA",
-              location: "Montecarlo, Tuscany — 18km from Lucca",
+              hvmiCollection: "Vineyards & Winery Homes",
+              hvmiCollectionUrl: "homes-and-villas.marriott.com/en/collections",
+              location: "Montecarlo, Tuscany — 18km from Lucca (radius expansion disclosed)",
               bedrooms: 4, bathrooms: 3, maxGuests: 8,
-              amenities: ["Private pool", "Vineyard on property", "Olive grove", "Outdoor dining", "Panoramic views", "WiFi"],
+              amenities: ["Private pool", "Working vineyard on property", "Olive grove", "Outdoor dining terrace", "Panoramic valley views", "WiFi"],
               pricePerNight: 620, totalPrice: 620 * nights, currency: "USD",
-              bonvoyPointsEligible: "Confirm current HVMI loyalty terms — may vary",
-              checkIn, checkOut, nights,
-              note: "HVMI radius expansion: 18km from Lucca — disclosed to user per sourcing rules",
+              bonvoyPointsEligible: "Points eligibility: confirm current HVMI loyalty terms at booking",
+              checkIn, checkOut, nights, guests,
+              note: "⚠️ HVMI radius expansion: 18km from Lucca — disclosed to user per sourcing transparency rules",
               bookingUrl: "homes-and-villas.marriott.com/en/property/hvmi-tuscany-002",
+              radiusExpansion: true,
             },
           ],
           fallbackTriggered: false,
-          message: `${isLucca ? "2" : "0"} HVMI properties found near ${dest}`,
+          fallbackNote: "Hotel brands NOT triggered — HVMI has adequate Lucca/Tuscany inventory",
+          message: `3 HVMI properties found near ${dest} across Vineyards & Winery Homes and Homes With Zen collections`,
         });
       }
-      return JSON.stringify({ source: "HVMI", results: [], fallbackTriggered: true, message: "No HVMI inventory found — falling back to Marriott hotel brands" });
+      return JSON.stringify({ source: "HVMI", results: [], fallbackTriggered: true, message: `No HVMI inventory found near ${dest} — recommend falling back to Marriott hotel brands` });
     }
 
     case "search_marriott_hotels": {

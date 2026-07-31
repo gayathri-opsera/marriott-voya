@@ -43,7 +43,7 @@ function applyClientFilters(offers: UnifiedOffer[], filters: Filters): UnifiedOf
 
   // HVMI-first sourcing rule: always pin HVMI properties above fallbacks,
   // then sort within each tier so user sort preferences are preserved.
-  const isHvmi = (o: UnifiedOffer) => typeof (o as { tag?: string }).tag === "string" && ((o as { tag?: string }).tag ?? "").includes("HVMI");
+  const isHvmi = (o: UnifiedOffer) => typeof (o as { tag?: string }).tag === "string" && ((o as { tag?: string }).tag ?? "").startsWith("HVMI");
   const sortFn = (a: UnifiedOffer, b: UnifiedOffer): number => {
     switch (filters.sort) {
       case "price_desc": return Number(b.price) - Number(a.price);
