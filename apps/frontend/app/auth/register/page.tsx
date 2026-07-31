@@ -2,9 +2,7 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { Button } from "../../../components/ui/Button";
-import { Input } from "../../../components/ui/Input";
-import { Card, CardContent, CardHeader, CardTitle } from "../../../components/ui/Card";
+import { Button, Input, Card, CardHeader, CardContent } from "@travel/design-system";
 import { useToast } from "../../../components/ui/Toast";
 import { apiPost } from "../../../lib/api/client";
 import { ApiError } from "../../../lib/api/errors";
@@ -54,9 +52,9 @@ export default function RegisterPage() {
 
   return (
     <div className="flex min-h-[calc(100vh-8rem)] items-center justify-center px-4">
-      <Card className="w-full max-w-md" variant="elevated">
+      <Card className="w-full max-w-md shadow-lg">
         <CardHeader>
-          <CardTitle>Create your account</CardTitle>
+          <h1 className="text-lg font-semibold text-text-primary">Create your account</h1>
           <p className="mt-1 text-sm text-text-secondary">
             Join Voya to book travel with AI-powered recommendations.
           </p>
@@ -64,7 +62,7 @@ export default function RegisterPage() {
         <CardContent>
           <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
             {errors.form && (
-              <div role="alert" className="rounded-md bg-error-light p-3 text-sm text-error">
+              <div role="alert" className="rounded-md bg-surface-subtle p-3 text-sm text-danger">
                 {errors.form}
               </div>
             )}
@@ -75,7 +73,7 @@ export default function RegisterPage() {
               autoComplete="name"
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
-              error={errors.displayName}
+              {...(errors.displayName ? { error: errors.displayName } : {})}
             />
 
             <Input
@@ -84,7 +82,7 @@ export default function RegisterPage() {
               autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              error={errors.email}
+              {...(errors.email ? { error: errors.email } : {})}
               required
             />
 
@@ -94,7 +92,7 @@ export default function RegisterPage() {
               autoComplete="new-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              error={errors.password}
+              {...(errors.password ? { error: errors.password } : {})}
               hint="Must be at least 8 characters"
               required
             />
@@ -105,7 +103,7 @@ export default function RegisterPage() {
 
             <p className="text-center text-sm text-text-secondary">
               Already have an account?{" "}
-              <a href="/auth/login" className="text-brand-500 hover:underline font-medium">
+              <a href="/auth/login" className="text-brand-primary hover:underline font-medium">
                 Sign in
               </a>
             </p>

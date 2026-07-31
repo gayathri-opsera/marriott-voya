@@ -4,9 +4,10 @@ import * as React from "react";
 import { useParams } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "../../../components/ui/Card";
 import { Badge } from "../../../components/ui/Badge";
-import { Button } from "../../../components/ui/Button";
+import { Button as DSButton } from "@travel/design-system";
 import { Skeleton } from "../../../components/ui/Skeleton";
 import { EmptyState } from "../../../components/ui/EmptyState";
+import Link from "next/link";
 import { apiGet } from "../../../lib/api/client";
 import { ApiError } from "../../../lib/api/errors";
 
@@ -128,14 +129,13 @@ export default function ListingDetailPage() {
               )}
             </div>
             <div className="flex flex-col gap-2">
-              <Button
+              <DSButton
                 disabled={!listing.availability.available || !listing.bookable}
-                as="a"
-                href={`/checkout?offerId=${listing.id}`}
+                asChild
                 size="lg"
               >
-                Book now
-              </Button>
+                <Link href={`/checkout?offerId=${listing.id}`}>Book now</Link>
+              </DSButton>
               {!listing.bookable && (
                 <p className="text-xs text-text-secondary text-center">Not available for booking</p>
               )}

@@ -48,7 +48,11 @@ export function isAuthenticated(): boolean {
   return getAccessToken() !== null;
 }
 
-export async function refreshSession(): Promise<boolean> {
+let refreshLock: Promise<boolean> | null = null;
+
+const REFRESH_THRESHOLD_MS = 60_000;
+
+async function performRefresh(): Promise<boolean> {
   try {
     const res = await apiPost<{ accessToken: string; userId: string; expiresIn: number }>(
       "/auth/refresh",
@@ -60,4 +64,30 @@ export async function refreshSession(): Promise<boolean> {
     clearSession();
     return false;
   }
+}
+
+export async function refreshSession(): Promise<boolean> {
+  if (refreshLock) return refreshLock;
+
+  refreshLock = performRefresh().finally(() => {
+    refreshLock = null;
+  });
+
+  return refreshLock;
+}
+
+export async function getSession(): Promise<{ accessToken: string | null; userId: string | null }> {
+  const token = getAccessToken();
+  if (!token) {
+    return { accessToken: null, userId: null };
+  }
+
+  if (state.expiresAt && state.expiresAt - Date.now() <= REFRESH_THRESHOLD_MS) {
+    const refreshed = await refreshSession();
+    if (!refreshed) {
+      return { accessToken: null, userId: null };
+    }
+  }
+
+  return { accessToken: state.accessToken, userId: state.userId };
 }

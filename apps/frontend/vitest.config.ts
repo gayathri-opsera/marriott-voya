@@ -13,6 +13,7 @@ export default defineConfig({
     environmentMatchGlobs: [
       ["test/components/**", "jsdom"],
       ["test/routes/**", "jsdom"],
+      ["test/lib/assistant-stream.test.ts", "jsdom"],
     ],
     setupFiles: ["./test/setup.ts"],
     include: ["test/**/*.test.ts", "test/**/*.test.tsx"],
@@ -27,6 +28,10 @@ export default defineConfig({
       { find: "@travel/contracts/events", replacement: contracts("events/index.ts") },
       { find: "@travel/contracts/errors", replacement: contracts("errors/index.ts") },
       { find: "@travel/contracts", replacement: contracts("index.ts") },
+      {
+        find: "@travel/design-system",
+        replacement: path.resolve(__dirname, "../../packages/design-system/src/index.ts"),
+      },
       { find: "@", replacement: path.resolve(__dirname, ".") },
     ],
   },

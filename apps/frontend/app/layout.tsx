@@ -3,6 +3,7 @@ import React from "react";
 import "./globals.css";
 import { SiteHeader } from "../components/layout/SiteHeader";
 import { SiteFooter } from "../components/layout/SiteFooter";
+import { SkipLink } from "../components/layout/SkipLink";
 import { ToastProvider } from "../components/ui/Toast";
 import { WebVitalsReporter } from "../components/WebVitalsReporter";
 import { reportWebVitals } from "../lib/vitals";
@@ -22,16 +23,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="min-h-screen flex flex-col bg-surface-subtle">
-        <a href="#main-content" className="skip-link">
-          Skip to main content
-        </a>
+        <SkipLink />
         <WebVitalsReporter />
         <ToastProvider>
-          <SiteHeader />
+          <header>
+            <SiteHeader />
+          </header>
           <main id="main-content" className="flex-1">
             {children}
           </main>
-          <SiteFooter />
+          <footer>
+            <SiteFooter />
+          </footer>
         </ToastProvider>
       </body>
     </html>

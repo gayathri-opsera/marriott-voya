@@ -11,7 +11,7 @@ const FOOTER_LINKS = [
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-surface-muted bg-white py-8">
+    <div className="border-t border-surface-muted bg-white py-8">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-text-muted">
@@ -30,6 +30,6 @@ export function SiteFooter() {
           </nav>
         </div>
       </div>
-    </footer>
+    </div>
   );
 }

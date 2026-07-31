@@ -14,8 +14,10 @@ const NAV_LINKS = [
 export function SiteHeader() {
   const pathname = usePathname();
 
+  const showDesignSystemLink = process.env.NODE_ENV === "development";
+
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-surface-muted bg-white/95 backdrop-blur">
+    <div className="sticky top-0 z-40 w-full border-b border-surface-muted bg-white/95 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
         {/* Logo */}
         <Link
@@ -43,6 +45,20 @@ export function SiteHeader() {
               {link.label}
             </Link>
           ))}
+          {showDesignSystemLink && (
+            <Link
+              href="/design-system"
+              aria-current={pathname === "/design-system" ? "page" : undefined}
+              className={cn(
+                "rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                pathname === "/design-system"
+                  ? "bg-brand-50 text-brand-600"
+                  : "text-text-secondary hover:bg-surface-subtle hover:text-text-primary",
+              )}
+            >
+              Design System
+            </Link>
+          )}
         </nav>
 
         {/* Auth + locale area */}
@@ -63,6 +79,6 @@ export function SiteHeader() {
           </Link>
         </div>
       </div>
-    </header>
+    </div>
   );
 }

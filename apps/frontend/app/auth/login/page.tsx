@@ -2,9 +2,7 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { Button } from "../../../components/ui/Button";
-import { Input } from "../../../components/ui/Input";
-import { Card, CardContent, CardHeader, CardTitle } from "../../../components/ui/Card";
+import { Button, Input, Card, CardHeader, CardContent } from "@travel/design-system";
 import { useToast } from "../../../components/ui/Toast";
 import { apiPost } from "../../../lib/api/client";
 import { setSession } from "../../../lib/session";
@@ -53,9 +51,9 @@ export default function LoginPage() {
 
   return (
     <div className="flex min-h-[calc(100vh-8rem)] items-center justify-center px-4">
-      <Card className="w-full max-w-md" variant="elevated">
+      <Card className="w-full max-w-md shadow-lg">
         <CardHeader>
-          <CardTitle>Sign in to Voya</CardTitle>
+          <h1 className="text-lg font-semibold text-text-primary">Sign in to Voya</h1>
           <p className="mt-1 text-sm text-text-secondary">
             Welcome back! Enter your credentials to continue.
           </p>
@@ -63,7 +61,7 @@ export default function LoginPage() {
         <CardContent>
           <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
             {errors.form && (
-              <div role="alert" className="rounded-md bg-error-light p-3 text-sm text-error">
+              <div role="alert" className="rounded-md bg-surface-subtle p-3 text-sm text-danger">
                 {errors.form}
               </div>
             )}
@@ -74,7 +72,7 @@ export default function LoginPage() {
               autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              error={errors.email}
+              {...(errors.email ? { error: errors.email } : {})}
               required
             />
 
@@ -84,14 +82,14 @@ export default function LoginPage() {
               autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              error={errors.password}
+              {...(errors.password ? { error: errors.password } : {})}
               required
             />
 
             <div className="flex items-center justify-between text-sm">
               <a
                 href="/auth/forgot-password"
-                className="text-brand-500 hover:text-brand-600 hover:underline"
+                className="text-brand-primary hover:underline"
               >
                 Forgot password?
               </a>
@@ -103,7 +101,7 @@ export default function LoginPage() {
 
             <p className="text-center text-sm text-text-secondary">
               Don&apos;t have an account?{" "}
-              <a href="/auth/register" className="text-brand-500 hover:underline font-medium">
+              <a href="/auth/register" className="text-brand-primary hover:underline font-medium">
                 Create one
               </a>
             </p>
