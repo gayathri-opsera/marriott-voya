@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import type { UnifiedOffer } from "@travel/contracts/search";
@@ -29,7 +30,7 @@ function PriceHoldBanner({ secondsLeft }: { secondsLeft: number }) {
   return (
     <div
       className="flex items-center justify-between border-b border-amber-500/20 px-4 py-2.5 text-sm"
-      style={{ backgroundColor: "rgba(251,191,36,0.08)" }}
+      style={{ backgroundColor: "var(--voya-amber-f)" }}
     >
       <div className="flex items-center gap-2 text-amber-300">
         <span className="text-xs font-medium">
@@ -56,7 +57,7 @@ function Steps({ current }: { current: CheckoutStep }) {
             <div
               className="flex h-5 w-5 items-center justify-center rounded-full text-xs font-semibold"
               style={{
-                backgroundColor: i < idx ? "#4ade80" : i === idx ? "#c1440e" : "rgba(255,255,255,0.1)",
+                backgroundColor: i < idx ? "var(--voya-green)" : i === idx ? "var(--voya-accent)" : "rgba(255,255,255,0.1)",
                 color: i <= idx ? "white" : "rgba(255,255,255,0.35)",
               }}
             >
@@ -82,14 +83,14 @@ function Steps({ current }: { current: CheckoutStep }) {
 
 function OfferLineBadges({ tag, isLive }: { tag?: string | undefined; isLive: boolean }) {
   const isHvmi = (tag ?? "").startsWith("HVMI");
-  const bg = isHvmi ? "rgba(217,119,6,0.18)" : "rgba(59,130,246,0.18)";
+  const bg = isHvmi ? "var(--voya-amber-f)" : "rgba(59,130,246,0.18)";
   const color = isHvmi ? "#fbbf24" : "#93c5fd";
   const label = isHvmi ? "Homes & Villas" : "Named partner";
   return (
     <div className="mt-0.5 flex items-center gap-2">
       <span className="inline-block rounded px-1.5 py-0.5 text-xs" style={{ backgroundColor: bg, color }}>{label}</span>
-      <span className="inline-flex items-center gap-1 text-xs" style={{ color: isLive ? "#4ade80" : "#fbbf24" }}>
-        <span className="inline-block h-1.5 w-1.5 rounded-full" style={{ backgroundColor: isLive ? "#4ade80" : "#fbbf24" }} />
+      <span className="inline-flex items-center gap-1 text-xs" style={{ color: isLive ? "var(--voya-green)" : "#fbbf24" }}>
+        <span className="inline-block h-1.5 w-1.5 rounded-full" style={{ backgroundColor: isLive ? "var(--voya-green)" : "#fbbf24" }} />
         {isLive ? "Live · re-validated 8s ago" : "Cached · 2m — will re-validate"}
       </span>
     </div>
@@ -167,7 +168,7 @@ export default function CheckoutPage() {
     if (!offer) return;
     setSubmitting(true);
     try {
-      const result = await apiPost<BookingResponse>("/bookings", {
+      const result = await apiPost<BookingResponse>("/api/v1/bookings", {
         offerId: offer.id,
         bookingType: "HOTEL",
         passengers: [{ firstName: traveller.first, lastName: traveller.last, dateOfBirth: "1987-01-01", passportNumber: traveller.passport }],
@@ -193,15 +194,46 @@ export default function CheckoutPage() {
 
   if (loadingOffer) {
     return (
-      <div style={{ backgroundColor: "#14100c", minHeight: "100vh" }} className="flex items-center justify-center">
+      <div style={{ backgroundColor: "var(--voya-bg)", minHeight: "100vh" }} className="flex items-center justify-center">
         <p className="text-white/40 text-sm animate-pulse">Loading your booking…</p>
       </div>
     );
   }
 
+  const isHvmiOffer = ((offer as unknown as {tag?: string})?.tag ?? "").startsWith("HVMI");
+  const villaName = offer?.title ?? "Villa Il Cortile";
+
+  // Pick a photo based on villa name
+  const VILLA_PHOTOS: Record<string, string> = {
+    "Villa della Torre":  "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&q=85&fit=crop",
+    "Podere Sant":        "https://images.unsplash.com/photo-1537640538966-79f369143f8f?w=1200&q=85&fit=crop",
+    "Casa della Pace":    "https://images.unsplash.com/photo-1523531294919-4bcd7c65e216?w=1200&q=85&fit=crop",
+    "Villa Il Cortile":   "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&q=85&fit=crop",
+    "Casale":             "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&q=85&fit=crop",
+    "Villa Sant":         "https://images.unsplash.com/photo-1523531294919-4bcd7c65e216?w=1200&q=85&fit=crop",
+    "Podere il Sole":     "https://images.unsplash.com/photo-1537640538966-79f369143f8f?w=1200&q=85&fit=crop",
+    "Villa dei Colli":    "https://images.unsplash.com/photo-1534430480872-3498386e7856?w=1200&q=85&fit=crop",
+  };
+  const heroPhoto = Object.entries(VILLA_PHOTOS).find(([k]) => villaName.includes(k))?.[1]
+    ?? "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&q=85&fit=crop";
+
   return (
-    <div style={{ backgroundColor: "#14100c", minHeight: "100vh", color: "white" }}>
+    <div style={{ backgroundColor: "var(--voya-bg)", minHeight: "100vh", color: "white" }}>
       <PriceHoldBanner secondsLeft={secondsLeft} />
+
+      {/* Villa hero photo */}
+      {isHvmiOffer && (
+        <div style={{ position: "relative", height: 220, width: "100%", overflow: "hidden" }}>
+          <Image src={heroPhoto} alt={villaName} fill className="object-cover" unoptimized />
+          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 40%, #161826 100%)" }} />
+          <div style={{ position: "absolute", bottom: 20, left: 24 }}>
+            <span style={{ background: "var(--voya-photo-scrim)", backdropFilter: "blur(8px)", color: "var(--voya-accent-lt)", borderRadius: 20, padding: "3px 12px", fontSize: 12, fontWeight: 500 }}>
+              Homes &amp; Villas by Marriott Bonvoy
+            </span>
+            <p className="mt-2 text-xl font-bold text-white">{villaName}</p>
+          </div>
+        </div>
+      )}
 
       <div className="mx-auto max-w-4xl px-4 py-8">
         <h1 className="mb-5 text-2xl font-bold text-white">
@@ -216,7 +248,7 @@ export default function CheckoutPage() {
 
             {/* REVIEW step */}
             {step === "review" && offer && (
-              <div className="rounded-xl border border-white/10 p-5" style={{ backgroundColor: "rgba(255,255,255,0.03)" }}>
+              <div className="rounded-xl border border-white/10 p-5" style={{ backgroundColor: "var(--voya-accent-f1)" }}>
                 <h2 className="mb-4 text-sm font-semibold text-white">What you&apos;re booking</h2>
 
                 {/* Villa line */}
@@ -239,7 +271,7 @@ export default function CheckoutPage() {
                   type="button"
                   onClick={() => setStep("traveler")}
                   className="w-full rounded-lg py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-85"
-                  style={{ backgroundColor: "#c1440e" }}
+                  style={{ backgroundColor: "var(--voya-accent-btn)" }}
                 >
                   Continue to traveller details
                 </button>
@@ -248,7 +280,7 @@ export default function CheckoutPage() {
 
             {/* TRAVELLER step */}
             {step === "traveler" && (
-              <div className="rounded-xl border border-white/10 p-5 space-y-4" style={{ backgroundColor: "rgba(255,255,255,0.03)" }}>
+              <div className="rounded-xl border border-white/10 p-5 space-y-4" style={{ backgroundColor: "var(--voya-accent-f1)" }}>
                 <h2 className="text-sm font-semibold text-white">Lead traveller</h2>
                 <div className="grid grid-cols-2 gap-3">
                   {[
@@ -261,7 +293,7 @@ export default function CheckoutPage() {
                         value={f.value}
                         onChange={e => setTraveller(t => ({ ...t, [f.key]: e.target.value }))}
                         className="w-full rounded border border-white/10 px-3 py-2 text-sm text-white focus:outline-none focus:border-white/30"
-                        style={{ backgroundColor: "rgba(255,255,255,0.06)" }}
+                        style={{ backgroundColor: "var(--voya-surface-3)" }}
                       />
                     </div>
                   ))}
@@ -271,13 +303,13 @@ export default function CheckoutPage() {
                     <label className="block text-xs text-white/40 mb-1">Email for confirmations</label>
                     <input value={traveller.email} onChange={e => setTraveller(t => ({ ...t, email: e.target.value }))}
                       className="w-full rounded border border-white/10 px-3 py-2 text-sm text-white focus:outline-none focus:border-white/30"
-                      style={{ backgroundColor: "rgba(255,255,255,0.06)" }} type="email" />
+                      style={{ backgroundColor: "var(--voya-surface-3)" }} type="email" />
                   </div>
                   <div>
                     <label className="block text-xs text-white/40 mb-1">Mobile</label>
                     <input value={traveller.phone} onChange={e => setTraveller(t => ({ ...t, phone: e.target.value }))}
                       className="w-full rounded border border-red-500/40 px-3 py-2 text-sm text-white focus:outline-none focus:border-red-400"
-                      style={{ backgroundColor: "rgba(255,255,255,0.06)" }} type="tel" />
+                      style={{ backgroundColor: "var(--voya-surface-3)" }} type="tel" />
                     <p className="mt-0.5 text-xs text-red-400">Enter a full mobile number including country code.</p>
                   </div>
                 </div>
@@ -290,7 +322,7 @@ export default function CheckoutPage() {
                       <label className="block text-xs text-white/40 mb-1">{f.label}</label>
                       <input value={f.value} readOnly
                         className="w-full rounded border border-white/10 px-3 py-2 text-sm text-white/50"
-                        style={{ backgroundColor: "rgba(255,255,255,0.04)" }} />
+                        style={{ backgroundColor: "var(--voya-chip-bg)" }} />
                     </div>
                   ))}
                 </div>
@@ -302,7 +334,7 @@ export default function CheckoutPage() {
                   </button>
                   <button type="button" onClick={() => setStep("payment")}
                     className="flex-1 rounded py-2 text-sm font-semibold text-white transition-opacity hover:opacity-85"
-                    style={{ backgroundColor: "#c1440e" }}>
+                    style={{ backgroundColor: "var(--voya-accent-btn)" }}>
                     Continue to payment
                   </button>
                 </div>
@@ -313,7 +345,7 @@ export default function CheckoutPage() {
             {step === "payment" && offer && (
               <form onSubmit={handlePay} className="space-y-5">
                 {/* What you're booking */}
-                <div className="rounded-xl border border-white/10 p-5" style={{ backgroundColor: "rgba(255,255,255,0.03)" }}>
+                <div className="rounded-xl border border-white/10 p-5" style={{ backgroundColor: "var(--voya-accent-f1)" }}>
                   <h2 className="mb-3 text-sm font-semibold text-white">What you&apos;re booking</h2>
                   <div className="space-y-2">
                     <div className="flex items-start gap-3 rounded border border-white/8 p-3" style={{ backgroundColor: "rgba(255,255,255,0.025)" }}>
@@ -341,10 +373,10 @@ export default function CheckoutPage() {
                 </div>
 
                 {/* Payment */}
-                <div className="rounded-xl border border-white/10 p-5 space-y-3" style={{ backgroundColor: "rgba(255,255,255,0.03)" }}>
+                <div className="rounded-xl border border-white/10 p-5 space-y-3" style={{ backgroundColor: "var(--voya-accent-f1)" }}>
                   <h2 className="text-sm font-semibold text-white">Payment</h2>
                   <p className="text-xs text-white/35">Card fields are hosted by our payment provider in an isolated frame. The embedding method and script inventory are unchanged by this redesign.</p>
-                  <div className="rounded border border-white/10 p-4 space-y-3" style={{ backgroundColor: "rgba(255,255,255,0.04)" }}>
+                  <div className="rounded border border-white/10 p-4 space-y-3" style={{ backgroundColor: "var(--voya-chip-bg)" }}>
                     <div>
                       <label className="block text-xs text-white/35 mb-1">Card number</label>
                       <div className="rounded border border-white/10 px-3 py-2 text-sm text-white/40">•••• •••• •••• 4242  hosted field</div>
@@ -374,7 +406,7 @@ export default function CheckoutPage() {
                       type="submit"
                       disabled={submitting || !agreeTerms}
                       className="flex-1 rounded py-2.5 text-sm font-semibold text-white disabled:opacity-40 transition-opacity hover:opacity-85"
-                      style={{ backgroundColor: "#c1440e" }}
+                      style={{ backgroundColor: "var(--voya-accent-btn)" }}
                     >
                       {submitting ? "Processing…" : `Pay EUR ${(villaPrice + carPrice).toLocaleString()}.00`}
                     </button>
@@ -385,7 +417,7 @@ export default function CheckoutPage() {
 
             {/* CONFIRMATION step */}
             {step === "confirmation" && (
-              <div className="rounded-xl border border-white/10 p-5 space-y-4" style={{ backgroundColor: "rgba(255,255,255,0.03)" }}>
+              <div className="rounded-xl border border-white/10 p-5 space-y-4" style={{ backgroundColor: "var(--voya-accent-f1)" }}>
                 <div className="rounded-lg border border-green-500/20 p-3" style={{ backgroundColor: "rgba(34,197,94,0.08)" }}>
                   <p className="text-sm font-medium text-green-400">Booked. Confirmation emails sent to m•••••@example.com</p>
                 </div>
@@ -403,13 +435,13 @@ export default function CheckoutPage() {
                     <tr className="border-b border-white/8">
                       <td className="py-2.5 text-sm text-amber-400">Homes &amp; Villas</td>
                       <td className="py-2.5 text-sm text-white">HV-8842-LUC</td>
-                      <td className="py-2.5"><span className="rounded px-2 py-0.5 text-xs" style={{ backgroundColor: "rgba(34,197,94,0.15)", color: "#4ade80" }}>Confirmed</span></td>
+                      <td className="py-2.5"><span className="rounded px-2 py-0.5 text-xs" style={{ backgroundColor: "rgba(34,197,94,0.15)", color: "var(--voya-green)" }}>Confirmed</span></td>
                       <td className="py-2.5 text-sm text-white">EUR {Number(offer?.price ?? 1648).toLocaleString()}.00</td>
                     </tr>
                     <tr>
                       <td className="py-2.5 text-sm text-sky-400">Partner car supplier</td>
                       <td className="py-2.5 text-sm text-white">CAR-5198T-PSA</td>
-                      <td className="py-2.5"><span className="rounded px-2 py-0.5 text-xs" style={{ backgroundColor: "rgba(251,191,36,0.15)", color: "#fbbf24" }}>Awaiting supplier</span></td>
+                      <td className="py-2.5"><span className="rounded px-2 py-0.5 text-xs" style={{ backgroundColor: "rgba(251,191,36,0.15)", color: "var(--voya-amber)" }}>Awaiting supplier</span></td>
                       <td className="py-2.5 text-sm text-white">EUR {carPrice}.00</td>
                     </tr>
                   </tbody>
@@ -428,7 +460,7 @@ export default function CheckoutPage() {
                       key={card.label}
                       href={card.href}
                       className="rounded-lg border border-white/10 p-3 text-left hover:border-white/25 transition-colors"
-                      style={{ backgroundColor: "rgba(255,255,255,0.03)" }}
+                      style={{ backgroundColor: "var(--voya-accent-f1)" }}
                     >
                       <p className="text-sm font-medium text-white">{card.label}</p>
                       <p className="text-xs text-white/40">{card.desc}</p>
@@ -444,7 +476,7 @@ export default function CheckoutPage() {
 
           {/* ── Right: Order summary ──────────────────────────────────────── */}
           <div className="space-y-3">
-            <div className="rounded-xl border border-white/10 p-4" style={{ backgroundColor: "rgba(255,255,255,0.03)" }}>
+            <div className="rounded-xl border border-white/10 p-4" style={{ backgroundColor: "var(--voya-accent-f1)" }}>
               <h2 className="mb-3 text-sm font-semibold text-white">Order summary</h2>
               <div className="space-y-2 text-sm">
                 {[
@@ -470,7 +502,7 @@ export default function CheckoutPage() {
                 <button
                   type="button"
                   className="mt-4 w-full rounded py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-85"
-                  style={{ backgroundColor: "#c1440e" }}
+                  style={{ backgroundColor: "var(--voya-accent-btn)" }}
                   onClick={() => { const form = document.querySelector("form"); form?.requestSubmit(); }}
                 >
                   Pay EUR {(villaPrice + carPrice + cityTax).toLocaleString()}.00

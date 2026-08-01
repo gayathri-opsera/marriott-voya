@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import type { SearchResponse, UnifiedOffer } from "@travel/contracts/search";
@@ -13,6 +14,23 @@ import { useOnlineStatus } from "../../hooks/useOnlineStatus";
 import type { Filters } from "../../components/search/FilterPanel";
 import type { SearchCriteria } from "../../components/search/SearchCriteriaForm";
 import type { SupplierStatus } from "../../components/search/DegradedResultsBanner";
+
+// Map villa names to Unsplash photos
+const HVMI_PHOTOS: Record<string, string> = {
+  "Villa della Torre":    "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=200&q=75&fit=crop",
+  "Podere Sant'Angelo":   "https://images.unsplash.com/photo-1537640538966-79f369143f8f?w=200&q=75&fit=crop",
+  "Casa della Pace":      "https://images.unsplash.com/photo-1523531294919-4bcd7c65e216?w=200&q=75&fit=crop",
+  "Casale delle Vigne":   "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=200&q=75&fit=crop",
+  "Villa Sant'Anna":      "https://images.unsplash.com/photo-1523531294919-4bcd7c65e216?w=200&q=75&fit=crop",
+  "Podere il Sole":       "https://images.unsplash.com/photo-1537640538966-79f369143f8f?w=200&q=75&fit=crop",
+  "Villa dei Colli":      "https://images.unsplash.com/photo-1534430480872-3498386e7856?w=200&q=75&fit=crop",
+};
+function getHvmiPhoto(name: string): string {
+  for (const [key, url] of Object.entries(HVMI_PHOTOS)) {
+    if (name.toLowerCase().includes(key.toLowerCase()) || key.toLowerCase().includes(name.toLowerCase())) return url;
+  }
+  return "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=200&q=75&fit=crop";
+}
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -42,8 +60,8 @@ type SearchResponseWithSuppliers = SearchResponse & { supplierStatuses?: Supplie
 function SourceBadge({ tag }: { tag?: string | undefined }) {
   const isHvmi    = (tag ?? "").startsWith("HVMI");
   const isFallback = (tag ?? "").startsWith("FALLBACK");
-  const bg    = isHvmi ? "rgba(217,119,6,0.18)" : isFallback ? "rgba(59,130,246,0.18)" : "rgba(34,197,94,0.15)";
-  const color = isHvmi ? "#fbbf24" : isFallback ? "#93c5fd" : "#4ade80";
+  const bg    = isHvmi ? "var(--voya-amber-f)" : isFallback ? "rgba(59,130,246,0.12)" : "rgba(34,197,94,0.1)";
+  const color = isHvmi ? "var(--voya-amber)" : isFallback ? "#93c5fd" : "var(--voya-green)";
   const label = isHvmi ? "Homes & Villas" : isFallback ? "Marriott brand" : "Named partner";
   return (
     <span className="inline-block rounded px-2 py-0.5 text-xs font-medium" style={{ backgroundColor: bg, color }}>
@@ -58,10 +76,10 @@ function FreshnessBadge({ provenance }: { provenance?: string }) {
   const isLive = provenance === "AMADEUS" || provenance === "RAPIDAPI";
   const age    = isLive ? `${Math.floor(Math.random() * 20 + 2)}s` : `${Math.floor(Math.random() * 10 + 2)}m`;
   return (
-    <span className="inline-flex items-center gap-1 text-xs" style={{ color: isLive ? "#4ade80" : "#fbbf24" }}>
+    <span className="inline-flex items-center gap-1 text-xs" style={{ color: isLive ? "var(--voya-green)" : "var(--voya-amber)" }}>
       <span
         className="inline-block h-1.5 w-1.5 rounded-full"
-        style={{ backgroundColor: isLive ? "#4ade80" : "#fbbf24" }}
+        style={{ backgroundColor: isLive ? "var(--voya-green)" : "var(--voya-amber)" }}
       />
       {isLive ? "Live" : "Cached"} · {age}
     </span>
@@ -73,6 +91,7 @@ function FreshnessBadge({ provenance }: { provenance?: string }) {
 function OfferRow({ offer, nights = 4 }: { offer: UnifiedOffer; nights?: number }) {
   const ext = offer as UnifiedOffer & { tag?: string; hvmiCollection?: string; type?: string; cancellationPolicy?: string };
   const isIllustrative = ext.tag === "ILLUSTRATIVE";
+  const isHvmiOffer = (ext.tag ?? "").startsWith("HVMI");
   const name   = "name" in offer.details ? String((offer.details as Record<string, unknown>).name ?? offer.title) : offer.title;
   const type   = "roomType" in offer.details ? String((offer.details as Record<string, unknown>).roomType ?? "") : (ext.type ?? "");
   const dist   = "distanceToCenter" in offer.details ? `${(offer.details as Record<string, unknown>).distanceToCenter} km out` : "";
@@ -88,14 +107,29 @@ function OfferRow({ offer, nights = 4 }: { offer: UnifiedOffer; nights?: number 
       {/* STAY */}
       <td className="py-3 pr-4 pl-3">
         <div className="flex items-center gap-3">
-          <div
-            className="h-10 w-12 shrink-0 rounded"
-            style={{
-              background: `hsl(${(name.charCodeAt(0) * 37) % 360}, 40%, 30%)`,
-            }}
-          />
+          {/* Villa photo (HVMI) or coloured placeholder */}
+          {isHvmiOffer ? (
+            <div style={{ position: "relative", width: 56, height: 40, borderRadius: 6, overflow: "hidden", flexShrink: 0 }}>
+              <Image
+                src={getHvmiPhoto(name)}
+                alt={name}
+                fill
+                sizes="56px"
+                className="object-cover"
+                unoptimized
+              />
+            </div>
+          ) : (
+            <div
+              className="h-10 w-12 shrink-0 rounded"
+              style={{ background: `hsl(${(name.charCodeAt(0) * 37) % 360}, 40%, 30%)` }}
+            />
+          )}
           <div>
             <p className="text-sm font-medium text-white leading-tight">{name}</p>
+            {isHvmiOffer && ext.hvmiCollection && (
+              <p className="text-xs font-medium" style={{ color: "var(--voya-accent-lt)" }}>{ext.hvmiCollection}</p>
+            )}
             <p className="text-xs text-white/40">{type}{dist ? ` · ${dist}` : ""}</p>
             {isIllustrative && (
               <span className="mt-0.5 inline-block text-xs text-amber-400">Illustrative — not bookable</span>
@@ -133,7 +167,7 @@ function OfferRow({ offer, nights = 4 }: { offer: UnifiedOffer; nights?: number 
             <Link
               href={`/checkout?offerId=${offer.id}`}
               className="rounded px-3 py-1 text-xs font-semibold text-white transition-opacity hover:opacity-80"
-              style={{ backgroundColor: "#c1440e" }}
+              style={{ backgroundColor: "var(--voya-accent-btn)" }}
             >
               Reserve
             </Link>
@@ -169,11 +203,11 @@ function DenseFilterPanel({
         <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-white/40">Filter</p>
         {/* Active filter chips */}
         <div className="flex flex-wrap gap-1.5">
-          <span className="inline-flex items-center gap-1 rounded px-2 py-0.5 text-xs text-white/70" style={{ backgroundColor: "rgba(255,255,255,0.08)" }}>
+          <span className="inline-flex items-center gap-1 rounded px-2 py-0.5 text-xs text-white/70" style={{ backgroundColor: "var(--voya-accent-f1)" }}>
             Free cancellation
             <button type="button" className="text-white/40 hover:text-white" aria-label="Remove filter">×</button>
           </span>
-          <span className="inline-flex items-center gap-1 rounded px-2 py-0.5 text-xs text-white/70" style={{ backgroundColor: "rgba(255,255,255,0.08)" }}>
+          <span className="inline-flex items-center gap-1 rounded px-2 py-0.5 text-xs text-white/70" style={{ backgroundColor: "var(--voya-accent-f1)" }}>
             HVMI
             <button type="button" className="text-white/40 hover:text-white" aria-label="Remove filter">×</button>
           </span>
@@ -191,7 +225,7 @@ function DenseFilterPanel({
               defaultValue={filters.minPrice ?? 120}
               onChange={e => { const v = Number(e.target.value); update({ ...(v ? { minPrice: v } : {}) }); }}
               className="w-20 rounded border border-white/10 px-2 py-1 text-sm text-white focus:outline-none focus:border-white/30"
-              style={{ backgroundColor: "rgba(255,255,255,0.06)" }}
+              style={{ backgroundColor: "var(--voya-surface-3)" }}
             />
           </div>
           <div>
@@ -201,7 +235,7 @@ function DenseFilterPanel({
               defaultValue={filters.maxPrice ?? 600}
               onChange={e => { const v = Number(e.target.value); update({ ...(v ? { maxPrice: v } : {}) }); }}
               className="w-20 rounded border border-white/10 px-2 py-1 text-sm text-white focus:outline-none focus:border-white/30"
-              style={{ backgroundColor: "rgba(255,255,255,0.06)" }}
+              style={{ backgroundColor: "var(--voya-surface-3)" }}
             />
           </div>
         </div>
@@ -218,7 +252,7 @@ function DenseFilterPanel({
           ].map(({ label, count }) => (
             <li key={label} className="flex items-center justify-between">
               <label className="flex items-center gap-2 text-xs text-white/60 cursor-pointer">
-                <input type="checkbox" defaultChecked className="accent-[#c1440e]" />
+                <input type="checkbox" defaultChecked className="accent-[var(--voya-accent)]" />
                 {label}
               </label>
               <span className="text-xs text-white/30">{count}</span>
@@ -234,7 +268,7 @@ function DenseFilterPanel({
           {["Any", "Live only", "Hide illustrative"].map(opt => (
             <li key={opt}>
               <label className="flex items-center gap-2 text-xs text-white/60 cursor-pointer">
-                <input type="radio" name="freshness" defaultChecked={opt === "Any"} className="accent-[#c1440e]" />
+                <input type="radio" name="freshness" defaultChecked={opt === "Any"} className="accent-[var(--voya-accent)]" />
                 {opt}
               </label>
             </li>
@@ -249,7 +283,7 @@ function DenseFilterPanel({
           {["Pool", "Walkable to town", "Kitchen", "Parking"].map(a => (
             <li key={a}>
               <label className="flex items-center gap-2 text-xs text-white/60 cursor-pointer">
-                <input type="checkbox" className="accent-[#c1440e]" />
+                <input type="checkbox" className="accent-[var(--voya-accent)]" />
                 {a}
               </label>
             </li>
@@ -327,13 +361,13 @@ export default function SearchPage(): React.JSX.Element {
   const TABS = ["Results", "Waiting", "Empty", "Failed", "Partial", "Offline"] as const;
 
   return (
-    <div style={{ backgroundColor: "#14100c", minHeight: "100vh" }}>
+    <div style={{ backgroundColor: "var(--voya-bg)", minHeight: "100vh" }}>
 
       {/* ── Context bar ────────────────────────────────────────────────────── */}
-      <div className="border-b border-white/8 px-4 py-2" style={{ backgroundColor: "#1c1410" }}>
+      <div className="border-b border-white/8 px-4 py-2" style={{ backgroundColor: "var(--voya-surface-2)" }}>
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">
           <div className="flex items-center gap-2 text-sm text-white/70">
-            <Link href="/" className="font-bold" style={{ color: "#c1440e" }}>voya</Link>
+            <Link href="/" className="font-bold" style={{ color: "var(--voya-accent)" }}>voya</Link>
             <span className="text-white/30">·</span>
             <span className="font-medium text-white">{destination || "Search"}</span>
             {urlState.date && (
@@ -381,8 +415,8 @@ export default function SearchPage(): React.JSX.Element {
                   onClick={() => setActiveTab(tab.toLowerCase() as typeof activeTab)}
                   className="px-4 py-2 text-xs font-medium transition-colors border-b-2 -mb-px"
                   style={{
-                    color: activeTab === tab.toLowerCase() ? "#c1440e" : "rgba(255,255,255,0.4)",
-                    borderColor: activeTab === tab.toLowerCase() ? "#c1440e" : "transparent",
+                    color: activeTab === tab.toLowerCase() ? "var(--voya-accent)" : "rgba(255,255,255,0.4)",
+                    borderColor: activeTab === tab.toLowerCase() ? "var(--voya-accent)" : "transparent",
                   }}
                 >
                   {tab}
@@ -401,7 +435,7 @@ export default function SearchPage(): React.JSX.Element {
               value={sort}
               onChange={e => { setSort(e.target.value); handleFilterChange({ ...filters, sort: e.target.value as Filters["sort"] }); }}
               className="rounded border border-white/10 px-2 py-1 text-xs text-white focus:outline-none"
-              style={{ backgroundColor: "#2a1f18", colorScheme: "dark" }}
+              style={{ backgroundColor: "var(--voya-surface-3)", colorScheme: "dark" }}
             >
               <option value="price_asc">Price: low to high</option>
               <option value="price_desc">Price: high to low</option>
@@ -415,7 +449,7 @@ export default function SearchPage(): React.JSX.Element {
                   onClick={() => setDensity(d.toLowerCase() as typeof density)}
                   className="px-3 py-1 text-xs transition-colors"
                   style={{
-                    backgroundColor: density === d.toLowerCase() ? "#c1440e" : "rgba(255,255,255,0.04)",
+                    backgroundColor: density === d.toLowerCase() ? "var(--voya-accent)" : "rgba(255,255,255,0.04)",
                     color: density === d.toLowerCase() ? "white" : "rgba(255,255,255,0.5)",
                   }}
                 >
@@ -447,7 +481,7 @@ export default function SearchPage(): React.JSX.Element {
                   <div
                     key={i}
                     className="h-16 animate-pulse rounded"
-                    style={{ backgroundColor: "rgba(255,255,255,0.04)", animationDelay: `${i * 80}ms` }}
+                    style={{ backgroundColor: "var(--voya-chip-bg)", animationDelay: `${i * 80}ms` }}
                   />
                 ))}
               </div>
@@ -458,7 +492,7 @@ export default function SearchPage(): React.JSX.Element {
                   type="button"
                   onClick={() => void fetchResults(destination, filters)}
                   className="rounded px-4 py-2 text-sm text-white"
-                  style={{ backgroundColor: "#c1440e" }}
+                  style={{ backgroundColor: "var(--voya-accent-btn)" }}
                 >
                   Try again
                 </button>
@@ -470,7 +504,7 @@ export default function SearchPage(): React.JSX.Element {
             ) : results.length > 0 ? (
               <>
                 <div className="overflow-hidden rounded-xl border border-white/8">
-                  <table className="w-full" style={{ backgroundColor: "rgba(255,255,255,0.02)" }}>
+                  <table className="w-full" style={{ backgroundColor: "var(--voya-accent-f1)" }}>
                     <thead>
                       <tr className="border-b border-white/8">
                         <th className="py-2.5 pl-3 pr-4 text-left text-xs font-semibold uppercase tracking-wider text-white/30">Stay</th>
@@ -508,7 +542,7 @@ export default function SearchPage(): React.JSX.Element {
                 <Link
                   href="/"
                   className="mt-4 inline-block rounded px-4 py-2 text-sm text-white"
-                  style={{ backgroundColor: "#c1440e" }}
+                  style={{ backgroundColor: "var(--voya-accent-btn)" }}
                 >
                   Back to home
                 </Link>

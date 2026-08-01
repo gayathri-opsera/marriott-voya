@@ -7,6 +7,7 @@ import { cn } from "../../lib/utils";
 import { NAV_LINKS, ROUTES } from "../../lib/routes";
 import { clearSession, getSession, isAuthenticated } from "../../lib/session";
 import { MobileNavDrawer } from "./MobileNavDrawer";
+import { ThemeToggle } from "./ThemeToggle";
 
 function isActiveLink(pathname: string, href: string): boolean {
   if (href === ROUTES.HOME) return pathname === ROUTES.HOME;
@@ -35,13 +36,20 @@ export function SiteHeader(): React.JSX.Element {
   };
 
   return (
-    <div className="sticky top-0 z-40 w-full border-b border-white/10 bg-[#1c1410]/95 backdrop-blur">
+    <div
+      className="sticky top-0 z-40 w-full backdrop-blur"
+      style={{
+        background: "var(--voya-nav-bg)",
+        borderBottom: "1px solid var(--voya-nav-border)",
+        transition: "background 0.2s ease, border-color 0.2s ease",
+      }}
+    >
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6">
         {/* Logo */}
         <Link
           href={ROUTES.HOME}
-          className="text-lg font-bold tracking-tight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c1440e]"
-          style={{ color: "#c1440e" }}
+          className="text-lg font-bold tracking-tight focus-visible:outline-none focus-visible:ring-2"
+          style={{ color: "var(--voya-accent)" }}
         >
           voya
         </Link>
@@ -55,11 +63,14 @@ export function SiteHeader(): React.JSX.Element {
                 key={link.href}
                 href={link.href}
                 aria-current={active ? "page" : undefined}
+                style={{
+                  color: active ? "var(--voya-accent)" : "var(--voya-text-3)",
+                  fontWeight: active ? 600 : 400,
+                  borderBottom: active ? "2px solid var(--voya-accent)" : "2px solid transparent",
+                  paddingBottom: 2,
+                }}
                 className={cn(
-                  "rounded px-3 py-1.5 text-sm transition-colors",
-                  active
-                    ? "text-white font-medium"
-                    : "text-white/60 hover:text-white/90 font-normal",
+                  "rounded px-3 py-1.5 text-sm transition-colors hover:text-[var(--voya-text)]",
                 )}
               >
                 {link.label}
@@ -69,11 +80,17 @@ export function SiteHeader(): React.JSX.Element {
         </nav>
 
         {/* Right actions */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
+          {/* Theme toggle — desktop */}
+          <div className="hidden md:block">
+            <ThemeToggle />
+          </div>
+
           {/* Mobile menu */}
           <button
             type="button"
-            className="rounded p-2 text-white/60 hover:text-white md:hidden"
+            className="rounded p-2 md:hidden"
+            style={{ color: "var(--voya-text-3)" }}
             aria-label="Open navigation menu"
             aria-expanded={drawerOpen}
             onClick={() => setDrawerOpen(true)}
@@ -87,13 +104,14 @@ export function SiteHeader(): React.JSX.Element {
                 <button
                   type="button"
                   onClick={handleLogout}
-                  className="rounded px-3 py-1.5 text-sm text-white/60 hover:text-white transition-colors"
+                  className="rounded px-3 py-1.5 text-sm transition-colors"
+                  style={{ color: "var(--voya-text-3)" }}
                 >
                   Sign out
                 </button>
                 <span
                   className="flex h-7 w-7 items-center justify-center rounded-full text-xs font-semibold text-white"
-                  style={{ backgroundColor: "#c1440e" }}
+                  style={{ backgroundColor: "var(--voya-accent)" }}
                   aria-label="User avatar"
                 >
                   {(userId ?? "U").charAt(0).toUpperCase()}
@@ -103,14 +121,15 @@ export function SiteHeader(): React.JSX.Element {
               <>
                 <Link
                   href={ROUTES.LOGIN}
-                  className="rounded px-3 py-1.5 text-sm text-white/60 hover:text-white transition-colors"
+                  className="rounded px-3 py-1.5 text-sm transition-colors"
+                  style={{ color: "var(--voya-text-3)" }}
                 >
                   Sign In
                 </Link>
                 <Link
                   href={ROUTES.REGISTER}
-                  className="rounded px-3 py-1.5 text-sm font-semibold text-white/90 ring-1 ring-amber-500/60 hover:ring-amber-400 transition-colors"
-                  style={{ color: "#f59e0b" }}
+                  className="rounded px-3 py-1.5 text-sm font-semibold transition-colors"
+                  style={{ color: "var(--voya-amber)", border: "1px solid var(--voya-amber)", borderRadius: 8, padding: "5px 12px" }}
                 >
                   Bonvoy Gold
                 </Link>

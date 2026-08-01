@@ -1,14 +1,27 @@
 import express from "express";
 import Anthropic from "@anthropic-ai/sdk";
-import "dotenv/config";
+import path from "path";
+import { fileURLToPath } from "url";
+
+// Load .env from service dir first, then root as fallback
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const { config } = await import("dotenv");
+// src/index.ts lives at services/ai-service/src/ → .env is one level up
+config({ path: path.resolve(__dirname, "../.env") });
+// monorepo root is two levels up from the src/ dir
+config({ path: path.resolve(__dirname, "../../.env") });
 
 const app = express();
 const PORT = process.env["AI_SERVICE_PORT"] ?? 3006;
-const ANTHROPIC_API_KEY = process.env["ANTHROPIC_API_KEY"] ?? "";
 
 app.use(express.json());
 
-const anthropic = new Anthropic({ apiKey: ANTHROPIC_API_KEY });
+// Lazy Anthropic client — reads key at request time so hot-reload works
+function getAnthropicClient(): Anthropic {
+  const key = process.env["ANTHROPIC_API_KEY"] ?? "";
+  return new Anthropic({ apiKey: key });
+}
+const anthropic = getAnthropicClient();
 
 // ─── System prompt encodes all Marriott sourcing rules from the requirements ─
 const SYSTEM_PROMPT = `You are Voya, the AI travel assistant for Marriott Voya.
@@ -519,7 +532,8 @@ const sessions = new Map<string, Session>();
 // ─── Routes ────────────────────────────────────────────────────────────────
 
 app.get("/health", (_req, res) => {
-  res.json({ status: "ok", service: "ai-service", model: "claude-sonnet-4-5", apiKeyConfigured: !!ANTHROPIC_API_KEY && !ANTHROPIC_API_KEY.includes("replace") });
+  const key = process.env["ANTHROPIC_API_KEY"] ?? "";
+  res.json({ status: "ok", service: "ai-service", model: "claude-sonnet-4-5", apiKeyConfigured: !!key && !key.includes("replace") });
 });
 
 app.post("/api/v1/ai/sessions", (_req, res) => {
@@ -562,9 +576,11 @@ app.post("/api/v1/ai/chat", async (req, res) => {
 
   try {
     let totalInput = 0, totalOutput = 0;
+    // Re-read key at request time so a restart isn't needed after .env is added
+    const client = new Anthropic({ apiKey: process.env["ANTHROPIC_API_KEY"] ?? "" });
 
     for (let round = 0; round < 8; round++) {
-      const response = await anthropic.messages.create({
+      const response = await client.messages.create({
         model: "claude-sonnet-4-5",
         max_tokens: 4096,
         system: SYSTEM_PROMPT,
@@ -630,7 +646,8 @@ app.listen(PORT, () => {
   console.log(`[ai-service] listening on :${PORT}`);
   console.log(`  model: claude-sonnet-4-5`);
   console.log(`  tools: ${TRAVEL_TOOLS.length} Marriott agents`);
-  console.log(`  api key: ${ANTHROPIC_API_KEY ? "✓ configured" : "✗ missing"}`);
+  const key = process.env["ANTHROPIC_API_KEY"] ?? "";
+  console.log(`  api key: ${key && !key.includes("replace") ? "✓ configured" : "✗ missing"}`);
 });
 
 export default app;

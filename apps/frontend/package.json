@@ -16,6 +16,7 @@
     "scan-pii": "tsx scripts/scan-pii.ts"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "catalog:",
     "@radix-ui/react-checkbox": "^1.3.11",
     "@radix-ui/react-dialog": "^1.1.23",
     "@radix-ui/react-select": "^2.3.7",
@@ -34,9 +35,6 @@
   },
   "devDependencies": {
     "@axe-core/react": "^4.10.2",
-    "axe-core": "^4.10.3",
-    "jest-axe": "^9.0.0",
-    "tailwindcss-animate": "^1.0.7",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.1.0",
     "@testing-library/user-event": "^14.6.1",
@@ -44,7 +42,10 @@
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.4",
+    "axe-core": "^4.10.3",
+    "jest-axe": "^9.0.0",
     "jsdom": "^25.0.1",
+    "tailwindcss-animate": "^1.0.7",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2",
     "vitest": "^2.1.8"

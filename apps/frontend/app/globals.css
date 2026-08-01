@@ -2,6 +2,76 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─────────────────────────────────────────────────────────────────────────
+   Voya theme tokens — two complete sets.
+   Dark is the default (matches .dark Tailwind class strategy).
+   Light activates when .dark is NOT on <html>.
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* ── Dark theme (default) ── */
+:root {
+  --voya-bg:           #161826;
+  --voya-surface:      #232532;
+  --voya-surface-2:    #1e1f2e;
+  --voya-surface-3:    #1a1c28;
+  --voya-border:       rgba(145, 132, 217, 0.2);
+  --voya-border-sub:   rgba(145, 132, 217, 0.1);
+  --voya-text:         #e9e9ed;
+  --voya-text-2:       #9397ab;
+  --voya-text-3:       #75798c;
+  --voya-text-4:       #595d6c;
+  --voya-accent:       #9184d9;
+  --voya-accent-lt:    #b5abfc;
+  --voya-accent-dk:    #796cbf;
+  --voya-accent-f1:    rgba(145, 132, 217, 0.1);
+  --voya-accent-f2:    rgba(145, 132, 217, 0.2);
+  --voya-accent-btn:   #9184d9;
+  --voya-amber:        #fbbf24;
+  --voya-amber-f:      rgba(251, 191, 36, 0.12);
+  --voya-green:        #4ade80;
+  --voya-red:          #f87171;
+  --voya-photo-scrim:  rgba(22, 24, 38, 0.82);
+  --voya-photo-grad:   rgba(22, 24, 38, 0.85);
+  --voya-nav-bg:       rgba(30, 31, 46, 0.95);
+  --voya-nav-border:   rgba(145, 132, 217, 0.15);
+  --voya-logo:         #9184d9;
+  --voya-chip-bg:      rgba(145, 132, 217, 0.08);
+  --voya-chip-border:  rgba(145, 132, 217, 0.2);
+  --voya-hero-orb:     rgba(145, 132, 217, 0.15);
+}
+
+/* ── Light theme — applied when .dark is removed from <html> ── */
+html:not(.dark) {
+  --voya-bg:           #f2f1fc;
+  --voya-surface:      #ffffff;
+  --voya-surface-2:    #eceaf8;
+  --voya-surface-3:    #e5e3f5;
+  --voya-border:       rgba(90, 75, 168, 0.18);
+  --voya-border-sub:   rgba(90, 75, 168, 0.1);
+  --voya-text:         #1a1830;
+  --voya-text-2:       #524e6a;
+  --voya-text-3:       #7a778f;
+  --voya-text-4:       #9e9cb4;
+  --voya-accent:       #6c5fc7;
+  --voya-accent-lt:    #4f44a5;
+  --voya-accent-dk:    #8272d8;
+  --voya-accent-f1:    rgba(108, 95, 199, 0.08);
+  --voya-accent-f2:    rgba(108, 95, 199, 0.15);
+  --voya-accent-btn:   #6c5fc7;
+  --voya-amber:        #b45309;
+  --voya-amber-f:      rgba(180, 83, 9, 0.1);
+  --voya-green:        #16a34a;
+  --voya-red:          #dc2626;
+  --voya-photo-scrim:  rgba(242, 241, 252, 0.82);
+  --voya-photo-grad:   rgba(242, 241, 252, 0.7);
+  --voya-nav-bg:       rgba(255, 255, 255, 0.96);
+  --voya-nav-border:   rgba(90, 75, 168, 0.12);
+  --voya-logo:         #6c5fc7;
+  --voya-chip-bg:      rgba(108, 95, 199, 0.07);
+  --voya-chip-border:  rgba(108, 95, 199, 0.18);
+  --voya-hero-orb:     rgba(108, 95, 199, 0.1);
+}
+
 @layer base {
   :root {
     /* Surface */
@@ -58,11 +128,12 @@
   }
 
   body {
-    background-color: #14100c;
-    color: #f0ece8;
+    background-color: var(--voya-bg);
+    color: var(--voya-text);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.2s ease, color 0.2s ease;
   }
 
   :focus-visible {

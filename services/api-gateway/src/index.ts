@@ -1,7 +1,13 @@
 import express from "express";
 import cors from "cors";
 import { createProxyMiddleware } from "http-proxy-middleware";
-import "dotenv/config";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const { config } = await import("dotenv");
+config({ path: path.resolve(__dirname, "../.env") });
+config({ path: path.resolve(__dirname, "../../../.env") });
 
 const app = express();
 
@@ -11,15 +17,15 @@ app.use(cors({
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization", "Idempotency-Key"],
 }));
-const PORT = process.env["API_GATEWAY_PORT"] ?? 3000;
+const PORT = process.env["API_GATEWAY_PORT"] ?? 3010;
 
-const AUTH_URL    = `http://localhost:${process.env["AUTH_SERVICE_PORT"] ?? 3002}`;
-const USER_URL    = `http://localhost:${process.env["USER_SERVICE_PORT"] ?? 3001}`;
-const BOOKING_URL = `http://localhost:${process.env["BOOKING_SERVICE_PORT"] ?? 3003}`;
-const PAYMENT_URL = `http://localhost:${process.env["PAYMENT_SERVICE_PORT"] ?? 3004}`;
-const SEARCH_URL  = `http://localhost:${process.env["SEARCH_SERVICE_PORT"] ?? 3005}`;
-const AI_URL      = `http://localhost:${process.env["AI_SERVICE_PORT"] ?? 3006}`;
-const NOTIF_URL   = `http://localhost:${process.env["NOTIFICATION_SERVICE_PORT"] ?? 3008}`;
+const AUTH_URL    = `http://localhost:${process.env["AUTH_SERVICE_PORT"]         ?? 3002}`;
+const USER_URL    = `http://localhost:${process.env["USER_SERVICE_PORT"]          ?? 4001}`;
+const BOOKING_URL = `http://localhost:${process.env["BOOKING_SERVICE_PORT"]       ?? 4003}`;
+const PAYMENT_URL = `http://localhost:${process.env["PAYMENT_SERVICE_PORT"]       ?? 3004}`;
+const SEARCH_URL  = `http://localhost:${process.env["SEARCH_SERVICE_PORT"]        ?? 3005}`;
+const AI_URL      = `http://localhost:${process.env["AI_SERVICE_PORT"]            ?? 3006}`;
+const NOTIF_URL   = `http://localhost:${process.env["NOTIFICATION_SERVICE_PORT"]  ?? 3008}`;
 
 // When Express uses app.use('/prefix', middleware), it strips the prefix
 // from req.url before the proxy sees it. pathRewrite restores it.
