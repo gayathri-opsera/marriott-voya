@@ -1,0 +1,484 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "bonvoyPointsEstimate": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "budgetAmount": {
+      "type": "string"
+    },
+    "budgetCurrency": {
+      "maxLength": 3,
+      "minLength": 3,
+      "type": "string"
+    },
+    "checkIn": {
+      "type": "string"
+    },
+    "checkOut": {
+      "type": "string"
+    },
+    "createdAt": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "days": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "date": {
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "description": {
+                  "type": "string"
+                },
+                "endTime": {
+                  "pattern": "^\\d{2}:\\d{2}$",
+                  "type": "string"
+                },
+                "estimatedCost": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "amount": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "currency": {
+                      "maxLength": 3,
+                      "minLength": 3,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "amount",
+                    "currency"
+                  ],
+                  "type": "object"
+                },
+                "id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "offerRef": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "bookable": {
+                      "type": "boolean"
+                    },
+                    "dataClassification": {
+                      "default": "INTERNAL",
+                      "enum": [
+                        "PUBLIC",
+                        "INTERNAL",
+                        "RESTRICTED",
+                        "CONFIDENTIAL"
+                      ],
+                      "type": "string"
+                    },
+                    "expiresAt": {
+                      "format": "date-time",
+                      "type": "string"
+                    },
+                    "freshnessAt": {
+                      "format": "date-time",
+                      "type": "string"
+                    },
+                    "isMock": {
+                      "type": "boolean"
+                    },
+                    "offerId": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "offerType": {
+                      "enum": [
+                        "ACCOMMODATION",
+                        "FLIGHT",
+                        "ACTIVITY",
+                        "TRANSPORT",
+                        "RESTAURANT",
+                        "NOTE"
+                      ],
+                      "type": "string"
+                    },
+                    "priceSnapshot": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "amount": {
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        "currency": {
+                          "maxLength": 3,
+                          "minLength": 3,
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "amount",
+                        "currency"
+                      ],
+                      "type": "object"
+                    },
+                    "provenance": {
+                      "enum": [
+                        "HVMI",
+                        "MARRIOTT_HOTEL",
+                        "MARRIOTT_PARTNER",
+                        "AMADEUS",
+                        "RAPIDAPI_HOTEL",
+                        "RAPIDAPI_CAR",
+                        "BONVOY_TOURS",
+                        "GOOGLE_PLACES",
+                        "WEATHER_SERVICE",
+                        "ILLUSTRATIVE"
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "offerId",
+                    "provenance",
+                    "freshnessAt",
+                    "bookable",
+                    "isMock",
+                    "offerType"
+                  ],
+                  "type": "object"
+                },
+                "sourceLabel": {
+                  "type": "string"
+                },
+                "startTime": {
+                  "pattern": "^\\d{2}:\\d{2}$",
+                  "type": "string"
+                },
+                "title": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "type": {
+                  "enum": [
+                    "ACCOMMODATION",
+                    "FLIGHT",
+                    "ACTIVITY",
+                    "TRANSPORT",
+                    "RESTAURANT",
+                    "NOTE"
+                  ],
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "type",
+                "title"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "label": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "destination": {
+      "type": "string"
+    },
+    "id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "packingSuggestions": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "selectedAccommodation": {
+      "additionalProperties": false,
+      "properties": {
+        "bookable": {
+          "type": "boolean"
+        },
+        "dataClassification": {
+          "default": "INTERNAL",
+          "enum": [
+            "PUBLIC",
+            "INTERNAL",
+            "RESTRICTED",
+            "CONFIDENTIAL"
+          ],
+          "type": "string"
+        },
+        "expiresAt": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "freshnessAt": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "isMock": {
+          "type": "boolean"
+        },
+        "offerId": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "offerType": {
+          "enum": [
+            "ACCOMMODATION",
+            "FLIGHT",
+            "ACTIVITY",
+            "TRANSPORT",
+            "RESTAURANT",
+            "NOTE"
+          ],
+          "type": "string"
+        },
+        "priceSnapshot": {
+          "additionalProperties": false,
+          "properties": {
+            "amount": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "currency": {
+              "maxLength": 3,
+              "minLength": 3,
+              "type": "string"
+            }
+          },
+          "required": [
+            "amount",
+            "currency"
+          ],
+          "type": "object"
+        },
+        "provenance": {
+          "enum": [
+            "HVMI",
+            "MARRIOTT_HOTEL",
+            "MARRIOTT_PARTNER",
+            "AMADEUS",
+            "RAPIDAPI_HOTEL",
+            "RAPIDAPI_CAR",
+            "BONVOY_TOURS",
+            "GOOGLE_PLACES",
+            "WEATHER_SERVICE",
+            "ILLUSTRATIVE"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "offerId",
+        "provenance",
+        "freshnessAt",
+        "bookable",
+        "isMock",
+        "offerType"
+      ],
+      "type": "object"
+    },
+    "sessionId": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "DRAFT",
+        "ACCEPTED",
+        "EXPIRED"
+      ],
+      "type": "string"
+    },
+    "travelers": {
+      "exclusiveMinimum": 0,
+      "type": "integer"
+    },
+    "unscheduledItems": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "endTime": {
+            "pattern": "^\\d{2}:\\d{2}$",
+            "type": "string"
+          },
+          "estimatedCost": {
+            "additionalProperties": false,
+            "properties": {
+              "amount": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "currency": {
+                "maxLength": 3,
+                "minLength": 3,
+                "type": "string"
+              }
+            },
+            "required": [
+              "amount",
+              "currency"
+            ],
+            "type": "object"
+          },
+          "id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "offerRef": {
+            "additionalProperties": false,
+            "properties": {
+              "bookable": {
+                "type": "boolean"
+              },
+              "dataClassification": {
+                "default": "INTERNAL",
+                "enum": [
+                  "PUBLIC",
+                  "INTERNAL",
+                  "RESTRICTED",
+                  "CONFIDENTIAL"
+                ],
+                "type": "string"
+              },
+              "expiresAt": {
+                "format": "date-time",
+                "type": "string"
+              },
+              "freshnessAt": {
+                "format": "date-time",
+                "type": "string"
+              },
+              "isMock": {
+                "type": "boolean"
+              },
+              "offerId": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "offerType": {
+                "enum": [
+                  "ACCOMMODATION",
+                  "FLIGHT",
+                  "ACTIVITY",
+                  "TRANSPORT",
+                  "RESTAURANT",
+                  "NOTE"
+                ],
+                "type": "string"
+              },
+              "priceSnapshot": {
+                "additionalProperties": false,
+                "properties": {
+                  "amount": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "currency": {
+                    "maxLength": 3,
+                    "minLength": 3,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "amount",
+                  "currency"
+                ],
+                "type": "object"
+              },
+              "provenance": {
+                "enum": [
+                  "HVMI",
+                  "MARRIOTT_HOTEL",
+                  "MARRIOTT_PARTNER",
+                  "AMADEUS",
+                  "RAPIDAPI_HOTEL",
+                  "RAPIDAPI_CAR",
+                  "BONVOY_TOURS",
+                  "GOOGLE_PLACES",
+                  "WEATHER_SERVICE",
+                  "ILLUSTRATIVE"
+                ],
+                "type": "string"
+              }
+            },
+            "required": [
+              "offerId",
+              "provenance",
+              "freshnessAt",
+              "bookable",
+              "isMock",
+              "offerType"
+            ],
+            "type": "object"
+          },
+          "sourceLabel": {
+            "type": "string"
+          },
+          "startTime": {
+            "pattern": "^\\d{2}:\\d{2}$",
+            "type": "string"
+          },
+          "title": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "ACCOMMODATION",
+              "FLIGHT",
+              "ACTIVITY",
+              "TRANSPORT",
+              "RESTAURANT",
+              "NOTE"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "title"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "updatedAt": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "weatherSummary": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "sessionId",
+    "days",
+    "status",
+    "createdAt",
+    "updatedAt"
+  ],
+  "type": "object"
+}

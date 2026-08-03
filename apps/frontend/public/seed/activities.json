@@ -1,0 +1,347 @@
+{
+  "activities": [
+    {
+      "id": "act-001",
+      "destinationId": "tuscany",
+      "type": "attraction",
+      "title": "Lucca City Walls Walk",
+      "description": "Stroll or cycle the Renaissance-era walls encircling Lucca's historic centre.",
+      "duration": "1–2 hours",
+      "distance": "8 km from villa",
+      "price": 0,
+      "currency": "USD",
+      "rating": 4.8,
+      "photoUrl": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=75&fit=crop",
+      "tags": [
+        "Free",
+        "Outdoor",
+        "Family"
+      ]
+    },
+    {
+      "id": "act-002",
+      "destinationId": "tuscany",
+      "type": "tour",
+      "title": "Chianti Wine Tour & Vineyard Visit",
+      "description": "Private guided tour through Chianti Classico with tastings at three estates.",
+      "duration": "Full day",
+      "distance": "40 km",
+      "price": 149,
+      "currency": "USD",
+      "rating": 4.9,
+      "photoUrl": "https://images.unsplash.com/photo-1474722883778-792e7990302f?w=600&q=75&fit=crop",
+      "tags": [
+        "Wine",
+        "Gourmet",
+        "Private"
+      ]
+    },
+    {
+      "id": "act-003",
+      "destinationId": "tuscany",
+      "type": "activity",
+      "title": "Truffle Hunting Experience",
+      "description": "Hunt for prized truffles with an expert guide and trained dogs in the Tuscan hills.",
+      "duration": "Half day",
+      "distance": "15 km",
+      "price": 120,
+      "currency": "USD",
+      "rating": 5,
+      "photoUrl": "https://images.unsplash.com/photo-1623428187969-5da2dcea5ebf?w=600&q=75&fit=crop",
+      "tags": [
+        "Unique",
+        "Culinary",
+        "Outdoors"
+      ]
+    },
+    {
+      "id": "act-004",
+      "destinationId": "tuscany",
+      "type": "restaurant",
+      "title": "Buca di Sant'Antonio",
+      "description": "Lucca's most celebrated restaurant, serving traditional Lucchese dishes since 1782.",
+      "duration": "2–3 hours",
+      "distance": "8 km",
+      "price": 65,
+      "currency": "USD",
+      "rating": 4.7,
+      "photoUrl": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=75&fit=crop",
+      "tags": [
+        "Fine dining",
+        "Historic",
+        "Tuscan"
+      ]
+    },
+    {
+      "id": "act-005",
+      "destinationId": "tuscany",
+      "type": "activity",
+      "title": "Cooking Class in a Farmhouse",
+      "description": "Learn to make pasta, ribollita, and cantucci with a local nonna.",
+      "duration": "3 hours",
+      "distance": "5 km",
+      "price": 95,
+      "currency": "USD",
+      "rating": 4.9,
+      "photoUrl": "https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=600&q=75&fit=crop",
+      "tags": [
+        "Cooking",
+        "Cultural",
+        "Family"
+      ]
+    },
+    {
+      "id": "act-006",
+      "destinationId": "tuscany",
+      "type": "transport",
+      "title": "Private Airport Transfer (Pisa)",
+      "description": "Door-to-door private transfer from Pisa International Airport.",
+      "duration": "45 min",
+      "distance": "35 km",
+      "price": 85,
+      "currency": "USD",
+      "rating": 4.8,
+      "photoUrl": "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=600&q=75&fit=crop",
+      "tags": [
+        "Transfer",
+        "Private"
+      ]
+    },
+    {
+      "id": "act-007",
+      "destinationId": "santorini",
+      "type": "tour",
+      "title": "Caldera Sunset Sailing Cruise",
+      "description": "Private catamaran cruise around the caldera with BBQ dinner and volcanic springs swim.",
+      "duration": "5 hours",
+      "distance": "Oia Marina",
+      "price": 220,
+      "currency": "USD",
+      "rating": 5,
+      "photoUrl": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=75&fit=crop",
+      "tags": [
+        "Sailing",
+        "Sunset",
+        "Private"
+      ]
+    },
+    {
+      "id": "act-008",
+      "destinationId": "santorini",
+      "type": "activity",
+      "title": "Aegean Scuba Diving",
+      "description": "Discover ancient volcanic seabed and Aegean marine life with a PADI instructor.",
+      "duration": "3 hours",
+      "distance": "Perivolos Beach",
+      "price": 130,
+      "currency": "USD",
+      "rating": 4.9,
+      "photoUrl": "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=600&q=75&fit=crop",
+      "tags": [
+        "Diving",
+        "Adventure",
+        "Marine"
+      ]
+    },
+    {
+      "id": "act-009",
+      "destinationId": "santorini",
+      "type": "restaurant",
+      "title": "Sunset Dinner at Kastro Oia",
+      "description": "Michelin-starred Aegean cuisine perched above the famous Oia sunset view.",
+      "duration": "3 hours",
+      "distance": "2 km",
+      "price": 150,
+      "currency": "USD",
+      "rating": 4.8,
+      "photoUrl": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=75&fit=crop",
+      "tags": [
+        "Fine dining",
+        "Views",
+        "Romance"
+      ]
+    },
+    {
+      "id": "act-010",
+      "destinationId": "bali",
+      "type": "activity",
+      "title": "Sunrise Yoga at Tegallalang",
+      "description": "Two-hour dawn yoga session on a private rice terrace platform with master instructor.",
+      "duration": "2 hours",
+      "distance": "5 km",
+      "price": 45,
+      "currency": "USD",
+      "rating": 5,
+      "photoUrl": "https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=600&q=75&fit=crop",
+      "tags": [
+        "Yoga",
+        "Wellness",
+        "Sunrise"
+      ]
+    },
+    {
+      "id": "act-011",
+      "destinationId": "bali",
+      "type": "tour",
+      "title": "Sacred Temple & Jungle Trek",
+      "description": "Full-day guided trek through Bali's sacred temple circuit and jungle valleys.",
+      "duration": "Full day",
+      "distance": "Ubud area",
+      "price": 89,
+      "currency": "USD",
+      "rating": 4.9,
+      "photoUrl": "https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=600&q=75&fit=crop",
+      "tags": [
+        "Culture",
+        "Trekking",
+        "Temples"
+      ]
+    },
+    {
+      "id": "act-012",
+      "destinationId": "bali",
+      "type": "activity",
+      "title": "Balinese Cooking Class",
+      "description": "Morning market visit then cook five traditional dishes with a Balinese family.",
+      "duration": "4 hours",
+      "distance": "3 km",
+      "price": 65,
+      "currency": "USD",
+      "rating": 4.8,
+      "photoUrl": "https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=600&q=75&fit=crop",
+      "tags": [
+        "Cooking",
+        "Cultural",
+        "Market"
+      ]
+    },
+    {
+      "id": "act-013",
+      "destinationId": "maldives",
+      "type": "activity",
+      "title": "Bioluminescent Night Snorkel",
+      "description": "Wade into glowing waters at midnight to swim among bioluminescent plankton.",
+      "duration": "2 hours",
+      "distance": "House reef",
+      "price": 95,
+      "currency": "USD",
+      "rating": 5,
+      "photoUrl": "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=600&q=75&fit=crop",
+      "tags": [
+        "Night",
+        "Unique",
+        "Marine"
+      ]
+    },
+    {
+      "id": "act-014",
+      "destinationId": "maldives",
+      "type": "activity",
+      "title": "Manta Ray Snorkelling",
+      "description": "Guided snorkel session with resident manta rays at Hanifaru Bay.",
+      "duration": "3 hours",
+      "distance": "20 km by speedboat",
+      "price": 180,
+      "currency": "USD",
+      "rating": 5,
+      "photoUrl": "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=600&q=75&fit=crop",
+      "tags": [
+        "Marine",
+        "Wildlife",
+        "Snorkelling"
+      ]
+    },
+    {
+      "id": "act-015",
+      "destinationId": "maldives",
+      "type": "activity",
+      "title": "Dolphin Sunset Cruise",
+      "description": "Complimentary sunset cruise searching for spinner dolphins — included with villa.",
+      "duration": "1.5 hours",
+      "distance": "Lagoon",
+      "price": 0,
+      "currency": "USD",
+      "rating": 4.9,
+      "photoUrl": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=75&fit=crop",
+      "tags": [
+        "Free",
+        "Wildlife",
+        "Sunset"
+      ]
+    },
+    {
+      "id": "act-016",
+      "destinationId": "provence",
+      "type": "tour",
+      "title": "Lavender Fields Guided Bike Ride",
+      "description": "Cycle through the Valensole lavender plateau in peak bloom (June–July).",
+      "duration": "4 hours",
+      "distance": "Valensole 35km",
+      "price": 65,
+      "currency": "USD",
+      "rating": 4.9,
+      "photoUrl": "https://images.unsplash.com/photo-1499678329028-101435549a4e?w=600&q=75&fit=crop",
+      "tags": [
+        "Cycling",
+        "Scenic",
+        "Lavender"
+      ]
+    },
+    {
+      "id": "act-017",
+      "destinationId": "provence",
+      "type": "tour",
+      "title": "Luberon Village Wine Tour",
+      "description": "Visit three Appellation d'Origine Contrôlée domaines in the Luberon hills.",
+      "duration": "Full day",
+      "distance": "Luberon AOC",
+      "price": 130,
+      "currency": "USD",
+      "rating": 4.8,
+      "photoUrl": "https://images.unsplash.com/photo-1474722883778-792e7990302f?w=600&q=75&fit=crop",
+      "tags": [
+        "Wine",
+        "Villages",
+        "Gourmet"
+      ]
+    },
+    {
+      "id": "act-018",
+      "destinationId": "aspen",
+      "type": "activity",
+      "title": "Helicopter Skiing — Elk Mountains",
+      "description": "Private helicopter drops to untouched powder in the Elk Mountain back-country.",
+      "duration": "Full day",
+      "distance": "Departure from lodge",
+      "price": 1200,
+      "currency": "USD",
+      "rating": 5,
+      "photoUrl": "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&q=75&fit=crop",
+      "tags": [
+        "Heli-ski",
+        "Extreme",
+        "Private",
+        "Luxury"
+      ]
+    },
+    {
+      "id": "act-019",
+      "destinationId": "aspen",
+      "type": "tour",
+      "title": "Guided Snowshoe & Wildlife Tour",
+      "description": "Sunset snowshoe tour led by a local naturalist — watch for elk, fox, and bald eagle.",
+      "duration": "3 hours",
+      "distance": "Highlands Bowl trailhead",
+      "price": 85,
+      "currency": "USD",
+      "rating": 4.8,
+      "photoUrl": "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&q=75&fit=crop",
+      "tags": [
+        "Nature",
+        "Wildlife",
+        "Winter"
+      ]
+    }
+  ],
+  "generatedAt": "2026-08-03T13:21:25.974Z"
+}

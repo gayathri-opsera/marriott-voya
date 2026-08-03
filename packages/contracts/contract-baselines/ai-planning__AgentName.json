@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "enum": [
+    "safety",
+    "accommodation",
+    "restaurant",
+    "attraction",
+    "activity",
+    "local_transport",
+    "weather",
+    "flight",
+    "budget",
+    "itinerary"
+  ],
+  "type": "string"
+}

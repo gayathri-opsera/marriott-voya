@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "enum": [
+    "RELEVANCE",
+    "PRICE_ASC",
+    "PRICE_DESC",
+    "RATING_DESC",
+    "HVMI_FIRST",
+    "DISTANCE"
+  ],
+  "type": "string"
+}

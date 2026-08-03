@@ -1,0 +1,397 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "appliedFilters": {
+      "additionalProperties": {},
+      "type": "object"
+    },
+    "cacheStatus": {
+      "enum": [
+        "HIT",
+        "MISS",
+        "BYPASS"
+      ],
+      "type": "string"
+    },
+    "correlationId": {
+      "type": "string"
+    },
+    "fallbackDisclosure": {
+      "type": "string"
+    },
+    "freshness": {
+      "additionalProperties": false,
+      "properties": {
+        "expiresAt": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "fetchedAt": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "label": {
+          "enum": [
+            "FRESH",
+            "STALE",
+            "EXPIRED"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "fetchedAt",
+        "label"
+      ],
+      "type": "object"
+    },
+    "pagination": {
+      "additionalProperties": false,
+      "properties": {
+        "hasNextPage": {
+          "type": "boolean"
+        },
+        "page": {
+          "exclusiveMinimum": 0,
+          "type": "integer"
+        },
+        "pageSize": {
+          "exclusiveMinimum": 0,
+          "type": "integer"
+        },
+        "totalResults": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "page",
+        "pageSize",
+        "totalResults",
+        "hasNextPage"
+      ],
+      "type": "object"
+    },
+    "queryId": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "results": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "amenities": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "availabilitySummary": {
+            "additionalProperties": false,
+            "properties": {
+              "available": {
+                "type": "boolean"
+              },
+              "minStayNights": {
+                "exclusiveMinimum": 0,
+                "type": "integer"
+              },
+              "roomsLeft": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "soldOutMessage": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "available"
+            ],
+            "type": "object"
+          },
+          "bonvoySummary": {
+            "additionalProperties": false,
+            "properties": {
+              "eliteBonus": {
+                "default": false,
+                "type": "boolean"
+              },
+              "pointsForStay": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "pointsPerDollar": {
+                "minimum": 0,
+                "type": "number"
+              },
+              "termsNote": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "pointsForStay"
+            ],
+            "type": "object"
+          },
+          "bookabilityStatus": {
+            "enum": [
+              "BOOKABLE",
+              "ON_REQUEST",
+              "WAITLIST",
+              "ILLUSTRATIVE",
+              "EXPIRED"
+            ],
+            "type": "string"
+          },
+          "expiresAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "geo": {
+            "additionalProperties": false,
+            "properties": {
+              "lat": {
+                "maximum": 90,
+                "minimum": -90,
+                "type": "number"
+              },
+              "lng": {
+                "maximum": 180,
+                "minimum": -180,
+                "type": "number"
+              }
+            },
+            "required": [
+              "lat",
+              "lng"
+            ],
+            "type": "object"
+          },
+          "hvmiCollectionName": {
+            "type": "string"
+          },
+          "hvmiPriority": {
+            "default": false,
+            "type": "boolean"
+          },
+          "images": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "alt": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "category": {
+                  "enum": [
+                    "EXTERIOR",
+                    "ROOM",
+                    "POOL",
+                    "AMENITY",
+                    "DINING",
+                    "OTHER"
+                  ],
+                  "type": "string"
+                },
+                "isPrimary": {
+                  "default": false,
+                  "type": "boolean"
+                },
+                "url": {
+                  "format": "uri",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "url",
+                "alt"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "location": {
+            "additionalProperties": false,
+            "properties": {
+              "address": {
+                "type": "string"
+              },
+              "city": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "country": {
+                "minLength": 2,
+                "type": "string"
+              },
+              "regionLabel": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "city",
+              "country"
+            ],
+            "type": "object"
+          },
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "partnerClassification": {
+            "enum": [
+              "HVMI",
+              "MARRIOTT_LUXURY",
+              "MARRIOTT_PREMIUM",
+              "MARRIOTT_SELECT",
+              "MARRIOTT_PARTNER",
+              "BONVOY_TOURS",
+              "NON_MARRIOTT"
+            ],
+            "type": "string"
+          },
+          "policiesSummary": {
+            "additionalProperties": false,
+            "properties": {
+              "cancellationPolicy": {
+                "type": "string"
+              },
+              "checkInTime": {
+                "type": "string"
+              },
+              "checkOutTime": {
+                "type": "string"
+              },
+              "petsAllowed": {
+                "type": "boolean"
+              },
+              "smokingAllowed": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "cancellationPolicy"
+            ],
+            "type": "object"
+          },
+          "priceSummary": {
+            "additionalProperties": false,
+            "properties": {
+              "currency": {
+                "allOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "pattern": "^[A-Z]{3}$",
+                    "type": "string"
+                  }
+                ]
+              },
+              "discountPct": {
+                "default": 0,
+                "maximum": 100,
+                "minimum": 0,
+                "type": "number"
+              },
+              "nightlyRate": {
+                "pattern": "^\\d+(\\.\\d{1,2})?$",
+                "type": "string"
+              },
+              "rateCode": {
+                "type": "string"
+              },
+              "taxesAndFees": {
+                "pattern": "^\\d+(\\.\\d{1,2})?$",
+                "type": "string"
+              },
+              "totalStay": {
+                "pattern": "^\\d+(\\.\\d{1,2})?$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "nightlyRate",
+              "currency"
+            ],
+            "type": "object"
+          },
+          "propertyId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "propertyType": {
+            "enum": [
+              "HOTEL",
+              "RESORT",
+              "VILLA",
+              "HOME",
+              "APARTMENT",
+              "CRUISE",
+              "PARTNER"
+            ],
+            "type": "string"
+          },
+          "provenance": {
+            "enum": [
+              "HVMI",
+              "AMADEUS",
+              "RAPIDAPI_HOTEL",
+              "ILLUSTRATIVE",
+              "MARRIOTT_DIRECT"
+            ],
+            "type": "string"
+          },
+          "ratingSummary": {
+            "additionalProperties": false,
+            "properties": {
+              "category": {
+                "type": "string"
+              },
+              "reviewCount": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "score": {
+                "maximum": 10,
+                "minimum": 0,
+                "type": "number"
+              }
+            },
+            "required": [
+              "score",
+              "reviewCount"
+            ],
+            "type": "object"
+          },
+          "sourceFetchedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "propertyId",
+          "name",
+          "propertyType",
+          "partnerClassification",
+          "location",
+          "priceSummary",
+          "availabilitySummary",
+          "provenance",
+          "bookabilityStatus",
+          "sourceFetchedAt"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "queryId",
+    "results",
+    "pagination",
+    "freshness"
+  ],
+  "type": "object"
+}

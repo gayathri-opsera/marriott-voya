@@ -1,0 +1,179 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "amenityFilters": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "maxItems": 20,
+      "type": "array"
+    },
+    "bonvoyContext": {
+      "additionalProperties": false,
+      "properties": {
+        "memberId": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "pointsBalance": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "tierLevel": {
+          "enum": [
+            "MEMBER",
+            "SILVER",
+            "GOLD",
+            "PLATINUM",
+            "TITANIUM",
+            "AMBASSADOR"
+          ],
+          "type": "string"
+        },
+        "usePointsForStay": {
+          "default": false,
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "checkIn": {
+      "type": "string"
+    },
+    "checkOut": {
+      "type": "string"
+    },
+    "correlationId": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "currency": {
+      "allOf": [
+        {
+          "type": "string"
+        },
+        {
+          "pattern": "^[A-Z]{3}$",
+          "type": "string"
+        }
+      ],
+      "default": "USD"
+    },
+    "destination": {
+      "maxLength": 200,
+      "minLength": 1,
+      "type": "string"
+    },
+    "geo": {
+      "additionalProperties": false,
+      "properties": {
+        "lat": {
+          "maximum": 90,
+          "minimum": -90,
+          "type": "number"
+        },
+        "lng": {
+          "maximum": 180,
+          "minimum": -180,
+          "type": "number"
+        },
+        "radiusKm": {
+          "default": 25,
+          "exclusiveMinimum": 0,
+          "maximum": 500,
+          "type": "number"
+        }
+      },
+      "required": [
+        "lat",
+        "lng"
+      ],
+      "type": "object"
+    },
+    "guests": {
+      "additionalProperties": false,
+      "properties": {
+        "adults": {
+          "maximum": 20,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "children": {
+          "default": 0,
+          "maximum": 12,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "infants": {
+          "default": 0,
+          "maximum": 4,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "pets": {
+          "default": 0,
+          "maximum": 4,
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "adults"
+      ],
+      "type": "object"
+    },
+    "maxPricePerNight": {
+      "pattern": "^\\d+(\\.\\d{1,2})?$",
+      "type": "string"
+    },
+    "page": {
+      "default": 1,
+      "maximum": 100,
+      "minimum": 1,
+      "type": "integer"
+    },
+    "pageSize": {
+      "default": 20,
+      "maximum": 50,
+      "minimum": 1,
+      "type": "integer"
+    },
+    "propertyTypes": {
+      "items": {
+        "enum": [
+          "HOTEL",
+          "RESORT",
+          "VILLA",
+          "HOME",
+          "APARTMENT",
+          "CRUISE",
+          "PARTNER"
+        ],
+        "type": "string"
+      },
+      "maxItems": 7,
+      "minItems": 1,
+      "type": "array"
+    },
+    "sort": {
+      "default": "HVMI_FIRST",
+      "enum": [
+        "RELEVANCE",
+        "PRICE_ASC",
+        "PRICE_DESC",
+        "RATING_DESC",
+        "HVMI_FIRST",
+        "DISTANCE"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "checkIn",
+    "checkOut",
+    "guests"
+  ],
+  "type": "object"
+}
