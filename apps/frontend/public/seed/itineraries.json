@@ -1,0 +1,299 @@
+{
+  "itineraries": [
+    {
+      "id": "itin-tuscany-2026",
+      "title": "Lucca & Chianti Discovery",
+      "destination": "Lucca, Tuscany, Italy",
+      "checkIn": "2026-08-17",
+      "checkOut": "2026-08-22",
+      "travellers": 2,
+      "status": "DRAFT",
+      "totalUSD": 3890,
+      "bonvoyPoints": 24500,
+      "propertyId": "prop-lucca-001",
+      "propertyTitle": "Villa della Torre — Lucca Historic Centre",
+      "propertyThumbnail": "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&q=85&fit=crop",
+      "days": [
+        {
+          "date": "2026-08-17",
+          "label": "Day 1 — Arrival",
+          "items": [
+            {
+              "time": "14:30",
+              "type": "TRANSPORT",
+              "title": "Pisa Airport → Villa della Torre",
+              "detail": "Private shuttle transfer, 45 min",
+              "price": 85,
+              "currency": "USD",
+              "provenance": "LOCAL"
+            },
+            {
+              "time": "16:00",
+              "type": "ACCOMMODATION",
+              "title": "Check-in: Villa della Torre",
+              "detail": "HVMI — Lucca Historic Centre",
+              "price": 485,
+              "currency": "USD",
+              "bonvoyPoints": 4850,
+              "provenance": "AMADEUS"
+            },
+            {
+              "time": "19:30",
+              "type": "DINING",
+              "title": "Welcome dinner at Buca di Sant'Antonio",
+              "detail": "15-min walk from villa — reservation pre-arranged",
+              "price": 65,
+              "currency": "USD"
+            }
+          ]
+        },
+        {
+          "date": "2026-08-18",
+          "label": "Day 2 — Lucca",
+          "items": [
+            {
+              "time": "09:00",
+              "type": "ACTIVITY",
+              "title": "Lucca City Walls Cycle Ride",
+              "detail": "Bicycles available at villa — 4.2km loop",
+              "price": 0,
+              "provenance": "LOCAL"
+            },
+            {
+              "time": "11:00",
+              "type": "ACTIVITY",
+              "title": "Duomo di Lucca & Torre Guinigi",
+              "detail": "Guided tour, €35pp — booking via Bonvoy Experiences",
+              "price": 35,
+              "currency": "USD",
+              "bonvoyPoints": 175,
+              "provenance": "BONVOY_TOURS"
+            },
+            {
+              "time": "20:00",
+              "type": "DINING",
+              "title": "Osteria Baralla",
+              "detail": "Local trattoria, no reservation needed",
+              "price": 45,
+              "currency": "USD"
+            }
+          ]
+        },
+        {
+          "date": "2026-08-19",
+          "label": "Day 3 — Chianti Wine Tour",
+          "items": [
+            {
+              "time": "09:30",
+              "type": "ACTIVITY",
+              "title": "Chianti Wine Tour",
+              "detail": "Private full-day, three estate lunch — Bonvoy Tours",
+              "price": 149,
+              "currency": "USD",
+              "bonvoyPoints": 1490,
+              "provenance": "BONVOY_TOURS"
+            }
+          ]
+        },
+        {
+          "date": "2026-08-20",
+          "label": "Day 4 — Truffle Hunting & Cooking",
+          "items": [
+            {
+              "time": "08:00",
+              "type": "ACTIVITY",
+              "title": "Truffle Hunting Experience",
+              "detail": "Expert guide + trained dogs, 4-hour morning hunt",
+              "price": 120,
+              "currency": "USD",
+              "bonvoyPoints": 1200,
+              "provenance": "BONVOY_TOURS"
+            },
+            {
+              "time": "14:00",
+              "type": "ACTIVITY",
+              "title": "Farmhouse Cooking Class",
+              "detail": "Afternoon pasta & cantucci class with villa chef",
+              "price": 95,
+              "currency": "USD"
+            }
+          ]
+        },
+        {
+          "date": "2026-08-21",
+          "label": "Day 5 — Pisa & Departure",
+          "items": [
+            {
+              "time": "09:00",
+              "type": "ACTIVITY",
+              "title": "Pisa Day Trip",
+              "detail": "Torre pendente + Piazza dei Miracoli",
+              "price": 25,
+              "currency": "USD"
+            },
+            {
+              "time": "14:00",
+              "type": "TRANSPORT",
+              "title": "Villa → Pisa Airport",
+              "detail": "Private shuttle transfer, 45 min",
+              "price": 85,
+              "currency": "USD"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "itin-santorini-2026",
+      "title": "Santorini Honeymoon",
+      "destination": "Santorini, Greece",
+      "checkIn": "2026-09-02",
+      "checkOut": "2026-09-09",
+      "travellers": 2,
+      "status": "ACCEPTED",
+      "totalUSD": 8950,
+      "bonvoyPoints": 62300,
+      "propertyId": "prop-santorini-001",
+      "propertyTitle": "Oia Cliffside Villa — Santorini",
+      "propertyThumbnail": "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=1200&q=85&fit=crop",
+      "days": [
+        {
+          "date": "2026-09-02",
+          "label": "Day 1 — Arrival in Santorini",
+          "items": [
+            {
+              "time": "15:00",
+              "type": "TRANSPORT",
+              "title": "Santorini Airport → Oia Villa",
+              "detail": "Private taxi transfer, 30 min",
+              "price": 75,
+              "currency": "USD"
+            },
+            {
+              "time": "17:00",
+              "type": "ACCOMMODATION",
+              "title": "Check-in: Oia Cliffside Villa",
+              "detail": "HVMI — Caldera Views, Oia",
+              "price": 890,
+              "currency": "USD",
+              "bonvoyPoints": 8900,
+              "provenance": "AMADEUS"
+            },
+            {
+              "time": "20:30",
+              "type": "DINING",
+              "title": "Sunset dinner at Kastro Oia",
+              "detail": "Michelin-starred — reservation confirmed",
+              "price": 150,
+              "currency": "USD"
+            }
+          ]
+        },
+        {
+          "date": "2026-09-03",
+          "label": "Day 2 — Caldera Cruise",
+          "items": [
+            {
+              "time": "10:00",
+              "type": "ACTIVITY",
+              "title": "Caldera Sailing Cruise",
+              "detail": "Private catamaran — BBQ lunch, hot springs swim",
+              "price": 220,
+              "currency": "USD",
+              "bonvoyPoints": 2200,
+              "provenance": "BONVOY_TOURS"
+            },
+            {
+              "time": "20:00",
+              "type": "DINING",
+              "title": "Dinner at Selene",
+              "detail": "Aegean farm-to-table cuisine, Pyrgos village",
+              "price": 130,
+              "currency": "USD"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "itin-bali-2026",
+      "title": "Bali Wellness Retreat",
+      "destination": "Ubud, Bali, Indonesia",
+      "checkIn": "2026-09-17",
+      "checkOut": "2026-09-24",
+      "travellers": 2,
+      "status": "DRAFT",
+      "totalUSD": 5240,
+      "bonvoyPoints": 37800,
+      "propertyId": "prop-bali-001",
+      "propertyTitle": "Ubud Jungle Villa — Bali",
+      "propertyThumbnail": "https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=1200&q=85&fit=crop",
+      "days": [
+        {
+          "date": "2026-09-17",
+          "label": "Day 1 — Arrival in Ubud",
+          "items": [
+            {
+              "time": "14:00",
+              "type": "TRANSPORT",
+              "title": "Denpasar Airport → Ubud Jungle Villa",
+              "detail": "Private driver, 1h 30min",
+              "price": 55,
+              "currency": "USD"
+            },
+            {
+              "time": "16:00",
+              "type": "ACCOMMODATION",
+              "title": "Check-in: Ubud Jungle Villa",
+              "detail": "HVMI — Ayung River Valley, Ubud",
+              "price": 540,
+              "currency": "USD",
+              "bonvoyPoints": 5400,
+              "provenance": "AMADEUS"
+            },
+            {
+              "time": "18:30",
+              "type": "ACTIVITY",
+              "title": "Welcome sunset yoga session",
+              "detail": "Complimentary — private deck, yoga mat provided",
+              "price": 0
+            }
+          ]
+        },
+        {
+          "date": "2026-09-18",
+          "label": "Day 2 — Sunrise & Rice Terraces",
+          "items": [
+            {
+              "time": "05:30",
+              "type": "ACTIVITY",
+              "title": "Sunrise Yoga at Tegallalang",
+              "detail": "Private session on rice terrace platform",
+              "price": 45,
+              "currency": "USD"
+            },
+            {
+              "time": "10:00",
+              "type": "ACTIVITY",
+              "title": "Balinese Cooking Class",
+              "detail": "Morning market visit + cook 5 dishes",
+              "price": 65,
+              "currency": "USD"
+            },
+            {
+              "time": "17:00",
+              "type": "ACTIVITY",
+              "title": "Sacred Temple Tour",
+              "detail": "Tirta Empul & Goa Gajah with private guide",
+              "price": 89,
+              "currency": "USD",
+              "bonvoyPoints": 890,
+              "provenance": "BONVOY_TOURS"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generatedAt": "2026-08-03T13:21:25.974Z"
+}

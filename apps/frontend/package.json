@@ -13,7 +13,10 @@
     "lint:tokens": "tsx lint/check-token-usage.ts",
     "bundle-check": "tsx scripts/check-bundle-size.ts",
     "check-scripts": "tsx scripts/check-script-origins.ts",
-    "scan-pii": "tsx scripts/scan-pii.ts"
+    "scan-pii": "tsx scripts/scan-pii.ts",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:report": "playwright show-report"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "catalog:",
@@ -36,6 +39,7 @@
   },
   "devDependencies": {
     "@axe-core/react": "^4.10.2",
+    "@playwright/test": "^1.62.1",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.1.0",
     "@testing-library/user-event": "^14.6.1",

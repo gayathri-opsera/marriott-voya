@@ -56,8 +56,10 @@ function groupByDate(items: ItineraryItem[]): Record<string, ItineraryItem[]> {
   }, {} as Record<string, ItineraryItem[]>);
 }
 
-export default function ItineraryDetailPage({ params }: { params: Promise<{ id: string }> }): React.JSX.Element {
-  const { id } = use(params);
+export default function ItineraryDetailPage({ params }: { params: Promise<{ id: string }> | { id: string } }): React.JSX.Element {
+  // Next.js 14 passes params as a plain object in dev, Promise in some builds
+  const resolvedParams = params instanceof Promise ? use(params) : params;
+  const { id } = resolvedParams;
   const [draft, setDraft] = useState<ItineraryDraft | null>(null);
   const [loading, setLoading] = useState(true);
   const [accepting, setAccepting] = useState(false);

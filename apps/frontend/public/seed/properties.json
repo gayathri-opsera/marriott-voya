@@ -1,0 +1,4787 @@
+{
+  "properties": [
+    {
+      "id": "prop-lucca-001",
+      "slug": "villa-della-torre-lucca",
+      "collection": "vineyards-winery",
+      "type": "HVMI_VILLA",
+      "provenance": "AMADEUS",
+      "title": "Villa della Torre — Lucca Historic Centre",
+      "subtitle": "Restored 16th-century villa with private vineyard",
+      "description": "Experience the pinnacle of Tuscan living in this beautifully restored Renaissance villa. Perched above Lucca's iconic terracotta rooftops, the property offers uninterrupted views over working vineyards and the Val d'Orcia valley. Elegant frescoed interiors blend seamlessly with modern comforts: a heated private pool, gourmet kitchen, and wood-burning fireplaces.",
+      "destination": "Lucca, Tuscany",
+      "country": "Italy",
+      "region": "Tuscany",
+      "photos": [
+        "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&q=85&fit=crop",
+        "https://images.unsplash.com/photo-1537640538966-79f369143f8f?w=1200&q=85&fit=crop",
+        "https://images.unsplash.com/photo-1523531294919-4bcd7c65e216?w=1200&q=85&fit=crop",
+        "https://images.unsplash.com/photo-1534430480872-3498386e7856?w=1200&q=85&fit=crop",
+        "https://images.unsplash.com/photo-1613977257363-707ba9348227?w=1200&q=85&fit=crop",
+        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=85&fit=crop"
+      ],
+      "thumbnailUrl": "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&q=85&fit=crop",
+      "price": 485,
+      "currency": "USD",
+      "rating": 4.9,
+      "reviews": 342,
+      "bedrooms": 4,
+      "bathrooms": 3,
+      "maxGuests": 8,
+      "sqm": 320,
+      "amenities": [
+        "Private pool",
+        "Vineyard terrace",
+        "Full kitchen",
+        "Bicycles",
+        "A/C",
+        "WiFi",
+        "Fireplace",
+        "Wine cellar",
+        "BBQ",
+        "Baby cot available"
+      ],
+      "hvmiCollection": "Vineyards & Winery Homes",
+      "bonvoyPointsPerNight": 4850,
+      "bookable": true,
+      "featured": true,
+      "tags": [
+        "HVMI",
+        "Vineyard",
+        "Historic",
+        "Pool",
+        "Family"
+      ],
+      "coordinates": {
+        "lat": 43.8429,
+        "lng": 10.5027
+      },
+      "minimumStay": 3,
+      "availability": [
+        {
+          "date": "2026-08-03",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-08-04",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-08-05",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-08-06",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-08-07",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 655
+        },
+        {
+          "date": "2026-08-08",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 655
+        },
+        {
+          "date": "2026-08-09",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-08-10",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-08-11",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-08-12",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-08-13",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-08-14",
+          "available": false,
+          "isPeakPricing": true,
+          "price": 655
+        },
+        {
+          "date": "2026-08-15",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 655
+        },
+        {
+          "date": "2026-08-16",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-08-17",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-08-18",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-08-19",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-08-20",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-08-21",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 655
+        },
+        {
+          "date": "2026-08-22",
+          "available": false,
+          "isPeakPricing": true,
+          "price": 655
+        },
+        {
+          "date": "2026-08-23",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-08-24",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-08-25",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-08-26",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-08-27",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-08-28",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 655
+        },
+        {
+          "date": "2026-08-29",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 655
+        },
+        {
+          "date": "2026-08-30",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-08-31",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-09-01",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-09-02",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-09-03",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-09-04",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 655
+        },
+        {
+          "date": "2026-09-05",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 655
+        },
+        {
+          "date": "2026-09-06",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-09-07",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-09-08",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-09-09",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-09-10",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-09-11",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 655
+        },
+        {
+          "date": "2026-09-12",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 655
+        },
+        {
+          "date": "2026-09-13",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-09-14",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-09-15",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-09-16",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-09-17",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-09-18",
+          "available": false,
+          "isPeakPricing": true,
+          "price": 655
+        },
+        {
+          "date": "2026-09-19",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 655
+        },
+        {
+          "date": "2026-09-20",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-09-21",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-09-22",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-09-23",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-09-24",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-09-25",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 655
+        },
+        {
+          "date": "2026-09-26",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 655
+        },
+        {
+          "date": "2026-09-27",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-09-28",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-09-29",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-09-30",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-10-01",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-10-02",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 655
+        },
+        {
+          "date": "2026-10-03",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 655
+        },
+        {
+          "date": "2026-10-04",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-10-05",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-10-06",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-10-07",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-10-08",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-10-09",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 655
+        },
+        {
+          "date": "2026-10-10",
+          "available": false,
+          "isPeakPricing": true,
+          "price": 655
+        },
+        {
+          "date": "2026-10-11",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-10-12",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-10-13",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-10-14",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-10-15",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-10-16",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 655
+        },
+        {
+          "date": "2026-10-17",
+          "available": false,
+          "isPeakPricing": true,
+          "price": 655
+        },
+        {
+          "date": "2026-10-18",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-10-19",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-10-20",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-10-21",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-10-22",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-10-23",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 655
+        },
+        {
+          "date": "2026-10-24",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 655
+        },
+        {
+          "date": "2026-10-25",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-10-26",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-10-27",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-10-28",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-10-29",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 485
+        },
+        {
+          "date": "2026-10-30",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 655
+        },
+        {
+          "date": "2026-10-31",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 655
+        }
+      ]
+    },
+    {
+      "id": "prop-lucca-002",
+      "slug": "podere-sant-angelo-chianti",
+      "collection": "vineyards-winery",
+      "type": "HVMI_VILLA",
+      "provenance": "RAPIDAPI",
+      "title": "Podere Sant'Angelo — Chianti Countryside",
+      "subtitle": "Working winery estate with panoramic valley views",
+      "description": "A living postcard. This working winery estate sits at 350m elevation in the heart of Chianti Classico territory. Your private pool overlooks 18 hectares of Sangiovese vines. The cellar stocks 600 bottles — including your host's award-winning Brunello di Montalcino. Complimentary tasting on arrival.",
+      "destination": "Chianti, Tuscany",
+      "country": "Italy",
+      "region": "Tuscany",
+      "photos": [
+        "https://images.unsplash.com/photo-1474722883778-792e7990302f?w=1200&q=85&fit=crop",
+        "https://images.unsplash.com/photo-1537640538966-79f369143f8f?w=1200&q=85&fit=crop",
+        "https://images.unsplash.com/photo-1523531294919-4bcd7c65e216?w=1200&q=85&fit=crop",
+        "https://images.unsplash.com/photo-1534430480872-3498386e7856?w=1200&q=85&fit=crop",
+        "https://images.unsplash.com/photo-1613977257363-707ba9348227?w=1200&q=85&fit=crop",
+        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=85&fit=crop"
+      ],
+      "thumbnailUrl": "https://images.unsplash.com/photo-1474722883778-792e7990302f?w=1200&q=85&fit=crop",
+      "price": 620,
+      "currency": "USD",
+      "rating": 5,
+      "reviews": 187,
+      "bedrooms": 5,
+      "bathrooms": 4,
+      "maxGuests": 10,
+      "sqm": 450,
+      "amenities": [
+        "Private pool",
+        "Working vineyard",
+        "Olive grove",
+        "Outdoor dining terrace",
+        "Wine cellar",
+        "Panoramic valley views",
+        "WiFi",
+        "A/C"
+      ],
+      "hvmiCollection": "Vineyards & Winery Homes",
+      "bonvoyPointsPerNight": 6200,
+      "bookable": true,
+      "featured": true,
+      "tags": [
+        "HVMI",
+        "Vineyard",
+        "Winery",
+        "Luxury",
+        "Pool"
+      ],
+      "coordinates": {
+        "lat": 43.5037,
+        "lng": 11.2748
+      },
+      "minimumStay": 5,
+      "availability": [
+        {
+          "date": "2026-08-03",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-08-04",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-08-05",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-08-06",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-08-07",
+          "available": false,
+          "isPeakPricing": true,
+          "price": 837
+        },
+        {
+          "date": "2026-08-08",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 837
+        },
+        {
+          "date": "2026-08-09",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-08-10",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-08-11",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-08-12",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-08-13",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-08-14",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 837
+        },
+        {
+          "date": "2026-08-15",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 837
+        },
+        {
+          "date": "2026-08-16",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-08-17",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-08-18",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-08-19",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-08-20",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-08-21",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 837
+        },
+        {
+          "date": "2026-08-22",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 837
+        },
+        {
+          "date": "2026-08-23",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-08-24",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-08-25",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-08-26",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-08-27",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-08-28",
+          "available": false,
+          "isPeakPricing": true,
+          "price": 837
+        },
+        {
+          "date": "2026-08-29",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 837
+        },
+        {
+          "date": "2026-08-30",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-08-31",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-09-01",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-09-02",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-09-03",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-09-04",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 837
+        },
+        {
+          "date": "2026-09-05",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 837
+        },
+        {
+          "date": "2026-09-06",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-09-07",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-09-08",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-09-09",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-09-10",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-09-11",
+          "available": false,
+          "isPeakPricing": true,
+          "price": 837
+        },
+        {
+          "date": "2026-09-12",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 837
+        },
+        {
+          "date": "2026-09-13",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-09-14",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-09-15",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-09-16",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-09-17",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-09-18",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 837
+        },
+        {
+          "date": "2026-09-19",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 837
+        },
+        {
+          "date": "2026-09-20",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-09-21",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-09-22",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-09-23",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-09-24",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-09-25",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 837
+        },
+        {
+          "date": "2026-09-26",
+          "available": false,
+          "isPeakPricing": true,
+          "price": 837
+        },
+        {
+          "date": "2026-09-27",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-09-28",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-09-29",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-09-30",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-10-01",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-10-02",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 837
+        },
+        {
+          "date": "2026-10-03",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 837
+        },
+        {
+          "date": "2026-10-04",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-10-05",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-10-06",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-10-07",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-10-08",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-10-09",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 837
+        },
+        {
+          "date": "2026-10-10",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 837
+        },
+        {
+          "date": "2026-10-11",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-10-12",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-10-13",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-10-14",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-10-15",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-10-16",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 837
+        },
+        {
+          "date": "2026-10-17",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 837
+        },
+        {
+          "date": "2026-10-18",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-10-19",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-10-20",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-10-21",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-10-22",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-10-23",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 837
+        },
+        {
+          "date": "2026-10-24",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 837
+        },
+        {
+          "date": "2026-10-25",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-10-26",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-10-27",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-10-28",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-10-29",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 620
+        },
+        {
+          "date": "2026-10-30",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 837
+        },
+        {
+          "date": "2026-10-31",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 837
+        }
+      ]
+    },
+    {
+      "id": "prop-lucca-003",
+      "slug": "casa-della-pace-lucca-hills",
+      "collection": "zen-wellness",
+      "type": "HVMI_VILLA",
+      "provenance": "RAPIDAPI",
+      "title": "Casa della Pace — Lucca Hills Retreat",
+      "subtitle": "Zen-inspired hillside sanctuary with heated pool",
+      "description": "Nestled in the Luccan hills between ancient olive groves and cypress allées, Casa della Pace is a sanctuary of stillness. The certified organic garden, yoga pavilion, and Japanese-inspired bath house attract wellness seekers from across Europe. Stone-flagged terraces, sunken outdoor seating, and a heated pool complete the picture.",
+      "destination": "Lucca Hills, Tuscany",
+      "country": "Italy",
+      "region": "Tuscany",
+      "photos": [
+        "https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=1200&q=85&fit=crop",
+        "https://images.unsplash.com/photo-1523531294919-4bcd7c65e216?w=1200&q=85&fit=crop",
+        "https://images.unsplash.com/photo-1534430480872-3498386e7856?w=1200&q=85&fit=crop",
+        "https://images.unsplash.com/photo-1613977257363-707ba9348227?w=1200&q=85&fit=crop",
+        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=85&fit=crop"
+      ],
+      "thumbnailUrl": "https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=1200&q=85&fit=crop",
+      "price": 395,
+      "currency": "USD",
+      "rating": 4.8,
+      "reviews": 256,
+      "bedrooms": 3,
+      "bathrooms": 2,
+      "maxGuests": 6,
+      "sqm": 210,
+      "amenities": [
+        "Heated pool",
+        "Zen garden",
+        "Yoga pavilion",
+        "Organic vegetable garden",
+        "Mountain views",
+        "WiFi",
+        "A/C"
+      ],
+      "hvmiCollection": "Homes With Zen",
+      "bonvoyPointsPerNight": 3950,
+      "bookable": true,
+      "featured": false,
+      "tags": [
+        "HVMI",
+        "Wellness",
+        "Yoga",
+        "Pool",
+        "Organic"
+      ],
+      "coordinates": {
+        "lat": 43.8791,
+        "lng": 10.4893
+      },
+      "minimumStay": 2,
+      "availability": [
+        {
+          "date": "2026-08-03",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-08-04",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-08-05",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-08-06",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-08-07",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 533
+        },
+        {
+          "date": "2026-08-08",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 533
+        },
+        {
+          "date": "2026-08-09",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-08-10",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-08-11",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-08-12",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-08-13",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-08-14",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 533
+        },
+        {
+          "date": "2026-08-15",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 533
+        },
+        {
+          "date": "2026-08-16",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-08-17",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-08-18",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-08-19",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-08-20",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-08-21",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 533
+        },
+        {
+          "date": "2026-08-22",
+          "available": false,
+          "isPeakPricing": true,
+          "price": 533
+        },
+        {
+          "date": "2026-08-23",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-08-24",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-08-25",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-08-26",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-08-27",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-08-28",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 533
+        },
+        {
+          "date": "2026-08-29",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 533
+        },
+        {
+          "date": "2026-08-30",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-08-31",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-09-01",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-09-02",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-09-03",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-09-04",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 533
+        },
+        {
+          "date": "2026-09-05",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 533
+        },
+        {
+          "date": "2026-09-06",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-09-07",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-09-08",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-09-09",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-09-10",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-09-11",
+          "available": false,
+          "isPeakPricing": true,
+          "price": 533
+        },
+        {
+          "date": "2026-09-12",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 533
+        },
+        {
+          "date": "2026-09-13",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-09-14",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-09-15",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-09-16",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-09-17",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-09-18",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 533
+        },
+        {
+          "date": "2026-09-19",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 533
+        },
+        {
+          "date": "2026-09-20",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-09-21",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-09-22",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-09-23",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-09-24",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-09-25",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 533
+        },
+        {
+          "date": "2026-09-26",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 533
+        },
+        {
+          "date": "2026-09-27",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-09-28",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-09-29",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-09-30",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-10-01",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-10-02",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 533
+        },
+        {
+          "date": "2026-10-03",
+          "available": false,
+          "isPeakPricing": true,
+          "price": 533
+        },
+        {
+          "date": "2026-10-04",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-10-05",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-10-06",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-10-07",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-10-08",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-10-09",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 533
+        },
+        {
+          "date": "2026-10-10",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 533
+        },
+        {
+          "date": "2026-10-11",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-10-12",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-10-13",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-10-14",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-10-15",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-10-16",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 533
+        },
+        {
+          "date": "2026-10-17",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 533
+        },
+        {
+          "date": "2026-10-18",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-10-19",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-10-20",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-10-21",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-10-22",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-10-23",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 533
+        },
+        {
+          "date": "2026-10-24",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 533
+        },
+        {
+          "date": "2026-10-25",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-10-26",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-10-27",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-10-28",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-10-29",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 395
+        },
+        {
+          "date": "2026-10-30",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 533
+        },
+        {
+          "date": "2026-10-31",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 533
+        }
+      ]
+    },
+    {
+      "id": "prop-santorini-001",
+      "slug": "oia-cliffside-villa-santorini",
+      "collection": "oceanfront-retreats",
+      "type": "HVMI_VILLA",
+      "provenance": "AMADEUS",
+      "title": "Oia Cliffside Villa — Santorini",
+      "subtitle": "Iconic caldera views, infinity pool, private sunset terrace",
+      "description": "Carved into the white-washed cliffs of Oia, this iconic cycladic villa commands the most celebrated sunset views in the Mediterranean. The infinity pool appears to merge seamlessly with the caldera waters far below. Vaulted ceilings, cave-carved dining rooms, and a private wine cellar make this the ultimate romantic escape.",
+      "destination": "Oia, Santorini",
+      "country": "Greece",
+      "region": "Cyclades",
+      "photos": [
+        "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=1200&q=85&fit=crop",
+        "https://images.unsplash.com/photo-1539367628448-4bc5c9d171c8?w=1200&q=85&fit=crop",
+        "https://images.unsplash.com/photo-1555993539-1732b0258235?w=1200&q=85&fit=crop",
+        "https://images.unsplash.com/photo-1602002418816-5c0aeef426aa?w=1200&q=85&fit=crop",
+        "https://images.unsplash.com/photo-1522781173861-0db9e74a1899?w=1200&q=85&fit=crop",
+        "https://images.unsplash.com/photo-1509233725247-49e657c54213?w=1200&q=85&fit=crop"
+      ],
+      "thumbnailUrl": "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=1200&q=85&fit=crop",
+      "price": 890,
+      "currency": "USD",
+      "rating": 5,
+      "reviews": 421,
+      "bedrooms": 3,
+      "bathrooms": 3,
+      "maxGuests": 6,
+      "sqm": 280,
+      "amenities": [
+        "Infinity pool",
+        "Caldera views",
+        "Private sunset terrace",
+        "Cave dining room",
+        "Wine cellar",
+        "Butler service",
+        "Daily housekeeping",
+        "WiFi"
+      ],
+      "hvmiCollection": "Oceanfront Retreats",
+      "bonvoyPointsPerNight": 8900,
+      "bookable": true,
+      "featured": true,
+      "tags": [
+        "HVMI",
+        "Oceanfront",
+        "Romance",
+        "Honeymoon",
+        "Sunset views"
+      ],
+      "coordinates": {
+        "lat": 36.4618,
+        "lng": 25.3753
+      },
+      "minimumStay": 4,
+      "availability": [
+        {
+          "date": "2026-08-03",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-08-04",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-08-05",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-08-06",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-08-07",
+          "available": false,
+          "isPeakPricing": true,
+          "price": 1202
+        },
+        {
+          "date": "2026-08-08",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1202
+        },
+        {
+          "date": "2026-08-09",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-08-10",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-08-11",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-08-12",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-08-13",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-08-14",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1202
+        },
+        {
+          "date": "2026-08-15",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1202
+        },
+        {
+          "date": "2026-08-16",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-08-17",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-08-18",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-08-19",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-08-20",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-08-21",
+          "available": false,
+          "isPeakPricing": true,
+          "price": 1202
+        },
+        {
+          "date": "2026-08-22",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1202
+        },
+        {
+          "date": "2026-08-23",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-08-24",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-08-25",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-08-26",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-08-27",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-08-28",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1202
+        },
+        {
+          "date": "2026-08-29",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1202
+        },
+        {
+          "date": "2026-08-30",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-08-31",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-09-01",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-09-02",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-09-03",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-09-04",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1202
+        },
+        {
+          "date": "2026-09-05",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1202
+        },
+        {
+          "date": "2026-09-06",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-09-07",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-09-08",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-09-09",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-09-10",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-09-11",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1202
+        },
+        {
+          "date": "2026-09-12",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1202
+        },
+        {
+          "date": "2026-09-13",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-09-14",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-09-15",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-09-16",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-09-17",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-09-18",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1202
+        },
+        {
+          "date": "2026-09-19",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1202
+        },
+        {
+          "date": "2026-09-20",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-09-21",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-09-22",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-09-23",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-09-24",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-09-25",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1202
+        },
+        {
+          "date": "2026-09-26",
+          "available": false,
+          "isPeakPricing": true,
+          "price": 1202
+        },
+        {
+          "date": "2026-09-27",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-09-28",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-09-29",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-09-30",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-10-01",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-10-02",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1202
+        },
+        {
+          "date": "2026-10-03",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1202
+        },
+        {
+          "date": "2026-10-04",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-10-05",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-10-06",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-10-07",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-10-08",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-10-09",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1202
+        },
+        {
+          "date": "2026-10-10",
+          "available": false,
+          "isPeakPricing": true,
+          "price": 1202
+        },
+        {
+          "date": "2026-10-11",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-10-12",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-10-13",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-10-14",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-10-15",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-10-16",
+          "available": false,
+          "isPeakPricing": true,
+          "price": 1202
+        },
+        {
+          "date": "2026-10-17",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1202
+        },
+        {
+          "date": "2026-10-18",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-10-19",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-10-20",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-10-21",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-10-22",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-10-23",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1202
+        },
+        {
+          "date": "2026-10-24",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1202
+        },
+        {
+          "date": "2026-10-25",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-10-26",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-10-27",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-10-28",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-10-29",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 890
+        },
+        {
+          "date": "2026-10-30",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1202
+        },
+        {
+          "date": "2026-10-31",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1202
+        }
+      ]
+    },
+    {
+      "id": "prop-bali-001",
+      "slug": "ubud-jungle-villa-bali",
+      "collection": "zen-wellness",
+      "type": "HVMI_VILLA",
+      "provenance": "AMADEUS",
+      "title": "Ubud Jungle Villa — Bali",
+      "subtitle": "Rainforest canopy villa with rice terrace views",
+      "description": "Rise with the jungle mist. Perched above the Ayung River gorge and framed by ancient banyan trees, this architect-designed villa channels Balinese spiritual tradition through hand-carved stone and open-sided pavilions. A 15-metre infinity pool overlooks Tegallalang's emerald rice terraces. Your private butler arranges temple visits, rice field treks, and dawn yoga sessions.",
+      "destination": "Ubud, Bali",
+      "country": "Indonesia",
+      "region": "Bali",
+      "photos": [
+        "https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=1200&q=85&fit=crop",
+        "https://images.unsplash.com/photo-1552733407-5d5c46c3bb3b?w=1200&q=85&fit=crop",
+        "https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=1200&q=85&fit=crop",
+        "https://images.unsplash.com/photo-1604999333679-b86d54738315?w=1200&q=85&fit=crop",
+        "https://images.unsplash.com/photo-1555400038-63f5ba517a47?w=1200&q=85&fit=crop",
+        "https://images.unsplash.com/photo-1573843981267-be1999ff37cd?w=1200&q=85&fit=crop"
+      ],
+      "thumbnailUrl": "https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=1200&q=85&fit=crop",
+      "price": 540,
+      "currency": "USD",
+      "rating": 4.9,
+      "reviews": 638,
+      "bedrooms": 4,
+      "bathrooms": 4,
+      "maxGuests": 8,
+      "sqm": 380,
+      "amenities": [
+        "15m infinity pool",
+        "Rice terrace views",
+        "Butler service",
+        "Spa pavilion",
+        "Yoga deck",
+        "Open-air dining",
+        "Daily breakfast"
+      ],
+      "hvmiCollection": "Homes With Zen",
+      "bonvoyPointsPerNight": 5400,
+      "bookable": true,
+      "featured": true,
+      "tags": [
+        "HVMI",
+        "Jungle",
+        "Wellness",
+        "Culture",
+        "Pool"
+      ],
+      "coordinates": {
+        "lat": -8.5069,
+        "lng": 115.2625
+      },
+      "minimumStay": 3,
+      "availability": [
+        {
+          "date": "2026-08-03",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-08-04",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-08-05",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-08-06",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-08-07",
+          "available": false,
+          "isPeakPricing": true,
+          "price": 729
+        },
+        {
+          "date": "2026-08-08",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 729
+        },
+        {
+          "date": "2026-08-09",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-08-10",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-08-11",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-08-12",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-08-13",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-08-14",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 729
+        },
+        {
+          "date": "2026-08-15",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 729
+        },
+        {
+          "date": "2026-08-16",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-08-17",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-08-18",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-08-19",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-08-20",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-08-21",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 729
+        },
+        {
+          "date": "2026-08-22",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 729
+        },
+        {
+          "date": "2026-08-23",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-08-24",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-08-25",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-08-26",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-08-27",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-08-28",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 729
+        },
+        {
+          "date": "2026-08-29",
+          "available": false,
+          "isPeakPricing": true,
+          "price": 729
+        },
+        {
+          "date": "2026-08-30",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-08-31",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-09-01",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-09-02",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-09-03",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-09-04",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 729
+        },
+        {
+          "date": "2026-09-05",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 729
+        },
+        {
+          "date": "2026-09-06",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-09-07",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-09-08",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-09-09",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-09-10",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-09-11",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 729
+        },
+        {
+          "date": "2026-09-12",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 729
+        },
+        {
+          "date": "2026-09-13",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-09-14",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-09-15",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-09-16",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-09-17",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-09-18",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 729
+        },
+        {
+          "date": "2026-09-19",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 729
+        },
+        {
+          "date": "2026-09-20",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-09-21",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-09-22",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-09-23",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-09-24",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-09-25",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 729
+        },
+        {
+          "date": "2026-09-26",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 729
+        },
+        {
+          "date": "2026-09-27",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-09-28",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-09-29",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-09-30",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-10-01",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-10-02",
+          "available": false,
+          "isPeakPricing": true,
+          "price": 729
+        },
+        {
+          "date": "2026-10-03",
+          "available": false,
+          "isPeakPricing": true,
+          "price": 729
+        },
+        {
+          "date": "2026-10-04",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-10-05",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-10-06",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-10-07",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-10-08",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-10-09",
+          "available": false,
+          "isPeakPricing": true,
+          "price": 729
+        },
+        {
+          "date": "2026-10-10",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 729
+        },
+        {
+          "date": "2026-10-11",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-10-12",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-10-13",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-10-14",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-10-15",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-10-16",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 729
+        },
+        {
+          "date": "2026-10-17",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 729
+        },
+        {
+          "date": "2026-10-18",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-10-19",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-10-20",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-10-21",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-10-22",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-10-23",
+          "available": false,
+          "isPeakPricing": true,
+          "price": 729
+        },
+        {
+          "date": "2026-10-24",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 729
+        },
+        {
+          "date": "2026-10-25",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-10-26",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-10-27",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-10-28",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-10-29",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 540
+        },
+        {
+          "date": "2026-10-30",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 729
+        },
+        {
+          "date": "2026-10-31",
+          "available": false,
+          "isPeakPricing": true,
+          "price": 729
+        }
+      ]
+    },
+    {
+      "id": "prop-maldives-001",
+      "slug": "overwater-villa-north-male-atoll",
+      "collection": "oceanfront-retreats",
+      "type": "HVMI_VILLA",
+      "provenance": "RAPIDAPI",
+      "title": "Overwater Villa — North Malé Atoll",
+      "subtitle": "Glass-floor villa above the Indian Ocean lagoon",
+      "description": "Wake to the sound of the Indian Ocean lapping beneath your villa's glass floor panels. This 320 m² overwater sanctuary features a private plunge pool cantilevered over the turquoise lagoon, a retractable sun deck, and direct water access via your own private ladder. Complimentary sunset dolphin cruise included.",
+      "destination": "North Malé Atoll, Maldives",
+      "country": "Maldives",
+      "region": "North Malé Atoll",
+      "photos": [
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&q=85&fit=crop",
+        "https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=1200&q=85&fit=crop",
+        "https://images.unsplash.com/photo-1540202404-1b927e27fa8b?w=1200&q=85&fit=crop",
+        "https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?w=1200&q=85&fit=crop",
+        "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=1200&q=85&fit=crop",
+        "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200&q=85&fit=crop"
+      ],
+      "thumbnailUrl": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&q=85&fit=crop",
+      "price": 1850,
+      "currency": "USD",
+      "rating": 5,
+      "reviews": 294,
+      "bedrooms": 2,
+      "bathrooms": 2,
+      "maxGuests": 4,
+      "sqm": 320,
+      "amenities": [
+        "Private plunge pool",
+        "Glass floor panels",
+        "Direct ocean access",
+        "Sunset cruise",
+        "Butler service",
+        "Overwater deck",
+        "Snorkelling equipment"
+      ],
+      "hvmiCollection": "Oceanfront Retreats",
+      "bonvoyPointsPerNight": 18500,
+      "bookable": true,
+      "featured": true,
+      "tags": [
+        "HVMI",
+        "Overwater",
+        "Luxury",
+        "Romance",
+        "Honeymoon"
+      ],
+      "coordinates": {
+        "lat": 4.1755,
+        "lng": 73.5093
+      },
+      "minimumStay": 5,
+      "availability": [
+        {
+          "date": "2026-08-03",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-08-04",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-08-05",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-08-06",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-08-07",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 2498
+        },
+        {
+          "date": "2026-08-08",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 2498
+        },
+        {
+          "date": "2026-08-09",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-08-10",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-08-11",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-08-12",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-08-13",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-08-14",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 2498
+        },
+        {
+          "date": "2026-08-15",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 2498
+        },
+        {
+          "date": "2026-08-16",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-08-17",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-08-18",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-08-19",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-08-20",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-08-21",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 2498
+        },
+        {
+          "date": "2026-08-22",
+          "available": false,
+          "isPeakPricing": true,
+          "price": 2498
+        },
+        {
+          "date": "2026-08-23",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-08-24",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-08-25",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-08-26",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-08-27",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-08-28",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 2498
+        },
+        {
+          "date": "2026-08-29",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 2498
+        },
+        {
+          "date": "2026-08-30",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-08-31",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-09-01",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-09-02",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-09-03",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-09-04",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 2498
+        },
+        {
+          "date": "2026-09-05",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 2498
+        },
+        {
+          "date": "2026-09-06",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-09-07",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-09-08",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-09-09",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-09-10",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-09-11",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 2498
+        },
+        {
+          "date": "2026-09-12",
+          "available": false,
+          "isPeakPricing": true,
+          "price": 2498
+        },
+        {
+          "date": "2026-09-13",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-09-14",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-09-15",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-09-16",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-09-17",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-09-18",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 2498
+        },
+        {
+          "date": "2026-09-19",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 2498
+        },
+        {
+          "date": "2026-09-20",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-09-21",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-09-22",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-09-23",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-09-24",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-09-25",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 2498
+        },
+        {
+          "date": "2026-09-26",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 2498
+        },
+        {
+          "date": "2026-09-27",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-09-28",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-09-29",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-09-30",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-10-01",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-10-02",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 2498
+        },
+        {
+          "date": "2026-10-03",
+          "available": false,
+          "isPeakPricing": true,
+          "price": 2498
+        },
+        {
+          "date": "2026-10-04",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-10-05",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-10-06",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-10-07",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-10-08",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-10-09",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 2498
+        },
+        {
+          "date": "2026-10-10",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 2498
+        },
+        {
+          "date": "2026-10-11",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-10-12",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-10-13",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-10-14",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-10-15",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-10-16",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 2498
+        },
+        {
+          "date": "2026-10-17",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 2498
+        },
+        {
+          "date": "2026-10-18",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-10-19",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-10-20",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-10-21",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-10-22",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-10-23",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 2498
+        },
+        {
+          "date": "2026-10-24",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 2498
+        },
+        {
+          "date": "2026-10-25",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-10-26",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-10-27",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-10-28",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-10-29",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1850
+        },
+        {
+          "date": "2026-10-30",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 2498
+        },
+        {
+          "date": "2026-10-31",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 2498
+        }
+      ]
+    },
+    {
+      "id": "prop-provence-001",
+      "slug": "mas-des-lavandes-luberon",
+      "collection": "vineyards-winery",
+      "type": "HVMI_VILLA",
+      "provenance": "AMADEUS",
+      "title": "Mas des Lavandes — Luberon",
+      "subtitle": "Stone farmhouse amid Provence lavender fields",
+      "description": "A mas (Provençal stone farmhouse) perfectly preserved from the 18th century, now lovingly restored into a modern sanctuary. Set between rows of purple lavender and ancient rosemary hedges in the Luberon Natural Park. The heated saltwater pool overlooks Mont Ventoux. Chef's kitchen, pétanque court, and outdoor stone fireplace.",
+      "destination": "Luberon, Provence",
+      "country": "France",
+      "region": "Provence",
+      "photos": [
+        "https://images.unsplash.com/photo-1499678329028-101435549a4e?w=1200&q=85&fit=crop",
+        "https://images.unsplash.com/photo-1596178060810-72f53ce9a65c?w=1200&q=85&fit=crop",
+        "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&q=85&fit=crop",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200&q=85&fit=crop",
+        "https://images.unsplash.com/photo-1533050487297-09b450131914?w=1200&q=85&fit=crop",
+        "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=1200&q=85&fit=crop"
+      ],
+      "thumbnailUrl": "https://images.unsplash.com/photo-1499678329028-101435549a4e?w=1200&q=85&fit=crop",
+      "price": 560,
+      "currency": "USD",
+      "rating": 4.8,
+      "reviews": 178,
+      "bedrooms": 5,
+      "bathrooms": 4,
+      "maxGuests": 10,
+      "sqm": 410,
+      "amenities": [
+        "Heated saltwater pool",
+        "Lavender gardens",
+        "Pétanque court",
+        "Chef's kitchen",
+        "Stone fireplace",
+        "Wine cellar",
+        "WiFi",
+        "A/C"
+      ],
+      "hvmiCollection": "Vineyards & Winery Homes",
+      "bonvoyPointsPerNight": 5600,
+      "bookable": true,
+      "featured": false,
+      "tags": [
+        "HVMI",
+        "Heritage",
+        "Garden",
+        "Pool",
+        "Family"
+      ],
+      "coordinates": {
+        "lat": 43.8441,
+        "lng": 5.3499
+      },
+      "minimumStay": 5,
+      "availability": [
+        {
+          "date": "2026-08-03",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-08-04",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-08-05",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-08-06",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-08-07",
+          "available": false,
+          "isPeakPricing": true,
+          "price": 756
+        },
+        {
+          "date": "2026-08-08",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 756
+        },
+        {
+          "date": "2026-08-09",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-08-10",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-08-11",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-08-12",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-08-13",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-08-14",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 756
+        },
+        {
+          "date": "2026-08-15",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 756
+        },
+        {
+          "date": "2026-08-16",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-08-17",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-08-18",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-08-19",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-08-20",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-08-21",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 756
+        },
+        {
+          "date": "2026-08-22",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 756
+        },
+        {
+          "date": "2026-08-23",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-08-24",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-08-25",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-08-26",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-08-27",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-08-28",
+          "available": false,
+          "isPeakPricing": true,
+          "price": 756
+        },
+        {
+          "date": "2026-08-29",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 756
+        },
+        {
+          "date": "2026-08-30",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-08-31",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-09-01",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-09-02",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-09-03",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-09-04",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 756
+        },
+        {
+          "date": "2026-09-05",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 756
+        },
+        {
+          "date": "2026-09-06",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-09-07",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-09-08",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-09-09",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-09-10",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-09-11",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 756
+        },
+        {
+          "date": "2026-09-12",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 756
+        },
+        {
+          "date": "2026-09-13",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-09-14",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-09-15",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-09-16",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-09-17",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-09-18",
+          "available": false,
+          "isPeakPricing": true,
+          "price": 756
+        },
+        {
+          "date": "2026-09-19",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 756
+        },
+        {
+          "date": "2026-09-20",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-09-21",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-09-22",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-09-23",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-09-24",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-09-25",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 756
+        },
+        {
+          "date": "2026-09-26",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 756
+        },
+        {
+          "date": "2026-09-27",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-09-28",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-09-29",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-09-30",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-10-01",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-10-02",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 756
+        },
+        {
+          "date": "2026-10-03",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 756
+        },
+        {
+          "date": "2026-10-04",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-10-05",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-10-06",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-10-07",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-10-08",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-10-09",
+          "available": false,
+          "isPeakPricing": true,
+          "price": 756
+        },
+        {
+          "date": "2026-10-10",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 756
+        },
+        {
+          "date": "2026-10-11",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-10-12",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-10-13",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-10-14",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-10-15",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-10-16",
+          "available": false,
+          "isPeakPricing": true,
+          "price": 756
+        },
+        {
+          "date": "2026-10-17",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 756
+        },
+        {
+          "date": "2026-10-18",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-10-19",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-10-20",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-10-21",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-10-22",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-10-23",
+          "available": false,
+          "isPeakPricing": true,
+          "price": 756
+        },
+        {
+          "date": "2026-10-24",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 756
+        },
+        {
+          "date": "2026-10-25",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-10-26",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-10-27",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-10-28",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-10-29",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 560
+        },
+        {
+          "date": "2026-10-30",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 756
+        },
+        {
+          "date": "2026-10-31",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 756
+        }
+      ]
+    },
+    {
+      "id": "prop-aspen-001",
+      "slug": "alpine-lodge-aspen-ski-in-out",
+      "collection": "mountain-chalets",
+      "type": "HVMI_VILLA",
+      "provenance": "AMADEUS",
+      "title": "Alpine Lodge — Aspen Ski-In/Ski-Out",
+      "subtitle": "Ski-in/ski-out luxury lodge with mountain hot tub",
+      "description": "Arrive by ski directly to your private entrance. This four-bedroom mountainside lodge sits steps from Aspen Highlands ski lifts with unobstructed views of the Elk Mountains. Post-run recovery in the outdoor heated hot tub, wood-panelled sauna, and chef's kitchen stocked with Colorado artisan provisions on arrival.",
+      "destination": "Aspen, Colorado",
+      "country": "USA",
+      "region": "Colorado",
+      "photos": [
+        "https://images.unsplash.com/photo-1517601768280-3bb87a0b7ca7?w=1200&q=85&fit=crop",
+        "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1200&q=85&fit=crop",
+        "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=1200&q=85&fit=crop",
+        "https://images.unsplash.com/photo-1551632811-561732d1e306?w=1200&q=85&fit=crop",
+        "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?w=1200&q=85&fit=crop",
+        "https://images.unsplash.com/photo-1522163182402-834f871fd851?w=1200&q=85&fit=crop"
+      ],
+      "thumbnailUrl": "https://images.unsplash.com/photo-1517601768280-3bb87a0b7ca7?w=1200&q=85&fit=crop",
+      "price": 1200,
+      "currency": "USD",
+      "rating": 4.9,
+      "reviews": 145,
+      "bedrooms": 4,
+      "bathrooms": 4,
+      "maxGuests": 8,
+      "sqm": 360,
+      "amenities": [
+        "Ski-in/ski-out",
+        "Outdoor hot tub",
+        "Sauna",
+        "Fireplace",
+        "Chef's kitchen",
+        "Game room",
+        "WiFi",
+        "Ski storage"
+      ],
+      "hvmiCollection": "Mountain Chalets & Lodges",
+      "bonvoyPointsPerNight": 12000,
+      "bookable": true,
+      "featured": true,
+      "tags": [
+        "HVMI",
+        "Ski",
+        "Luxury",
+        "Mountains",
+        "Spa"
+      ],
+      "coordinates": {
+        "lat": 39.1911,
+        "lng": -106.8175
+      },
+      "minimumStay": 4,
+      "availability": [
+        {
+          "date": "2026-08-03",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-08-04",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-08-05",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-08-06",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-08-07",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1620
+        },
+        {
+          "date": "2026-08-08",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1620
+        },
+        {
+          "date": "2026-08-09",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-08-10",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-08-11",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-08-12",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-08-13",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-08-14",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1620
+        },
+        {
+          "date": "2026-08-15",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1620
+        },
+        {
+          "date": "2026-08-16",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-08-17",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-08-18",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-08-19",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-08-20",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-08-21",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1620
+        },
+        {
+          "date": "2026-08-22",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1620
+        },
+        {
+          "date": "2026-08-23",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-08-24",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-08-25",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-08-26",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-08-27",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-08-28",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1620
+        },
+        {
+          "date": "2026-08-29",
+          "available": false,
+          "isPeakPricing": true,
+          "price": 1620
+        },
+        {
+          "date": "2026-08-30",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-08-31",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-09-01",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-09-02",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-09-03",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-09-04",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1620
+        },
+        {
+          "date": "2026-09-05",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1620
+        },
+        {
+          "date": "2026-09-06",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-09-07",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-09-08",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-09-09",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-09-10",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-09-11",
+          "available": false,
+          "isPeakPricing": true,
+          "price": 1620
+        },
+        {
+          "date": "2026-09-12",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1620
+        },
+        {
+          "date": "2026-09-13",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-09-14",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-09-15",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-09-16",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-09-17",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-09-18",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1620
+        },
+        {
+          "date": "2026-09-19",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1620
+        },
+        {
+          "date": "2026-09-20",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-09-21",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-09-22",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-09-23",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-09-24",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-09-25",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1620
+        },
+        {
+          "date": "2026-09-26",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1620
+        },
+        {
+          "date": "2026-09-27",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-09-28",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-09-29",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-09-30",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-10-01",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-10-02",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1620
+        },
+        {
+          "date": "2026-10-03",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1620
+        },
+        {
+          "date": "2026-10-04",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-10-05",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-10-06",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-10-07",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-10-08",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-10-09",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1620
+        },
+        {
+          "date": "2026-10-10",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1620
+        },
+        {
+          "date": "2026-10-11",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-10-12",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-10-13",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-10-14",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-10-15",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-10-16",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1620
+        },
+        {
+          "date": "2026-10-17",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1620
+        },
+        {
+          "date": "2026-10-18",
+          "available": false,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-10-19",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-10-20",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-10-21",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-10-22",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-10-23",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1620
+        },
+        {
+          "date": "2026-10-24",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1620
+        },
+        {
+          "date": "2026-10-25",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-10-26",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-10-27",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-10-28",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-10-29",
+          "available": true,
+          "isPeakPricing": false,
+          "price": 1200
+        },
+        {
+          "date": "2026-10-30",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1620
+        },
+        {
+          "date": "2026-10-31",
+          "available": true,
+          "isPeakPricing": true,
+          "price": 1620
+        }
+      ]
+    }
+  ],
+  "generatedAt": "2026-08-03T13:21:25.973Z"
+}
