@@ -145,3 +145,4 @@ export const CancelBookingRequestSchema = z.object({
   reason: z.string().trim().min(1, "Cancellation reason is required").max(500),
 });
 export type CancelBookingRequest = z.infer<typeof CancelBookingRequestSchema>;
+export * from './marriott-booking.js';

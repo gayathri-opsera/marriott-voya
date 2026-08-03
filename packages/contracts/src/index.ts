@@ -255,3 +255,8 @@ export type {
   ItineraryRevision,
   PlanningStateSummary,
 } from "./ai-planning/index.js";
+
+// ─── Locale & Currency (WO-047) ────────────────────────────────────────────────
+export * from "./locale/index.js";
+// ─── Notifications (WO-037) ───────────────────────────────────────────────────
+export * from "./notifications/index.js";
