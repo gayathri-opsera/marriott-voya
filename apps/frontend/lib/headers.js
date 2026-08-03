@@ -3,20 +3,32 @@ const SECURITY_HEADER_KEYS = [
   "X-Content-Type-Options",
   "Referrer-Policy",
   "Permissions-Policy",
-  "Content-Security-Policy-Report-Only",
+  "Strict-Transport-Security",
+  "X-Permitted-Cross-Domain-Policies",
+  "Content-Security-Policy",
 ];
 
+/**
+ * CSP — WOREF-042
+ * Enforced (not report-only). Allows:
+ * - Stripe for payments
+ * - Unsplash for villa images
+ * - Anthropic streaming API
+ * - Google Fonts
+ * - Marriott CDN assets
+ */
 const CSP_POLICY = [
   "default-src 'self'",
   "script-src 'self' 'unsafe-eval' https://js.stripe.com https://m.stripe.com https://cdn.jsdelivr.net",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com",
-  "img-src 'self' data: blob: https:",
-  "connect-src 'self' https://api.stripe.com https://*.stripe.com",
+  "img-src 'self' data: blob: https://images.unsplash.com https://plus.unsplash.com https://homes-and-villas.marriott.com https://cache.marriott.com https://*.bonvoy.com",
+  "connect-src 'self' https://api.stripe.com https://*.stripe.com https://api.anthropic.com",
   "frame-src 'self' https://js.stripe.com https://hooks.stripe.com",
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",
+  "upgrade-insecure-requests",
 ].join("; ");
 
 const securityHeaders = {
@@ -24,7 +36,9 @@ const securityHeaders = {
   "X-Content-Type-Options": "nosniff",
   "Referrer-Policy": "strict-origin-when-cross-origin",
   "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
-  "Content-Security-Policy-Report-Only": CSP_POLICY,
+  "Strict-Transport-Security": "max-age=63072000; includeSubDomains; preload",
+  "X-Permitted-Cross-Domain-Policies": "none",
+  "Content-Security-Policy": CSP_POLICY,
 };
 
 function getSecurityHeadersArray() {

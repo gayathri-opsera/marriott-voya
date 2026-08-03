@@ -30,6 +30,14 @@ export const JOURNEY_EVENTS = {
   // Loyalty
   BONVOY_POINTS_VIEWED:      "bonvoy_points_viewed",
   BONVOY_REDEMPTION_CLICKED: "bonvoy_redemption_clicked",
+  // Offer presented — WOREF-009
+  OFFER_PRESENTED:           "offer_presented",
+  OFFER_CARD_IMPRESSION:     "offer_card_impression",
+  OFFER_CTA_CLICKED:         "offer_cta_clicked",
+  OFFER_EXPIRED_SHOWN:       "offer_expired_shown",
+  SEARCH_FILTERS_CHANGED:    "search_filters_changed",
+  SEARCH_SORT_CHANGED:       "search_sort_changed",
+  SEARCH_RESULT_COUNT:       "search_result_count",
 } as const;
 
 export function trackEvent(
@@ -42,5 +50,44 @@ export function trackEvent(
     body: JSON.stringify({ name, props }),
   }).catch(() => {
     // Fire-and-forget — analytics must not block UX
+  });
+}
+
+/**
+ * Track an offer impression (WOREF-009).
+ * Called when an AccommodationResultCard becomes visible in the viewport.
+ */
+export function trackOfferPresented(params: {
+  propertyId: string;
+  provenance: string;
+  hvmiPriority: boolean;
+  positionIndex: number;
+  priceUSD?: number;
+}): void {
+  trackEvent(JOURNEY_EVENTS.OFFER_PRESENTED, {
+    propertyId: params.propertyId,
+    provenance: params.provenance,
+    hvmiPriority: params.hvmiPriority,
+    positionIndex: params.positionIndex,
+    ...(params.priceUSD !== undefined ? { priceUSD: params.priceUSD } : {}),
+  });
+}
+
+/**
+ * Track a search result set (WOREF-053 — search performance budget).
+ */
+export function trackSearchResults(params: {
+  destination: string;
+  totalResults: number;
+  hvmiCount: number;
+  latencyMs: number;
+  cacheStatus: string;
+}): void {
+  trackEvent(JOURNEY_EVENTS.SEARCH_RESULT_COUNT, {
+    destination: params.destination,
+    totalResults: params.totalResults,
+    hvmiCount: params.hvmiCount,
+    latencyMs: params.latencyMs,
+    cacheStatus: params.cacheStatus,
   });
 }
