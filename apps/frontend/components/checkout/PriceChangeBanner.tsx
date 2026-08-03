@@ -1,53 +1,89 @@
 "use client";
 
-import * as React from "react";
-import { Button } from "../ui/Button";
-import { formatMoney } from "../../lib/money";
+/**
+ * PriceChangeBanner — WOREF-025
+ * Shown in checkout when the price has changed since the user saw the offer.
+ * Implements the "price change acknowledgement" gate — user must acknowledge before proceeding.
+ */
 
-export interface PriceChangeBannerProps {
-  originalPrice: string;
-  newPrice: string;
+import React, { useState } from "react";
+
+export interface PriceChangeInfo {
+  previousPrice: number;
+  currentPrice: number;
   currency: string;
-  onAccept: () => void;
-  onDecline: () => void;
+  direction: "increase" | "decrease";
 }
 
-export function PriceChangeBanner({
-  originalPrice,
-  newPrice,
-  currency,
-  onAccept,
-  onDecline,
-}: PriceChangeBannerProps) {
+interface PriceChangeBannerProps {
+  priceChange: PriceChangeInfo;
+  onAcknowledge: () => void;
+  onCancel?: () => void;
+}
+
+export function PriceChangeBanner({ priceChange, onAcknowledge, onCancel }: PriceChangeBannerProps): React.JSX.Element {
+  const [acknowledged, setAcknowledged] = useState(false);
+  const diff = Math.abs(priceChange.currentPrice - priceChange.previousPrice);
+  const isIncrease = priceChange.direction === "increase";
+
+  const handleAcknowledge = () => {
+    setAcknowledged(true);
+    onAcknowledge();
+  };
+
   return (
     <div
       role="alert"
-      className="rounded-md border border-warning bg-warning-light p-4 space-y-4"
+      className="rounded-xl p-4 mb-4"
+      style={{
+        background: isIncrease ? "#fef2f220" : "#f0fdf420",
+        border: `1px solid ${isIncrease ? "#ef444440" : "#22c55e40"}`,
+      }}
     >
-      <p className="text-sm font-medium text-text-primary">
-        The price for this offer has changed. Please review and confirm.
-      </p>
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <p className="text-xs text-text-tertiary mb-1">Original price</p>
-          <p className="text-lg font-semibold text-text-secondary line-through">
-            {formatMoney(originalPrice, currency)}
+      <div className="flex items-start gap-3">
+        <span className="text-xl shrink-0">{isIncrease ? "⚠️" : "🎉"}</span>
+        <div className="flex-1">
+          <h3 className="font-semibold text-sm" style={{ color: isIncrease ? "#ef4444" : "#22c55e" }}>
+            {isIncrease ? "Price has increased" : "Price has decreased"}
+          </h3>
+          <p className="text-xs mt-0.5" style={{ color: "var(--voya-text-2)" }}>
+            {isIncrease ? (
+              <>
+                The price for this property has increased by{" "}
+                <strong>{priceChange.currency} {diff.toFixed(2)}</strong> since you viewed it.
+                New price:{" "}
+                <strong>{priceChange.currency} {priceChange.currentPrice.toFixed(2)}</strong>/night.
+              </>
+            ) : (
+              <>
+                Great news — the price has dropped by{" "}
+                <strong>{priceChange.currency} {diff.toFixed(2)}</strong>!
+                New price:{" "}
+                <strong>{priceChange.currency} {priceChange.currentPrice.toFixed(2)}</strong>/night.
+              </>
+            )}
           </p>
+
+          <div className="flex gap-2 mt-3">
+            <button
+              onClick={handleAcknowledge}
+              disabled={acknowledged}
+              className="px-4 py-1.5 rounded-lg text-xs font-semibold transition-opacity hover:opacity-90 disabled:opacity-50"
+              style={{ background: isIncrease ? "#ef4444" : "#22c55e", color: "#fff" }}
+            >
+              {acknowledged ? "Acknowledged ✓" : isIncrease ? "Accept new price" : "Continue with new price"}
+            </button>
+            {onCancel && !acknowledged && (
+              <button
+                onClick={onCancel}
+                className="px-4 py-1.5 rounded-lg text-xs font-semibold"
+                style={{ background: "var(--voya-surface-2)", color: "var(--voya-text-2)" }}
+              >
+                Search again
+              </button>
+            )}
+          </div>
         </div>
-        <div>
-          <p className="text-xs text-text-tertiary mb-1">New price</p>
-          <p className="text-lg font-semibold text-brand-600">
-            {formatMoney(newPrice, currency)}
-          </p>
-        </div>
-      </div>
-      <div className="flex gap-2">
-        <Button variant="secondary" type="button" onClick={onDecline}>
-          Decline
-        </Button>
-        <Button type="button" onClick={onAccept} className="flex-1">
-          Accept new price
-        </Button>
       </div>
     </div>
   );

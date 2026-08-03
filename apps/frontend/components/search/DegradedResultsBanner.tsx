@@ -1,46 +1,20 @@
 "use client";
 
-import * as React from "react";
+import React from "react";
 
-export interface SupplierStatus {
-  name: string;
-  status: "ok" | "partial" | "down";
+interface DegradedResultsBannerProps {
+  message: string;
 }
 
-export interface DegradedResultsBannerProps {
-  supplierStatuses: SupplierStatus[];
-}
-
-export function DegradedResultsBanner({
-  supplierStatuses,
-}: DegradedResultsBannerProps): React.JSX.Element | null {
-  const [dismissed, setDismissed] = React.useState(false);
-
-  const degraded = supplierStatuses.filter(
-    (s) => s.status === "partial" || s.status === "down",
-  );
-
-  if (degraded.length === 0 || dismissed) return null;
-
-  const supplierNames = degraded.map((s) => s.name).join(", ");
-
+export function DegradedResultsBanner({ message }: DegradedResultsBannerProps): React.JSX.Element {
   return (
     <div
-      role="status"
-      className="mb-4 flex items-start justify-between gap-3 rounded-lg border border-warning bg-warning-light px-4 py-3 text-sm text-warning"
-      data-testid="degraded-results-banner"
+      role="note"
+      className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs mb-3"
+      style={{ background: "#f59e0b15", border: "1px solid #f59e0b40", color: "#92400e" }}
     >
-      <p>
-        Results from {supplierNames} are incomplete
-      </p>
-      <button
-        type="button"
-        onClick={() => setDismissed(true)}
-        aria-label="Dismiss degraded results notice"
-        className="shrink-0 text-lg leading-none opacity-70 hover:opacity-100"
-      >
-        ×
-      </button>
+      <span>⚠️</span>
+      <span>{message}</span>
     </div>
   );
 }
