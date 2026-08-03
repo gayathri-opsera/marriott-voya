@@ -21,6 +21,13 @@ import {
   HotelStarRatingSchema,
   OfferProvenanceSchema,
   FreshnessLabelSchema,
+  AccommodationSearchRequestSchema,
+  AccommodationSearchResultSchema,
+  AccommodationSearchResponseSchema,
+  PropertyTypeSchema,
+  PartnerClassificationSchema,
+  BookabilityStatusSchema,
+  AccommodationSortModeSchema,
 } from "./search/index.js";
 
 import {
@@ -132,6 +139,15 @@ export const SCHEMA_REGISTRY: Readonly<SchemaEntry[]> = [
   { id: "search.HotelStarRating",            schema: HotelStarRatingSchema,        domain: "search", isRequestSchema: false },
   { id: "search.OfferProvenance",            schema: OfferProvenanceSchema,        domain: "search", isRequestSchema: false },
   { id: "search.FreshnessLabel",             schema: FreshnessLabelSchema,         domain: "search", isRequestSchema: false },
+
+  // ─── Marriott Accommodation Search (WO-015) ───────────────────────────────────
+  { id: "search.PropertyType",                   schema: PropertyTypeSchema,                  domain: "search", isRequestSchema: false },
+  { id: "search.PartnerClassification",          schema: PartnerClassificationSchema,         domain: "search", isRequestSchema: false },
+  { id: "search.BookabilityStatus",              schema: BookabilityStatusSchema,             domain: "search", isRequestSchema: false },
+  { id: "search.AccommodationSortMode",          schema: AccommodationSortModeSchema,         domain: "search", isRequestSchema: false },
+  { id: "search.AccommodationSearchRequest",     schema: AccommodationSearchRequestSchema,    domain: "search", isRequestSchema: true },
+  { id: "search.AccommodationSearchResult",      schema: AccommodationSearchResultSchema,     domain: "search", isRequestSchema: false },
+  { id: "search.AccommodationSearchResponse",    schema: AccommodationSearchResponseSchema,   domain: "search", isRequestSchema: false },
 
   // ─── Booking ─────────────────────────────────────────────────────────────────
   { id: "booking.BookingType",               schema: BookingTypeSchema,            domain: "booking", isRequestSchema: false },

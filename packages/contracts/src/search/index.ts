@@ -222,3 +222,6 @@ export const SearchResponseSchema = z.object({
   cachedAt: z.string().datetime().optional(),
 });
 export type SearchResponse = z.infer<typeof SearchResponseSchema>;
+
+// Marriott-first accommodation search contracts (WO-015)
+export * from "./accommodation.js";
