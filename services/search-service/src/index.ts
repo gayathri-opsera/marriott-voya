@@ -235,6 +235,76 @@ const handleOfferById = (req: Request, res: Response) => {
 app.get("/offers/:id",        handleOfferById);
 app.get("/api/v1/offers/:id", handleOfferById);
 
+// ─── Marriott-First Accommodation Search — WOREF-016 ──────────────────────────
+// POST /api/v1/accommodations/search — accepts AccommodationSearchRequest
+// Returns AccommodationSearchResponse with HVMI results sorted first.
+app.post("/api/v1/accommodations/search", (req: Request, res: Response) => {
+  const body = req.body as Record<string, unknown>;
+  const destination = (body["destination"] as string) ?? "Lucca, Italy";
+  const currency    = (body["currency"]    as string) ?? "USD";
+  const queryId     = `q-${Date.now()}`;
+  const fetchedAt   = new Date().toISOString();
+  const expiresAt   = new Date(Date.now() + 15 * 60 * 1000).toISOString();
+
+  const rawHotels = hotelOffers(destination, "price_asc");
+
+  // Map to AccommodationSearchResult shape
+  const results = rawHotels.map((h: Record<string, unknown>, idx: number) => {
+    const isHvmi     = String(h["type"] ?? "").startsWith("HVMI") || String(h["provenance"] ?? "").startsWith("AMADEUS") && idx < 3;
+    const isMarriott = !isHvmi && (h["tag"] as string ?? "").includes("Marriott");
+
+    return {
+      propertyId:            h["id"] ?? `prop-${idx + 1}-${Date.now()}`,
+      name:                  h["title"] ?? h["name"],
+      propertyType:          isHvmi ? "VILLA" : "HOTEL",
+      partnerClassification: isHvmi ? "HVMI" : (isMarriott ? "MARRIOTT_PREMIUM" : "NON_MARRIOTT"),
+      hvmiPriority:          isHvmi,
+      location: {
+        city:        destination.split(",")[0].trim(),
+        country:     "IT",
+        regionLabel: "Tuscany",
+      },
+      amenities: h["amenities"],
+      priceSummary: {
+        nightlyRate: String((h["price"] as number ?? 200).toFixed(2)),
+        currency,
+        discountPct: 0,
+      },
+      availabilitySummary: { available: true },
+      bonvoySummary: isHvmi
+        ? { pointsForStay: Math.floor((h["price"] as number ?? 0) * 5 * 4), pointsPerDollar: 5 }
+        : undefined,
+      provenance:       isHvmi ? "HVMI" : (isMarriott ? "MARRIOTT_DIRECT" : "ILLUSTRATIVE"),
+      bookabilityStatus: isHvmi || isMarriott ? "BOOKABLE" : "ILLUSTRATIVE",
+      sourceFetchedAt:  fetchedAt,
+      expiresAt,
+      hvmiCollectionName: (h["hvmiCollection"] as string) ?? undefined,
+    };
+  });
+
+  // HVMI results first, then Marriott, then others
+  results.sort((a: Record<string, unknown>, b: Record<string, unknown>) => {
+    if (a["hvmiPriority"] && !b["hvmiPriority"]) return -1;
+    if (!a["hvmiPriority"] && b["hvmiPriority"]) return 1;
+    if (a["partnerClassification"] === "MARRIOTT_PREMIUM" && b["partnerClassification"] !== "MARRIOTT_PREMIUM") return -1;
+    if (a["partnerClassification"] !== "MARRIOTT_PREMIUM" && b["partnerClassification"] === "MARRIOTT_PREMIUM") return 1;
+    return 0;
+  });
+
+  const nonMarriott = results.filter((r: Record<string, unknown>) => r["partnerClassification"] === "NON_MARRIOTT");
+
+  res.json({
+    queryId,
+    cacheStatus: "MISS",
+    results,
+    pagination: { page: 1, pageSize: results.length, totalResults: results.length, hasNextPage: false },
+    freshness:  { fetchedAt, expiresAt, label: "FRESH" },
+    fallbackDisclosure: nonMarriott.length > 0
+      ? `${nonMarriott.length} result(s) are illustrative inventory not from Marriott.`
+      : undefined,
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`[search-service] listening on :${PORT}`);
 });

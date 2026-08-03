@@ -6,13 +6,14 @@ import { usePathname } from "next/navigation";
 
 const ACCOUNT_NAV = [
   { label: "Profile",                 href: "/profile" },
+  { label: "Bonvoy Loyalty",          href: "/profile/bonvoy" },
   { label: "Travel preferences",      href: "/profile/preferences" },
   { label: "Display & accessibility", href: "/profile/display" },
   { label: "Active sessions",         href: "/profile/sessions" },
   { label: "Privacy & my data",       href: "/profile/privacy" },
 ];
 
-export function AccountLayout({ children }: { children: React.ReactNode }) {
+export function AccountLayout({ children, current }: { children: React.ReactNode; current?: string }) {
   const pathname = usePathname();
   return (
     <div style={{ backgroundColor: "#14100c", minHeight: "100vh", color: "white" }}>

@@ -3,6 +3,8 @@ import Anthropic from "@anthropic-ai/sdk";
 import path from "path";
 import { fileURLToPath } from "url";
 import { SqliteConversationRepository } from "./domain/SqliteConversationRepository.js";
+import { SqliteItineraryRepository } from "./domain/SqliteItineraryRepository.js";
+import { AgentOrchestrator, createStubExecutors, buildExecutionPlan, type OrchestrationIntent } from "./domain/AgentOrchestrator.js";
 
 // Load .env from service dir first, then root as fallback
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -534,6 +536,13 @@ const sessions = new Map<string, Session>();
 const DB_PATH = process.env["AI_CONVERSATIONS_DB"] ?? ":memory:";
 const conversationRepo = new SqliteConversationRepository(DB_PATH);
 
+// ─── Itinerary draft persistence (WOREF-029) ──────────────────────────────────
+const ITINERARY_DB_PATH = process.env["AI_ITINERARIES_DB"] ?? DB_PATH;
+const itineraryRepo = new SqliteItineraryRepository(ITINERARY_DB_PATH);
+
+// ─── Ten Agent Orchestrator (WOREF-008) ───────────────────────────────────────
+const orchestrator = new AgentOrchestrator(createStubExecutors());
+
 // ─── Routes ────────────────────────────────────────────────────────────────
 
 app.get("/health", (_req, res) => {
@@ -874,6 +883,81 @@ app.post("/api/v1/ai/conversations/:conversationId/messages/stream", async (req,
 });
 
 // ─── End Durable Conversation APIs ───────────────────────────────────────────
+
+// ─── Itinerary Draft Endpoints (WOREF-029) ────────────────────────────────────
+app.post("/api/v1/ai/itineraries", async (req, res) => {
+  try {
+    const { conversationId, userId, destination, checkIn, checkOut, items, totalUSD, totalBonvoyPoints } = req.body as Record<string, unknown>;
+    if (!conversationId || !destination || !checkIn || !checkOut) {
+      res.status(400).json({ error: "conversationId, destination, checkIn, checkOut are required" });
+      return;
+    }
+    const draftId = `itinerary-draft-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+    const draft = await itineraryRepo.create({
+      draftId,
+      conversationId: conversationId as string,
+      userId: userId as string | undefined,
+      destination: destination as string,
+      checkIn: checkIn as string,
+      checkOut: checkOut as string,
+      status: "DRAFT",
+      items: (items as import("./domain/ItineraryRepository.js").ItineraryDayItem[]) ?? [],
+      totalUSD: (totalUSD as number) ?? 0,
+      totalBonvoyPoints: (totalBonvoyPoints as number) ?? 0,
+    });
+    res.status(201).json(draft);
+  } catch (err) { res.status(500).json({ error: "Failed to create itinerary draft", detail: String(err) }); }
+});
+
+app.get("/api/v1/ai/itineraries/:draftId", async (req, res) => {
+  try {
+    const draft = await itineraryRepo.findById(req.params["draftId"] ?? "");
+    if (!draft) { res.status(404).json({ error: "Itinerary draft not found" }); return; }
+    res.json(draft);
+  } catch (err) { res.status(500).json({ error: String(err) }); }
+});
+
+app.get("/api/v1/ai/conversations/:conversationId/itinerary", async (req, res) => {
+  try {
+    const draft = await itineraryRepo.findByConversationId(req.params["conversationId"] ?? "");
+    if (!draft) { res.status(404).json({ error: "No itinerary draft for this conversation" }); return; }
+    res.json(draft);
+  } catch (err) { res.status(500).json({ error: String(err) }); }
+});
+
+app.put("/api/v1/ai/itineraries/:draftId", async (req, res) => {
+  try {
+    const updated = await itineraryRepo.update(req.params["draftId"] ?? "", req.body as Record<string, unknown>);
+    res.json(updated);
+  } catch (err) { res.status(500).json({ error: String(err) }); }
+});
+
+app.post("/api/v1/ai/itineraries/:draftId/accept", async (req, res) => {
+  try {
+    const { bookingId } = req.body as { bookingId?: string };
+    const accepted = await itineraryRepo.accept(req.params["draftId"] ?? "", bookingId);
+    res.json(accepted);
+  } catch (err) { res.status(500).json({ error: String(err) }); }
+});
+
+// ─── Agent Orchestrator Endpoints (WOREF-008) ─────────────────────────────────
+app.get("/api/v1/ai/orchestrator/preview", (req, res) => {
+  const intent = (req.query["intent"] as OrchestrationIntent) ?? "FULL_TRIP_PLANNING";
+  const plan = orchestrator.preview(intent);
+  res.json({ intent, plan });
+});
+
+app.post("/api/v1/ai/orchestrator/run", async (req, res) => {
+  try {
+    const { intent, params, conversationId } = req.body as {
+      intent?: OrchestrationIntent;
+      params?: Record<string, unknown>;
+      conversationId?: string;
+    };
+    const results = await orchestrator.run(intent ?? "FULL_TRIP_PLANNING", params ?? {}, conversationId);
+    res.json({ intent, results: Object.fromEntries(results.entries()) });
+  } catch (err) { res.status(500).json({ error: "Orchestrator run failed", detail: String(err) }); }
+});
 
 app.listen(PORT, () => {
   console.log(`[ai-service] listening on :${PORT}`);
