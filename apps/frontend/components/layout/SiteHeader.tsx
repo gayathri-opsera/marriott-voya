@@ -37,7 +37,7 @@ export function SiteHeader(): React.JSX.Element {
 
   return (
     <div
-      className="sticky top-0 z-40 w-full backdrop-blur"
+      className="sticky top-0 z-40 w-full backdrop-blur-sm"
       style={{
         background: "var(--voya-nav-bg)",
         borderBottom: "1px solid var(--voya-nav-border)",
@@ -45,17 +45,26 @@ export function SiteHeader(): React.JSX.Element {
       }}
     >
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6">
-        {/* Logo */}
+        {/* Logo — Wayfare-style serif wordmark */}
         <Link
           href={ROUTES.HOME}
-          className="text-lg font-bold tracking-tight focus-visible:outline-none focus-visible:ring-2"
-          style={{ color: "var(--voya-accent)" }}
+          className="flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--voya-accent)]"
+          aria-label="Voya home"
         >
-          voya
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden>
+            <circle cx="11" cy="11" r="9.5" stroke="var(--voya-accent)" strokeWidth="2"/>
+            <path d="M5 13 L8.5 8 L11.5 11.5 L15.5 6" stroke="var(--voya-accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+          <span
+            className="text-[17px] font-medium tracking-tight"
+            style={{ fontFamily: "var(--font-serif)", color: "var(--voya-text)" }}
+          >
+            Voya
+          </span>
         </Link>
 
         {/* Desktop nav */}
-        <nav aria-label="Main" className="hidden items-center gap-0.5 md:flex">
+        <nav aria-label="Main" className="hidden items-center gap-1 md:flex">
           {NAV_LINKS.map((link) => {
             const active = isActiveLink(pathname, link.href);
             return (
@@ -63,15 +72,16 @@ export function SiteHeader(): React.JSX.Element {
                 key={link.href}
                 href={link.href}
                 aria-current={active ? "page" : undefined}
-                style={{
-                  color: active ? "var(--voya-accent)" : "var(--voya-text-3)",
-                  fontWeight: active ? 600 : 400,
-                  borderBottom: active ? "2px solid var(--voya-accent)" : "2px solid transparent",
-                  paddingBottom: 2,
-                }}
                 className={cn(
-                  "rounded px-3 py-1.5 text-sm transition-colors hover:text-[var(--voya-text)]",
+                  "rounded-md px-3 py-1.5 text-[13.5px] font-[500] transition-colors",
+                  active
+                    ? "text-[var(--voya-accent)]"
+                    : "text-[var(--voya-text-2)] hover:text-[var(--voya-text)]"
                 )}
+                style={{
+                  borderBottom: active ? "2px solid var(--voya-accent)" : "2px solid transparent",
+                  paddingBottom: "6px",
+                }}
               >
                 {link.label}
               </Link>
@@ -80,8 +90,7 @@ export function SiteHeader(): React.JSX.Element {
         </nav>
 
         {/* Right actions */}
-        <div className="flex items-center gap-3">
-          {/* Theme toggle — desktop */}
+        <div className="flex items-center gap-2">
           <div className="hidden md:block">
             <ThemeToggle />
           </div>
@@ -89,13 +98,17 @@ export function SiteHeader(): React.JSX.Element {
           {/* Mobile menu */}
           <button
             type="button"
-            className="rounded p-2 md:hidden"
-            style={{ color: "var(--voya-text-3)" }}
+            className="flex items-center justify-center rounded-md p-2 md:hidden"
+            style={{ color: "var(--voya-text-2)" }}
             aria-label="Open navigation menu"
             aria-expanded={drawerOpen}
             onClick={() => setDrawerOpen(true)}
           >
-            <span aria-hidden className="text-lg">☰</span>
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden>
+              <rect x="2" y="3.5" width="14" height="1.5" rx="0.75" fill="currentColor"/>
+              <rect x="2" y="8.25" width="14" height="1.5" rx="0.75" fill="currentColor"/>
+              <rect x="2" y="13" width="14" height="1.5" rx="0.75" fill="currentColor"/>
+            </svg>
           </button>
 
           <div className="hidden items-center gap-2 md:flex">
@@ -104,8 +117,8 @@ export function SiteHeader(): React.JSX.Element {
                 <button
                   type="button"
                   onClick={handleLogout}
-                  className="rounded px-3 py-1.5 text-sm transition-colors"
-                  style={{ color: "var(--voya-text-3)" }}
+                  className="rounded-md px-3 py-1.5 text-[13px] font-[500] transition-colors"
+                  style={{ color: "var(--voya-text-2)" }}
                 >
                   Sign out
                 </button>
@@ -121,17 +134,21 @@ export function SiteHeader(): React.JSX.Element {
               <>
                 <Link
                   href={ROUTES.LOGIN}
-                  className="rounded px-3 py-1.5 text-sm transition-colors"
-                  style={{ color: "var(--voya-text-3)" }}
+                  className="rounded-md px-3 py-1.5 text-[13px] font-[500] transition-colors"
+                  style={{ color: "var(--voya-text-2)" }}
                 >
-                  Sign In
+                  Sign in
                 </Link>
                 <Link
                   href={ROUTES.REGISTER}
-                  className="rounded px-3 py-1.5 text-sm font-semibold transition-colors"
-                  style={{ color: "var(--voya-amber)", border: "1px solid var(--voya-amber)", borderRadius: 8, padding: "5px 12px" }}
+                  className="rounded-md px-4 py-1.5 text-[13px] font-semibold transition-opacity hover:opacity-85"
+                  style={{
+                    background: "var(--voya-accent)",
+                    color: "#fff",
+                    borderRadius: 8,
+                  }}
                 >
-                  Bonvoy Gold
+                  Join free
                 </Link>
               </>
             )}

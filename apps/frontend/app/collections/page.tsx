@@ -253,9 +253,9 @@ export default function CollectionsPage(): React.JSX.Element {
       {/* Hero banner */}
       <div
         className="relative overflow-hidden"
-        style={{ minHeight: 280, background: "linear-gradient(135deg, #1a0e05 0%, #3d2410 60%, #5c3820 100%)" }}
+        style={{ minHeight: 280, background: "var(--voya-surface-2)", borderBottom: "1px solid var(--voya-border)" }}
       >
-        <div className="absolute inset-0 opacity-20">
+        <div className="absolute inset-0 opacity-[0.06]">
           <Image
             src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1600&q=60&fit=crop"
             alt=""
@@ -268,27 +268,27 @@ export default function CollectionsPage(): React.JSX.Element {
         <div className="relative z-10 mx-auto max-w-7xl px-6 py-16 text-center">
           <div
             className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold mb-4"
-            style={{ background: "color-mix(in srgb, var(--voya-gold) 20%, transparent)", color: "var(--voya-gold)", border: "1px solid var(--voya-gold)" }}
+            style={{ background: "var(--voya-accent-f1)", color: "var(--voya-accent)", border: "1px solid var(--voya-chip-border)" }}
           >
-            ✦ Homes & Villas by Marriott Bonvoy
+            ✦ Homes &amp; Villas by Marriott Bonvoy
           </div>
-          <h1 className="text-3xl md:text-5xl font-bold mb-4" style={{ color: "#fff" }}>
+          <h1 className="text-3xl md:text-5xl font-medium mb-4" style={{ color: "var(--voya-text)", fontFamily: "var(--font-serif)" }}>
             Curated Collections
           </h1>
-          <p className="text-base md:text-lg max-w-2xl mx-auto mb-8" style={{ color: "rgba(255,255,255,0.7)" }}>
+          <p className="text-base md:text-lg max-w-2xl mx-auto mb-8" style={{ color: "var(--voya-text-2)" }}>
             Every collection is hand-selected by our HVMI experts. Discover the perfect category of luxury home for your journey.
           </p>
 
           {/* Search within collections */}
           <div className="mx-auto max-w-md relative">
-            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg">🔍</span>
+            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg" style={{ color: "var(--voya-text-3)" }}>🔍</span>
             <input
               type="search"
               value={search}
               onChange={e => setSearch(e.target.value)}
               placeholder="Search collections, destinations, experiences..."
-              className="w-full pl-10 pr-4 py-3 rounded-full text-sm"
-              style={{ background: "rgba(255,255,255,0.12)", border: "1px solid rgba(255,255,255,0.25)", color: "#fff" }}
+              className="w-full pl-10 pr-4 py-3 rounded-full text-sm focus:outline-none"
+              style={{ background: "var(--voya-surface)", border: "1px solid var(--voya-border)", color: "var(--voya-text)" }}
               aria-label="Search collections"
             />
           </div>
@@ -305,9 +305,9 @@ export default function CollectionsPage(): React.JSX.Element {
               onClick={() => setFilter(f.key)}
               className="flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-colors"
               style={{
-                background: filter === f.key ? "var(--voya-gold)" : "var(--voya-surface)",
-                color: filter === f.key ? "#000" : "var(--voya-fg-secondary)",
-                border: `1px solid ${filter === f.key ? "var(--voya-gold)" : "var(--voya-border)"}`,
+                background: filter === f.key ? "var(--voya-accent)" : "var(--voya-surface)",
+                color: filter === f.key ? "#fff" : "var(--voya-fg-secondary)",
+                border: `1px solid ${filter === f.key ? "var(--voya-accent)" : "var(--voya-border)"}`,
               }}
             >
               {f.label}
@@ -327,7 +327,7 @@ export default function CollectionsPage(): React.JSX.Element {
           <div className="text-center py-20" style={{ color: "var(--voya-fg-tertiary)" }}>
             <div className="text-5xl mb-3">🏠</div>
             <p className="text-base">No collections match your search.</p>
-            <button type="button" onClick={() => { setSearch(""); setFilter("all"); }} className="mt-3 text-sm underline" style={{ color: "var(--voya-gold)" }}>
+            <button type="button" onClick={() => { setSearch(""); setFilter("all"); }} className="mt-3 text-sm underline" style={{ color: "var(--voya-accent)" }}>
               Clear filters
             </button>
           </div>
@@ -342,26 +342,26 @@ export default function CollectionsPage(): React.JSX.Element {
         {/* Bonvoy CTA strip */}
         <div
           className="mt-12 rounded-2xl p-8 flex flex-col md:flex-row items-center justify-between gap-5"
-          style={{ background: "linear-gradient(135deg, #2d1a05, #4a2c10)", border: "1px solid var(--voya-gold)" }}
+          style={{ background: "var(--voya-accent-f1)", border: "1px solid var(--voya-chip-border)" }}
         >
           <div>
-            <h2 className="text-xl font-bold text-white mb-1">Unlock exclusive member rates</h2>
-            <p className="text-sm" style={{ color: "rgba(255,255,255,0.65)" }}>
+            <h2 className="text-xl font-medium mb-1" style={{ color: "var(--voya-text)", fontFamily: "var(--font-serif)" }}>Unlock exclusive member rates</h2>
+            <p className="text-sm" style={{ color: "var(--voya-text-2)" }}>
               Sign in to your Marriott Bonvoy account to access member pricing, earn points on every stay, and unlock elite benefits.
             </p>
           </div>
           <div className="flex gap-3 flex-shrink-0">
             <Link
-              href="/auth/signin"
-              className="px-5 py-2.5 rounded-full text-sm font-semibold border transition-colors hover:bg-white/10"
-              style={{ borderColor: "rgba(255,255,255,0.3)", color: "#fff" }}
+              href="/auth/login"
+              className="px-5 py-2.5 rounded-full text-sm font-semibold transition-colors"
+              style={{ border: "1px solid var(--voya-border)", color: "var(--voya-text-2)" }}
             >
-              Sign In
+              Sign in
             </Link>
             <Link
-              href="/plan"
-              className="px-5 py-2.5 rounded-full text-sm font-semibold transition-colors hover:opacity-90"
-              style={{ background: "var(--voya-gold)", color: "#000" }}
+              href="/assistant"
+              className="px-5 py-2.5 rounded-full text-sm font-semibold transition-opacity hover:opacity-85"
+              style={{ background: "var(--voya-accent)", color: "#fff" }}
             >
               Plan with AI →
             </Link>

@@ -71,7 +71,7 @@ function Steps({ current }: { current: CheckoutStep }) {
             </span>
           </div>
           {i < STEPS.length - 1 && (
-            <span className="mx-3 text-white/15">·</span>
+            <span className="mx-3 text-[var(--voya-text-4)]">·</span>
           )}
         </React.Fragment>
       ))}
@@ -195,7 +195,7 @@ export default function CheckoutPage() {
   if (loadingOffer) {
     return (
       <div style={{ backgroundColor: "var(--voya-bg)", minHeight: "100vh" }} className="flex items-center justify-center">
-        <p className="text-white/40 text-sm animate-pulse">Loading your booking…</p>
+        <p className="text-[var(--voya-text-3)] text-sm animate-pulse">Loading your booking…</p>
       </div>
     );
   }
@@ -225,18 +225,18 @@ export default function CheckoutPage() {
       {isHvmiOffer && (
         <div style={{ position: "relative", height: 220, width: "100%", overflow: "hidden" }}>
           <Image src={heroPhoto} alt={villaName} fill className="object-cover" unoptimized />
-          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 40%, #161826 100%)" }} />
+          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 40%, var(--voya-photo-grad) 100%)" }} />
           <div style={{ position: "absolute", bottom: 20, left: 24 }}>
             <span style={{ background: "var(--voya-photo-scrim)", backdropFilter: "blur(8px)", color: "var(--voya-accent-lt)", borderRadius: 20, padding: "3px 12px", fontSize: 12, fontWeight: 500 }}>
               Homes &amp; Villas by Marriott Bonvoy
             </span>
-            <p className="mt-2 text-xl font-bold text-white">{villaName}</p>
+            <p className="mt-2 text-xl font-bold text-[var(--voya-text)]">{villaName}</p>
           </div>
         </div>
       )}
 
       <div className="mx-auto max-w-4xl px-4 py-8">
-        <h1 className="mb-5 text-2xl font-bold text-white">
+        <h1 className="mb-5 text-2xl font-bold text-[var(--voya-text)]">
           Complete your Tuscany trip
         </h1>
         <Steps current={step} />
@@ -248,18 +248,18 @@ export default function CheckoutPage() {
 
             {/* REVIEW step */}
             {step === "review" && offer && (
-              <div className="rounded-xl border border-white/10 p-5" style={{ backgroundColor: "var(--voya-accent-f1)" }}>
-                <h2 className="mb-4 text-sm font-semibold text-white">What you&apos;re booking</h2>
+              <div className="rounded-xl border border-[var(--voya-border)] p-5" style={{ backgroundColor: "var(--voya-accent-f1)" }}>
+                <h2 className="mb-4 text-sm font-semibold text-[var(--voya-text)]">What you&apos;re booking</h2>
 
                 {/* Villa line */}
-                <div className="flex items-start gap-3 rounded-lg border border-white/8 p-3 mb-3" style={{ backgroundColor: "rgba(255,255,255,0.025)" }}>
+                <div className="flex items-start gap-3 rounded-lg border border-[var(--voya-border)] p-3 mb-3" style={{ backgroundColor: "rgba(255,255,255,0.025)" }}>
                   <div className="h-10 w-12 shrink-0 rounded" style={{ background: "hsl(30,40%,28%)" }} />
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-white">{offer.title}</p>
-                    <p className="text-xs text-white/40">12–16 Sep 2026 · 2 adults · free cancellation to 5 Sep</p>
+                    <p className="text-sm font-medium text-[var(--voya-text)]">{offer.title}</p>
+                    <p className="text-xs text-[var(--voya-text-3)]">12–16 Sep 2026 · 2 adults · free cancellation to 5 Sep</p>
                     <OfferLineBadges tag={(offer as {tag?:string}).tag ?? ""} isLive={offer.provenance === "AMADEUS"} />
                   </div>
-                  <p className="shrink-0 text-sm font-semibold text-white">EUR {Number(offer.price).toLocaleString()}.00</p>
+                  <p className="shrink-0 text-sm font-semibold text-[var(--voya-text)]">EUR {Number(offer.price).toLocaleString()}.00</p>
                 </div>
 
                 {/* Info callout */}
@@ -270,7 +270,7 @@ export default function CheckoutPage() {
                 <button
                   type="button"
                   onClick={() => setStep("traveler")}
-                  className="w-full rounded-lg py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-85"
+                  className="w-full rounded-lg py-2.5 text-sm font-semibold text-[var(--voya-text)] transition-opacity hover:opacity-85"
                   style={{ backgroundColor: "var(--voya-accent-btn)" }}
                 >
                   Continue to traveller details
@@ -280,19 +280,19 @@ export default function CheckoutPage() {
 
             {/* TRAVELLER step */}
             {step === "traveler" && (
-              <div className="rounded-xl border border-white/10 p-5 space-y-4" style={{ backgroundColor: "var(--voya-accent-f1)" }}>
-                <h2 className="text-sm font-semibold text-white">Lead traveller</h2>
+              <div className="rounded-xl border border-[var(--voya-border)] p-5 space-y-4" style={{ backgroundColor: "var(--voya-accent-f1)" }}>
+                <h2 className="text-sm font-semibold text-[var(--voya-text)]">Lead traveller</h2>
                 <div className="grid grid-cols-2 gap-3">
                   {[
                     { label: "First name",  value: traveller.first,   key: "first"    as const },
                     { label: "Last name",   value: traveller.last,    key: "last"     as const },
                   ].map(f => (
                     <div key={f.key}>
-                      <label className="block text-xs text-white/40 mb-1">{f.label}</label>
+                      <label className="block text-xs text-[var(--voya-text-3)] mb-1">{f.label}</label>
                       <input
                         value={f.value}
                         onChange={e => setTraveller(t => ({ ...t, [f.key]: e.target.value }))}
-                        className="w-full rounded border border-white/10 px-3 py-2 text-sm text-white focus:outline-none focus:border-white/30"
+                        className="w-full rounded border border-[var(--voya-border)] px-3 py-2 text-sm text-[var(--voya-text)] focus:outline-none focus:border-[var(--voya-border-sub)]"
                         style={{ backgroundColor: "var(--voya-surface-3)" }}
                       />
                     </div>
@@ -300,15 +300,15 @@ export default function CheckoutPage() {
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs text-white/40 mb-1">Email for confirmations</label>
+                    <label className="block text-xs text-[var(--voya-text-3)] mb-1">Email for confirmations</label>
                     <input value={traveller.email} onChange={e => setTraveller(t => ({ ...t, email: e.target.value }))}
-                      className="w-full rounded border border-white/10 px-3 py-2 text-sm text-white focus:outline-none focus:border-white/30"
+                      className="w-full rounded border border-[var(--voya-border)] px-3 py-2 text-sm text-[var(--voya-text)] focus:outline-none focus:border-[var(--voya-border-sub)]"
                       style={{ backgroundColor: "var(--voya-surface-3)" }} type="email" />
                   </div>
                   <div>
-                    <label className="block text-xs text-white/40 mb-1">Mobile</label>
+                    <label className="block text-xs text-[var(--voya-text-3)] mb-1">Mobile</label>
                     <input value={traveller.phone} onChange={e => setTraveller(t => ({ ...t, phone: e.target.value }))}
-                      className="w-full rounded border border-red-500/40 px-3 py-2 text-sm text-white focus:outline-none focus:border-red-400"
+                      className="w-full rounded border border-red-400/60 px-3 py-2 text-sm text-[var(--voya-text)] focus:outline-none focus:border-red-500"
                       style={{ backgroundColor: "var(--voya-surface-3)" }} type="tel" />
                     <p className="mt-0.5 text-xs text-red-400">Enter a full mobile number including country code.</p>
                   </div>
@@ -319,21 +319,21 @@ export default function CheckoutPage() {
                     { label: "Passport number (restricted — masked after saving)", value: traveller.passport, key: "passport" as const },
                   ].map(f => (
                     <div key={f.key}>
-                      <label className="block text-xs text-white/40 mb-1">{f.label}</label>
+                      <label className="block text-xs text-[var(--voya-text-3)] mb-1">{f.label}</label>
                       <input value={f.value} readOnly
-                        className="w-full rounded border border-white/10 px-3 py-2 text-sm text-white/50"
+                        className="w-full rounded border border-[var(--voya-border)] px-3 py-2 text-sm text-[var(--voya-text-2)]"
                         style={{ backgroundColor: "var(--voya-chip-bg)" }} />
                     </div>
                   ))}
                 </div>
-                <p className="text-xs text-white/25">Restricted fields are sent to the supplier and masked everywhere they are displayed. They never appear in analytics or client logs.</p>
+                <p className="text-xs text-[var(--voya-text-4)]">Restricted fields are sent to the supplier and masked everywhere they are displayed. They never appear in analytics or client logs.</p>
                 <div className="flex gap-2 pt-1">
                   <button type="button" onClick={() => setStep("review")}
-                    className="rounded border border-white/15 px-4 py-2 text-sm text-white/60 hover:text-white transition-colors">
+                    className="rounded border border-[var(--voya-border)] px-4 py-2 text-sm text-[var(--voya-text-2)] hover:text-[var(--voya-text)] transition-colors">
                     Back to review
                   </button>
                   <button type="button" onClick={() => setStep("payment")}
-                    className="flex-1 rounded py-2 text-sm font-semibold text-white transition-opacity hover:opacity-85"
+                    className="flex-1 rounded py-2 text-sm font-semibold text-[var(--voya-text)] transition-opacity hover:opacity-85"
                     style={{ backgroundColor: "var(--voya-accent-btn)" }}>
                     Continue to payment
                   </button>
@@ -345,26 +345,26 @@ export default function CheckoutPage() {
             {step === "payment" && offer && (
               <form onSubmit={handlePay} className="space-y-5">
                 {/* What you're booking */}
-                <div className="rounded-xl border border-white/10 p-5" style={{ backgroundColor: "var(--voya-accent-f1)" }}>
-                  <h2 className="mb-3 text-sm font-semibold text-white">What you&apos;re booking</h2>
+                <div className="rounded-xl border border-[var(--voya-border)] p-5" style={{ backgroundColor: "var(--voya-accent-f1)" }}>
+                  <h2 className="mb-3 text-sm font-semibold text-[var(--voya-text)]">What you&apos;re booking</h2>
                   <div className="space-y-2">
-                    <div className="flex items-start gap-3 rounded border border-white/8 p-3" style={{ backgroundColor: "rgba(255,255,255,0.025)" }}>
+                    <div className="flex items-start gap-3 rounded border border-[var(--voya-border)] p-3" style={{ backgroundColor: "rgba(255,255,255,0.025)" }}>
                       <div className="h-9 w-11 shrink-0 rounded" style={{ background: "hsl(30,40%,28%)" }} />
                       <div className="flex-1">
-                        <p className="text-sm text-white">{offer.title}</p>
-                        <p className="text-xs text-white/35">12–16 Sep 2026 · 2 adults · free cancellation to 5 Sep</p>
+                        <p className="text-sm text-[var(--voya-text)]">{offer.title}</p>
+                        <p className="text-xs text-[var(--voya-text-3)]">12–16 Sep 2026 · 2 adults · free cancellation to 5 Sep</p>
                         <OfferLineBadges tag={(offer as {tag?:string}).tag ?? ""} isLive />
                       </div>
-                      <p className="text-sm font-semibold text-white shrink-0">EUR {Number(offer.price).toLocaleString()}.00</p>
+                      <p className="text-sm font-semibold text-[var(--voya-text)] shrink-0">EUR {Number(offer.price).toLocaleString()}.00</p>
                     </div>
-                    <div className="flex items-start gap-3 rounded border border-white/8 p-3" style={{ backgroundColor: "rgba(255,255,255,0.025)" }}>
+                    <div className="flex items-start gap-3 rounded border border-[var(--voya-border)] p-3" style={{ backgroundColor: "rgba(255,255,255,0.025)" }}>
                       <div className="h-9 w-11 shrink-0 rounded" style={{ background: "hsl(210,40%,28%)" }} />
                       <div className="flex-1">
-                        <p className="text-sm text-white">{carOffer.title}</p>
-                        <p className="text-xs text-white/35">16–19 Sep · 3 days · unlimited km</p>
+                        <p className="text-sm text-[var(--voya-text)]">{carOffer.title}</p>
+                        <p className="text-xs text-[var(--voya-text-3)]">16–19 Sep · 3 days · unlimited km</p>
                         <OfferLineBadges tag="Named partner" isLive={false} />
                       </div>
-                      <p className="text-sm font-semibold text-white shrink-0">EUR {carPrice}.00</p>
+                      <p className="text-sm font-semibold text-[var(--voya-text)] shrink-0">EUR {carPrice}.00</p>
                     </div>
                   </div>
                   <div className="mt-3 rounded border border-sky-500/20 p-2.5 text-xs text-sky-300" style={{ backgroundColor: "rgba(14,165,233,0.07)" }}>
@@ -373,39 +373,39 @@ export default function CheckoutPage() {
                 </div>
 
                 {/* Payment */}
-                <div className="rounded-xl border border-white/10 p-5 space-y-3" style={{ backgroundColor: "var(--voya-accent-f1)" }}>
-                  <h2 className="text-sm font-semibold text-white">Payment</h2>
-                  <p className="text-xs text-white/35">Card fields are hosted by our payment provider in an isolated frame. The embedding method and script inventory are unchanged by this redesign.</p>
-                  <div className="rounded border border-white/10 p-4 space-y-3" style={{ backgroundColor: "var(--voya-chip-bg)" }}>
+                <div className="rounded-xl border border-[var(--voya-border)] p-5 space-y-3" style={{ backgroundColor: "var(--voya-accent-f1)" }}>
+                  <h2 className="text-sm font-semibold text-[var(--voya-text)]">Payment</h2>
+                  <p className="text-xs text-[var(--voya-text-3)]">Card fields are hosted by our payment provider in an isolated frame. The embedding method and script inventory are unchanged by this redesign.</p>
+                  <div className="rounded border border-[var(--voya-border)] p-4 space-y-3" style={{ backgroundColor: "var(--voya-chip-bg)" }}>
                     <div>
-                      <label className="block text-xs text-white/35 mb-1">Card number</label>
-                      <div className="rounded border border-white/10 px-3 py-2 text-sm text-white/40">•••• •••• •••• 4242  hosted field</div>
+                      <label className="block text-xs text-[var(--voya-text-3)] mb-1">Card number</label>
+                      <div className="rounded border border-[var(--voya-border)] px-3 py-2 text-sm text-[var(--voya-text-3)]">•••• •••• •••• 4242  hosted field</div>
                     </div>
                     <div className="grid grid-cols-2 gap-3">
                       <div>
-                        <label className="block text-xs text-white/35 mb-1">Expiry</label>
-                        <div className="rounded border border-white/10 px-3 py-2 text-sm text-white/40">09 / 29</div>
+                        <label className="block text-xs text-[var(--voya-text-3)] mb-1">Expiry</label>
+                        <div className="rounded border border-[var(--voya-border)] px-3 py-2 text-sm text-[var(--voya-text-3)]">09 / 29</div>
                       </div>
                       <div>
-                        <label className="block text-xs text-white/35 mb-1">Security code</label>
-                        <div className="rounded border border-white/10 px-3 py-2 text-sm text-white/40">•••</div>
+                        <label className="block text-xs text-[var(--voya-text-3)] mb-1">Security code</label>
+                        <div className="rounded border border-[var(--voya-border)] px-3 py-2 text-sm text-[var(--voya-text-3)]">•••</div>
                       </div>
                     </div>
-                    <p className="text-xs text-white/25">Attempt key chk_{Math.random().toString(36).slice(2,10)} — minted once for this attempt and reused on every retry, so a retry can never double-book.</p>
+                    <p className="text-xs text-[var(--voya-text-4)]">Attempt key chk_{Math.random().toString(36).slice(2,10)} — minted once for this attempt and reused on every retry, so a retry can never double-book.</p>
                   </div>
                   <label className="flex items-start gap-2.5 cursor-pointer">
                     <input type="checkbox" checked={agreeTerms} onChange={e => setAgreeTerms(e.target.checked)} className="mt-0.5 accent-[#c1440e]" />
-                    <span className="text-xs text-white/40">I accept the cancellation terms for both items and confirm the traveller details are correct.</span>
+                    <span className="text-xs text-[var(--voya-text-3)]">I accept the cancellation terms for both items and confirm the traveller details are correct.</span>
                   </label>
                   <div className="flex gap-2">
                     <button type="button" onClick={() => setStep("traveler")}
-                      className="rounded border border-white/15 px-4 py-2 text-sm text-white/55 hover:text-white transition-colors">
+                      className="rounded border border-[var(--voya-border)] px-4 py-2 text-sm text-[var(--voya-text-2)] hover:text-[var(--voya-text)] transition-colors">
                       Back to travellers
                     </button>
                     <button
                       type="submit"
                       disabled={submitting || !agreeTerms}
-                      className="flex-1 rounded py-2.5 text-sm font-semibold text-white disabled:opacity-40 transition-opacity hover:opacity-85"
+                      className="flex-1 rounded py-2.5 text-sm font-semibold text-[var(--voya-text)] disabled:opacity-40 transition-opacity hover:opacity-85"
                       style={{ backgroundColor: "var(--voya-accent-btn)" }}
                     >
                       {submitting ? "Processing…" : `Pay EUR ${(villaPrice + carPrice).toLocaleString()}.00`}
@@ -417,36 +417,36 @@ export default function CheckoutPage() {
 
             {/* CONFIRMATION step */}
             {step === "confirmation" && (
-              <div className="rounded-xl border border-white/10 p-5 space-y-4" style={{ backgroundColor: "var(--voya-accent-f1)" }}>
+              <div className="rounded-xl border border-[var(--voya-border)] p-5 space-y-4" style={{ backgroundColor: "var(--voya-accent-f1)" }}>
                 <div className="rounded-lg border border-green-500/20 p-3" style={{ backgroundColor: "rgba(34,197,94,0.08)" }}>
                   <p className="text-sm font-medium text-green-400">Booked. Confirmation emails sent to m•••••@example.com</p>
                 </div>
 
-                <h2 className="text-sm font-semibold text-white">Confirmation preview — one screen, every reference</h2>
+                <h2 className="text-sm font-semibold text-[var(--voya-text)]">Confirmation preview — one screen, every reference</h2>
                 <table className="w-full">
                   <thead>
-                    <tr className="border-b border-white/10">
+                    <tr className="border-b border-[var(--voya-border)]">
                       {["Source","Reference","Status","Amount"].map(h => (
-                        <th key={h} className="py-2 text-left text-xs font-semibold uppercase tracking-wider text-white/30">{h}</th>
+                        <th key={h} className="py-2 text-left text-xs font-semibold uppercase tracking-wider text-[var(--voya-text-3)]">{h}</th>
                       ))}
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className="border-b border-white/8">
+                    <tr className="border-b border-[var(--voya-border)]">
                       <td className="py-2.5 text-sm text-amber-400">Homes &amp; Villas</td>
-                      <td className="py-2.5 text-sm text-white">HV-8842-LUC</td>
+                      <td className="py-2.5 text-sm text-[var(--voya-text)]">HV-8842-LUC</td>
                       <td className="py-2.5"><span className="rounded px-2 py-0.5 text-xs" style={{ backgroundColor: "rgba(34,197,94,0.15)", color: "var(--voya-green)" }}>Confirmed</span></td>
-                      <td className="py-2.5 text-sm text-white">EUR {Number(offer?.price ?? 1648).toLocaleString()}.00</td>
+                      <td className="py-2.5 text-sm text-[var(--voya-text)]">EUR {Number(offer?.price ?? 1648).toLocaleString()}.00</td>
                     </tr>
                     <tr>
                       <td className="py-2.5 text-sm text-sky-400">Partner car supplier</td>
-                      <td className="py-2.5 text-sm text-white">CAR-5198T-PSA</td>
+                      <td className="py-2.5 text-sm text-[var(--voya-text)]">CAR-5198T-PSA</td>
                       <td className="py-2.5"><span className="rounded px-2 py-0.5 text-xs" style={{ backgroundColor: "rgba(251,191,36,0.15)", color: "var(--voya-amber)" }}>Awaiting supplier</span></td>
-                      <td className="py-2.5 text-sm text-white">EUR {carPrice}.00</td>
+                      <td className="py-2.5 text-sm text-[var(--voya-text)]">EUR {carPrice}.00</td>
                     </tr>
                   </tbody>
                 </table>
-                <p className="text-xs text-white/20">Booked 31 Jul 2026 14:08 UTC · payment reference pay_3n08u1 — retained for audit and regulatory reconstruction.</p>
+                <p className="text-xs text-[var(--voya-text-4)]">Booked 31 Jul 2026 14:08 UTC · payment reference pay_3n08u1 — retained for audit and regulatory reconstruction.</p>
                 <p className="text-xs text-amber-400">Points preview 6,880 points — illustrative, not an accrual guarantee</p>
 
                 {/* Upsell */}
@@ -459,15 +459,15 @@ export default function CheckoutPage() {
                     <Link
                       key={card.label}
                       href={card.href}
-                      className="rounded-lg border border-white/10 p-3 text-left hover:border-white/25 transition-colors"
+                      className="rounded-lg border border-[var(--voya-border)] p-3 text-left hover:border-[var(--voya-border)] transition-colors"
                       style={{ backgroundColor: "var(--voya-accent-f1)" }}
                     >
-                      <p className="text-sm font-medium text-white">{card.label}</p>
-                      <p className="text-xs text-white/40">{card.desc}</p>
+                      <p className="text-sm font-medium text-[var(--voya-text)]">{card.label}</p>
+                      <p className="text-xs text-[var(--voya-text-3)]">{card.desc}</p>
                     </Link>
                   ))}
                 </div>
-                <Link href="/dashboard" className="block w-full rounded border border-white/15 py-2 text-center text-sm text-white/55 hover:text-white transition-colors">
+                <Link href="/dashboard" className="block w-full rounded border border-[var(--voya-border)] py-2 text-center text-sm text-[var(--voya-text-2)] hover:text-[var(--voya-text)] transition-colors">
                   Go to My Trips
                 </Link>
               </div>
@@ -476,8 +476,8 @@ export default function CheckoutPage() {
 
           {/* ── Right: Order summary ──────────────────────────────────────── */}
           <div className="space-y-3">
-            <div className="rounded-xl border border-white/10 p-4" style={{ backgroundColor: "var(--voya-accent-f1)" }}>
-              <h2 className="mb-3 text-sm font-semibold text-white">Order summary</h2>
+            <div className="rounded-xl border border-[var(--voya-border)] p-4" style={{ backgroundColor: "var(--voya-accent-f1)" }}>
+              <h2 className="mb-3 text-sm font-semibold text-[var(--voya-text)]">Order summary</h2>
               <div className="space-y-2 text-sm">
                 {[
                   { label: offer?.title ?? "Villa Il Cortile (4 nights)", amount: `${Number(offer?.price ?? 1648).toLocaleString()}.00` },
@@ -486,22 +486,22 @@ export default function CheckoutPage() {
                   { label: "City tax on arrival", amount: `${cityTax}.00` },
                 ].map(row => (
                   <div key={row.label} className="flex justify-between gap-2">
-                    <span className="text-white/50 text-xs leading-relaxed">{row.label}</span>
-                    <span className="text-white shrink-0 text-xs">{row.amount}</span>
+                    <span className="text-[var(--voya-text-2)] text-xs leading-relaxed">{row.label}</span>
+                    <span className="text-[var(--voya-text)] shrink-0 text-xs">{row.amount}</span>
                   </div>
                 ))}
-                <div className="border-t border-white/10 pt-2 flex justify-between font-semibold">
-                  <span className="text-sm text-white/70">Due now (EUR)</span>
-                  <span className="text-base text-white">{(villaPrice + (step !== "review" && step !== "traveler" ? carPrice : 0) + cityTax).toLocaleString()}.00</span>
+                <div className="border-t border-[var(--voya-border)] pt-2 flex justify-between font-semibold">
+                  <span className="text-sm text-[var(--voya-text-2)]">Due now (EUR)</span>
+                  <span className="text-base text-[var(--voya-text)]">{(villaPrice + (step !== "review" && step !== "traveler" ? carPrice : 0) + cityTax).toLocaleString()}.00</span>
                 </div>
               </div>
 
-              <p className="mt-2 text-xs text-white/25">All amounts in EUR, the currency supplied by each source.</p>
+              <p className="mt-2 text-xs text-[var(--voya-text-4)]">All amounts in EUR, the currency supplied by each source.</p>
 
               {(step === "payment") && (
                 <button
                   type="button"
-                  className="mt-4 w-full rounded py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-85"
+                  className="mt-4 w-full rounded py-2.5 text-sm font-semibold text-[var(--voya-text)] transition-opacity hover:opacity-85"
                   style={{ backgroundColor: "var(--voya-accent-btn)" }}
                   onClick={() => { const form = document.querySelector("form"); form?.requestSubmit(); }}
                 >
@@ -510,13 +510,13 @@ export default function CheckoutPage() {
               )}
 
               {step === "payment" && (
-                <button type="button" className="mt-2 w-full text-center text-xs text-white/40 hover:text-white/60 underline">
+                <button type="button" className="mt-2 w-full text-center text-xs text-[var(--voya-text-3)] hover:text-[var(--voya-text-2)] underline">
                   Simulate price change
                 </button>
               )}
 
               {step !== "confirmation" && (
-                <p className="mt-2 text-center text-xs text-white/25">
+                <p className="mt-2 text-center text-xs text-[var(--voya-text-4)]">
                   Free cancellation on the villa until 5 Sep 2026.
                 </p>
               )}

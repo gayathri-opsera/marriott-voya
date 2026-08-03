@@ -24,7 +24,7 @@ const CSP_POLICY = [
   "font-src 'self' https://fonts.gstatic.com",
   "img-src 'self' data: blob: https://images.unsplash.com https://plus.unsplash.com https://homes-and-villas.marriott.com https://cache.marriott.com https://*.bonvoy.com",
   "connect-src 'self' https://api.stripe.com https://*.stripe.com https://api.anthropic.com",
-  "frame-src 'self' https://js.stripe.com https://hooks.stripe.com",
+  "frame-src 'self' https://js.stripe.com https://hooks.stripe.com https://maps.google.com https://www.google.com https://*.google.com",
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",

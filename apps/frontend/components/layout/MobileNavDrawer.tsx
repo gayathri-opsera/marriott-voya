@@ -37,34 +37,38 @@ export function MobileNavDrawer({
   return (
     <Drawer open={open} onOpenChange={onOpenChange} title="Navigation">
       <nav id="mobile-nav" aria-label="Mobile" className="flex flex-col gap-1">
-        {NAV_LINKS.map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            onClick={() => onOpenChange(false)}
-            aria-current={isActiveLink(pathname, link.href) ? "page" : undefined}
-            className={cn(
-              "rounded-md px-4 py-3 text-base font-medium transition-colors",
-              isActiveLink(pathname, link.href)
-                ? "bg-brand-50 text-brand-600"
-                : "text-text-primary hover:bg-surface-subtle",
-            )}
-          >
-            {link.label}
-          </Link>
-        ))}
+        {NAV_LINKS.map((link) => {
+          const active = isActiveLink(pathname, link.href);
+          return (
+            <Link
+              key={link.href}
+              href={link.href}
+              onClick={() => onOpenChange(false)}
+              aria-current={active ? "page" : undefined}
+              className="rounded-lg px-4 py-3 text-base font-medium transition-colors"
+              style={{
+                background: active ? "var(--voya-accent-f1)" : "transparent",
+                color: active ? "var(--voya-accent)" : "var(--voya-text)",
+                borderLeft: active ? "3px solid var(--voya-accent)" : "3px solid transparent",
+              }}
+            >
+              {link.label}
+            </Link>
+          );
+        })}
 
-        <div className="mt-4 border-t border-surface-muted pt-4">
+        <div className="mt-4 pt-4" style={{ borderTop: "1px solid var(--voya-border)" }}>
           {authed ? (
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-3 px-4">
                 <span
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-100 text-sm font-semibold text-brand-600"
+                  className="flex h-9 w-9 items-center justify-center rounded-full text-sm font-semibold text-white"
+                  style={{ backgroundColor: "var(--voya-accent)" }}
                   aria-hidden
                 >
                   {(userId ?? "U").charAt(0).toUpperCase()}
                 </span>
-                <span className="text-sm text-text-secondary">Signed in</span>
+                <span className="text-sm" style={{ color: "var(--voya-text-2)" }}>Signed in</span>
               </div>
               <button
                 type="button"
@@ -72,9 +76,10 @@ export function MobileNavDrawer({
                   onLogout();
                   onOpenChange(false);
                 }}
-                className="rounded-md px-4 py-3 text-left text-base font-medium text-text-primary hover:bg-surface-subtle"
+                className="rounded-lg px-4 py-3 text-left text-base font-medium transition-colors"
+                style={{ color: "var(--voya-text-2)" }}
               >
-                Logout
+                Sign out
               </button>
             </div>
           ) : (
@@ -82,16 +87,18 @@ export function MobileNavDrawer({
               <Link
                 href={ROUTES.LOGIN}
                 onClick={() => onOpenChange(false)}
-                className="rounded-md bg-brand-primary px-4 py-3 text-center text-base font-medium text-text-inverse hover:bg-brand-600"
+                className="rounded-lg px-4 py-3 text-center text-base font-semibold transition-opacity hover:opacity-85"
+                style={{ background: "var(--voya-accent)", color: "#fff" }}
               >
-                Login
+                Sign in
               </Link>
               <Link
                 href={ROUTES.REGISTER}
                 onClick={() => onOpenChange(false)}
-                className="rounded-md border border-surface-muted px-4 py-3 text-center text-base font-medium text-text-primary hover:bg-surface-subtle"
+                className="rounded-lg px-4 py-3 text-center text-base font-medium transition-colors"
+                style={{ border: "1px solid var(--voya-border)", color: "var(--voya-text)" }}
               >
-                Register
+                Join free
               </Link>
             </div>
           )}

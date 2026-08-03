@@ -33,9 +33,9 @@ export default function ProfilePage(): React.JSX.Element {
   return (
     <AccountLayout>
       <SessionExpiryBanner />
-      <div className="rounded-xl border border-white/10 p-6" style={{ backgroundColor: "rgba(255,255,255,0.03)" }}>
-        <h1 className="mb-1 text-lg font-semibold text-white">Profile</h1>
-        <p className="mb-5 text-xs text-white/35">Restricted fields are masked in display and never sent to analytics.</p>
+      <div className="rounded-xl border border-[var(--voya-border)] p-6" style={{ backgroundColor: "rgba(255,255,255,0.03)" }}>
+        <h1 className="mb-1 text-lg font-semibold text-[var(--voya-text)]">Profile</h1>
+        <p className="mb-5 text-xs text-[var(--voya-text-3)]">Restricted fields are masked in display and never sent to analytics.</p>
 
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
@@ -44,11 +44,11 @@ export default function ProfilePage(): React.JSX.Element {
               { label: "Last name",  key: "last"  as const },
             ] as const).map(f => (
               <div key={f.key}>
-                <label className="block text-xs text-white/40 mb-1">{f.label}</label>
+                <label className="block text-xs text-[var(--voya-text-3)] mb-1">{f.label}</label>
                 <input
                   value={form[f.key]}
                   onChange={e => setForm(p => ({ ...p, [f.key]: e.target.value }))}
-                  className="w-full rounded border border-white/10 px-3 py-2 text-sm text-white focus:outline-none focus:border-white/30"
+                  className="w-full rounded border border-[var(--voya-border)] px-3 py-2 text-sm text-[var(--voya-text)] focus:outline-none focus:border-[var(--voya-border-sub)]"
                   style={{ backgroundColor: "rgba(255,255,255,0.06)" }}
                 />
               </div>
@@ -56,15 +56,15 @@ export default function ProfilePage(): React.JSX.Element {
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs text-white/40 mb-1">Email</label>
+              <label className="block text-xs text-[var(--voya-text-3)] mb-1">Email</label>
               <input value={form.email} onChange={e => setForm(p => ({ ...p, email: e.target.value }))}
-                className="w-full rounded border border-white/10 px-3 py-2 text-sm text-white focus:outline-none focus:border-white/30"
+                className="w-full rounded border border-[var(--voya-border)] px-3 py-2 text-sm text-[var(--voya-text)] focus:outline-none focus:border-[var(--voya-border-sub)]"
                 style={{ backgroundColor: "rgba(255,255,255,0.06)" }} type="email" />
             </div>
             <div>
-              <label className="block text-xs text-white/40 mb-1">Mobile</label>
+              <label className="block text-xs text-[var(--voya-text-3)] mb-1">Mobile</label>
               <input value={form.phone} onChange={e => setForm(p => ({ ...p, phone: e.target.value }))}
-                className="w-full rounded border border-red-500/40 px-3 py-2 text-sm text-white focus:outline-none"
+                className="w-full rounded border border-red-500/40 px-3 py-2 text-sm text-[var(--voya-text)] focus:outline-none"
                 style={{ backgroundColor: "rgba(255,255,255,0.06)" }} type="tel" />
               <p className="mt-0.5 text-xs text-red-400">Enter a full mobile number including country code.</p>
             </div>
@@ -75,9 +75,9 @@ export default function ProfilePage(): React.JSX.Element {
               { label: "Passport number (restricted)",  key: "passport" as const },
             ] as const).map(f => (
               <div key={f.key}>
-                <label className="block text-xs text-white/40 mb-1">{f.label}</label>
+                <label className="block text-xs text-[var(--voya-text-3)] mb-1">{f.label}</label>
                 <input value={form[f.key]} readOnly
-                  className="w-full rounded border border-white/10 px-3 py-2 text-sm text-white/40"
+                  className="w-full rounded border border-[var(--voya-border)] px-3 py-2 text-sm text-[var(--voya-text-3)]"
                   style={{ backgroundColor: "rgba(255,255,255,0.04)" }} />
               </div>
             ))}
@@ -85,10 +85,10 @@ export default function ProfilePage(): React.JSX.Element {
         </div>
 
         <div className="mt-5 flex gap-2">
-          <button type="button" className="rounded px-4 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-85" style={{ backgroundColor: "#c1440e" }}>
+          <button type="button" className="rounded px-4 py-2 text-sm font-semibold text-[var(--voya-text)] transition-opacity hover:opacity-85" style={{ backgroundColor: "var(--voya-red)" }}>
             Save changes
           </button>
-          <button type="button" className="rounded border border-white/15 px-4 py-2 text-sm text-white/50 hover:text-white transition-colors">
+          <button type="button" className="rounded border border-[var(--voya-border)] px-4 py-2 text-sm text-[var(--voya-text-2)] hover:text-[var(--voya-text)] transition-colors">
             Discard
           </button>
         </div>

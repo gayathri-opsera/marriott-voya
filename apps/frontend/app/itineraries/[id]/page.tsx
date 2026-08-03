@@ -253,7 +253,7 @@ export default function ItineraryDetailPage({ params }: { params: Promise<{ id: 
             type="button"
             onClick={handleExportPdf}
             disabled={exportingPdf}
-            className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border transition-colors hover:bg-white/5 disabled:opacity-50"
+            className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border transition-colors hover:bg-[var(--voya-accent-f1)] disabled:opacity-50"
             style={{ borderColor: "var(--voya-border)", color: "var(--voya-text-2)" }}
           >
             {exportingPdf ? "⏳ Generating…" : "📥 Export PDF"}

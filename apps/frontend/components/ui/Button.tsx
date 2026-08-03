@@ -9,28 +9,23 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   loading?: boolean;
 }
 
-const variantClasses: Record<NonNullable<ButtonProps["variant"]>, string> = {
-  primary:
-    "bg-brand-500 text-text-inverse hover:bg-brand-600 focus-visible:ring-brand-500 shadow-sm",
-  secondary:
-    "bg-surface-muted text-text-primary hover:bg-surface-subtle border border-surface-muted",
-  ghost:
-    "text-text-primary hover:bg-surface-subtle",
-  destructive:
-    "bg-danger text-text-inverse hover:bg-danger/90 focus-visible:ring-danger shadow-sm",
-  outline:
-    "border border-brand-500 text-brand-500 hover:bg-brand-50 focus-visible:ring-brand-500",
+const variantStyles: Record<NonNullable<ButtonProps["variant"]>, React.CSSProperties> = {
+  primary:   { background: "var(--voya-accent)", color: "#fff" },
+  secondary: { background: "var(--voya-surface-2)", color: "var(--voya-text)", border: "1px solid var(--voya-border)" },
+  ghost:     { background: "transparent", color: "var(--voya-text)" },
+  destructive: { background: "var(--voya-red)", color: "#fff" },
+  outline:   { background: "transparent", color: "var(--voya-accent)", border: "1px solid var(--voya-accent)" },
 };
 
 const sizeClasses: Record<NonNullable<ButtonProps["size"]>, string> = {
-  sm: "h-8 px-3 text-sm rounded",
-  md: "h-10 px-4 text-sm rounded-md",
-  lg: "h-12 px-6 text-base rounded-lg",
+  sm: "h-8 px-3 text-[13px] rounded-md",
+  md: "h-10 px-4 text-[13.5px] rounded-lg",
+  lg: "h-12 px-6 text-sm rounded-lg",
 };
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   function Button(
-    { variant = "primary", size = "md", loading = false, disabled, className, children, ...props },
+    { variant = "primary", size = "md", loading = false, disabled, className, style, children, ...props },
     ref,
   ) {
     return (
@@ -39,13 +34,14 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={disabled ?? loading}
         aria-disabled={disabled ?? loading}
         className={cn(
-          "inline-flex items-center justify-center gap-2 font-medium transition-colors",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
+          "inline-flex items-center justify-center gap-2 font-semibold transition-opacity",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--voya-accent)] focus-visible:ring-offset-2",
           "disabled:pointer-events-none disabled:opacity-50",
-          variantClasses[variant],
+          "hover:opacity-88",
           sizeClasses[size],
           className,
         )}
+        style={{ ...variantStyles[variant], ...style }}
         {...props}
       >
         {loading && (

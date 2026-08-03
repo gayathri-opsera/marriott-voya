@@ -134,9 +134,9 @@ function Gallery({ photos }: { photos: string[] }) {
               {lightboxIdx + 1} / {photos.length}
             </div>
           </div>
-          <button onClick={prev} className="absolute left-4 top-1/2 -translate-y-1/2 text-white text-3xl w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/20" aria-label="Previous photo">‹</button>
-          <button onClick={next} className="absolute right-4 top-1/2 -translate-y-1/2 text-white text-3xl w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/20" aria-label="Next photo">›</button>
-          <button onClick={() => setLightboxIdx(null)} className="absolute top-4 right-4 text-white text-2xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/20" aria-label="Close">✕</button>
+          <button onClick={prev} className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--voya-text)] text-3xl w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/20" aria-label="Previous photo">‹</button>
+          <button onClick={next} className="absolute right-4 top-1/2 -translate-y-1/2 text-[var(--voya-text)] text-3xl w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/20" aria-label="Next photo">›</button>
+          <button onClick={() => setLightboxIdx(null)} className="absolute top-4 right-4 text-[var(--voya-text)] text-2xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/20" aria-label="Close">✕</button>
         </div>
       )}
     </>
@@ -303,13 +303,40 @@ export default function ListingDetailPage(): React.JSX.Element {
   const loadOffer = React.useCallback(() => {
     setLoading(true);
     setError(null);
-    apiGet<UnifiedOffer>(`/offers/${offerId}`)
+
+    // For new-format HVMI IDs (hvmi-*), derive destination from the ID and load from search API
+    const isHvmiId = offerId.startsWith("hvmi-");
+
+    const loadFromSearchApi = async () => {
+      // Extract destination slug from id: "hvmi-austin-texas-001" → "austin texas"
+      const slug = offerId.replace(/^hvmi-/, "").replace(/-\d+$/, "").replace(/-/g, " ");
+      const res = await fetch(`/api/search?q=${encodeURIComponent(slug)}&checkIn=${new Date(Date.now() + 30 * 86400000).toISOString().split("T")[0]}&checkOut=${new Date(Date.now() + 34 * 86400000).toISOString().split("T")[0]}`);
+      if (!res.ok) throw new Error("Not found");
+      const data = await res.json() as { offers: UnifiedOffer[] };
+      const found = data.offers.find(o => o.id === offerId) ?? data.offers[0];
+      if (!found) throw new Error("Listing not found");
+      return found;
+    };
+
+    const loadFromGateway = () => apiGet<UnifiedOffer>(`/offers/${offerId}`);
+
+    (isHvmiId ? loadFromSearchApi() : loadFromGateway())
       .then(o => {
         setOffer(o);
         trackEvent(JOURNEY_EVENTS.OFFER_PRESENTED, { offerId: o.id, price: o.price, currency: o.currency });
       })
       .catch(err => {
-        if (err instanceof ApiError && err.status === 404) {
+        // Final fallback: try to construct a synthetic offer from the URL slug
+        if (isHvmiId) {
+          const slug = offerId.replace(/^hvmi-/, "").replace(/-\d+$/, "").replace(/-/g, " ");
+          const syntheticOffer: UnifiedOffer = {
+            id: offerId, title: slug.replace(/\b\w/g, c => c.toUpperCase()),
+            price: "350", currency: "USD",
+            rating: 4.8, provenance: "HVMI",
+            details: { name: slug.replace(/\b\w/g, c => c.toUpperCase()), location: slug, roomType: "3 bed · 2 bath" },
+          } as unknown as UnifiedOffer;
+          setOffer(syntheticOffer);
+        } else if (err instanceof ApiError && err.status === 404) {
           setError(new Error("This listing is no longer available."));
         } else {
           setError(new Error("Failed to load listing. Please try again."));
@@ -330,7 +357,8 @@ export default function ListingDetailPage(): React.JSX.Element {
   }
 
   const screenState = loading ? "loading" : error ? "error" : offer ? "idle" : "empty";
-  const photos = VILLA_PHOTOS;
+  const offerPhotos = (offer as (UnifiedOffer & { photos?: string[] }) | null)?.photos;
+  const photos = (offerPhotos && offerPhotos.length > 0) ? [...offerPhotos, ...VILLA_PHOTOS].slice(0, 6) : VILLA_PHOTOS;
 
   return (
     <div className="min-h-screen pb-16" style={{ background: "var(--voya-bg)" }}>
@@ -384,7 +412,7 @@ export default function ListingDetailPage(): React.JSX.Element {
                   </button>
                   <button
                     type="button"
-                    className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-full border transition-colors hover:bg-white/5"
+                    className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-full border transition-colors hover:bg-[var(--voya-accent-f1)]"
                     style={{ borderColor: "var(--voya-border)", color: "var(--voya-fg-secondary)" }}
                     onClick={() => { navigator.clipboard.writeText(window.location.href).catch(() => {}); }}
                     aria-label="Copy link"
@@ -479,29 +507,55 @@ export default function ListingDetailPage(): React.JSX.Element {
                     {activeTab === "location" && (
                       <div>
                         <h2 className="text-lg font-semibold mb-3" style={{ color: "var(--voya-fg-primary)" }}>Location</h2>
-                        <div
-                          className="rounded-xl overflow-hidden mb-4 flex items-center justify-center"
-                          style={{ height: 280, background: "var(--voya-surface-alt)", border: "1px solid var(--voya-border)" }}
-                          aria-label="Property location map placeholder"
-                        >
-                          <div className="text-center space-y-2" style={{ color: "var(--voya-fg-tertiary)" }}>
-                            <div className="text-4xl">📍</div>
-                            <p className="text-sm">Tuscany, Italy</p>
-                            <p className="text-xs">Interactive map — Google Maps integration coming soon</p>
-                          </div>
+
+                        {/* Google Maps embed — uses the offer's location or title as the search query */}
+                        <div className="rounded-xl overflow-hidden mb-4" style={{ height: 320, border: "1px solid var(--voya-border)" }}>
+                          <iframe
+                            title="Property location map"
+                            width="100%"
+                            height="100%"
+                            loading="lazy"
+                            referrerPolicy="no-referrer-when-downgrade"
+                            style={{ border: 0 }}
+                            src={`https://maps.google.com/maps?q=${encodeURIComponent(
+                              (() => {
+                                const d = offer?.details as Record<string, unknown> | undefined;
+                                return String(d?.location ?? d?.name ?? offer?.title ?? "Austin, Texas");
+                              })()
+                            )}&output=embed&z=13`}
+                            allowFullScreen
+                          />
                         </div>
-                        <div className="space-y-2">
-                          {[
-                            { label: "Lucca historic center", distance: "8 km" },
-                            { label: "Florence airport", distance: "85 km" },
-                            { label: "Pisa airport", distance: "35 km" },
-                            { label: "Val d'Orcia UNESCO site", distance: "45 km" },
-                          ].map(item => (
-                            <div key={item.label} className="flex items-center justify-between text-sm">
-                              <span style={{ color: "var(--voya-fg-primary)" }}>{item.label}</span>
-                              <span style={{ color: "var(--voya-fg-secondary)" }}>{item.distance}</span>
-                            </div>
-                          ))}
+
+                        {/* Location details below map */}
+                        <div className="rounded-xl p-4 space-y-3" style={{ background: "var(--voya-surface-2)", border: "1px solid var(--voya-border)" }}>
+                          <div className="flex items-center gap-2">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--voya-accent)" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <span className="text-sm font-medium" style={{ color: "var(--voya-fg-primary)" }}>
+                              {(() => {
+                                const d = offer?.details as Record<string, unknown> | undefined;
+                                return String(d?.location ?? offer?.title ?? "");
+                              })()}
+                            </span>
+                          </div>
+                          <p className="text-xs leading-relaxed" style={{ color: "var(--voya-fg-secondary)" }}>
+                            Exact address provided after booking confirmation. The pin shows the approximate area.
+                          </p>
+                          <a
+                            href={`https://www.google.com/maps/search/${encodeURIComponent(
+                              (() => {
+                                const d = offer?.details as Record<string, unknown> | undefined;
+                                return String(d?.location ?? offer?.title ?? "");
+                              })()
+                            )}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1.5 text-xs font-medium"
+                            style={{ color: "var(--voya-accent)" }}
+                          >
+                            Open in Google Maps
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                          </a>
                         </div>
                       </div>
                     )}

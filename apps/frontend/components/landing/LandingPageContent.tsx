@@ -285,16 +285,16 @@ export function LandingPageContent() {
             <span style={{ color: "var(--voya-accent)", fontSize: 12 }}>✦</span>
             <span style={{ color: "var(--voya-accent)", fontSize: 12, fontWeight: 500 }}>Homes &amp; Villas by Marriott Bonvoy — AI-powered</span>
           </div>
-          <h1 style={{ fontSize: "clamp(2rem,5vw,3.5rem)", fontWeight: 700, letterSpacing: "-0.02em", color: "var(--voya-text)", marginBottom: 10 }}>
+          <h1 style={{ fontSize: "clamp(2.4rem,5.5vw,4rem)", fontWeight: 500, letterSpacing: "-0.025em", color: "var(--voya-text)", marginBottom: 10, fontFamily: "var(--font-serif)", lineHeight: 1.12 }}>
             AI vacation planning
           </h1>
-          <h2 style={{ fontSize: "clamp(1.25rem,3vw,2rem)", fontWeight: 600, marginBottom: 8, color: "var(--voya-text-2)" }}>
+          <h2 style={{ fontSize: "clamp(1.3rem,3vw,2.1rem)", fontWeight: 400, marginBottom: 10, color: "var(--voya-text-2)", fontFamily: "var(--font-serif)", fontStyle: "italic" }}>
             Your villa in{" "}
-            <span style={{ color: "var(--voya-accent-lt)" }}>
-              {displayed}<span style={{ opacity: 0.6 }}>{cursor}</span>
+            <span style={{ color: "var(--voya-accent)", fontStyle: "normal", fontWeight: 600 }}>
+              {displayed}<span style={{ opacity: 0.5 }}>{cursor}</span>
             </span>
           </h2>
-          <p style={{ fontSize: 17, marginBottom: 32, color: "var(--voya-text-3)" }}>Plan the trip. Skip the tabs.</p>
+          <p style={{ fontSize: 16, marginBottom: 32, color: "var(--voya-text-3)", fontFamily: "var(--font-sans)" }}>Plan the trip. Skip the tabs.</p>
           <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 12 }}>
             <Link href="/browse"
               style={{ background: "var(--voya-accent-btn)", borderRadius: 10, color: "#fff", padding: "11px 24px", fontSize: 14, fontWeight: 600, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 6, transition: "opacity 0.15s" }}>
@@ -312,7 +312,7 @@ export function LandingPageContent() {
       <section style={{ margin: "0 auto", maxWidth: 1152, padding: "32px 16px" }}>
         <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 20 }}>
           <div>
-            <h2 style={{ fontSize: 18, fontWeight: 600, color: "var(--voya-text)" }}>HVMI villas — Lucca &amp; Tuscany</h2>
+            <h2 style={{ fontSize: 22, fontWeight: 500, color: "var(--voya-text)", fontFamily: "var(--font-serif)" }}>HVMI villas — Lucca &amp; Tuscany</h2>
             <p style={{ fontSize: 13, marginTop: 2, color: "var(--voya-text-3)" }}>All properties from Homes &amp; Villas by Marriott Bonvoy</p>
           </div>
           <Link href="/browse" style={{ fontSize: 13, fontWeight: 500, color: "var(--voya-accent)", textDecoration: "none" }}>See all →</Link>

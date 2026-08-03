@@ -10,7 +10,7 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
 }
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  function Input({ label, error, hint, id, className, ...props }, ref) {
+  function Input({ label, error, hint, id, className, style, ...props }, ref) {
     const inputId = id ?? (label ? label.toLowerCase().replace(/\s+/g, "-") : undefined);
     const hintId = hint ? `${inputId}-hint` : undefined;
     const errorId = error ? `${inputId}-error` : undefined;
@@ -18,7 +18,11 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className="flex flex-col gap-1.5">
         {label && (
-          <label htmlFor={inputId} className="text-sm font-medium text-text-primary">
+          <label
+            htmlFor={inputId}
+            className="text-sm font-medium"
+            style={{ color: "var(--voya-text)" }}
+          >
             {label}
           </label>
         )}
@@ -28,23 +32,26 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           aria-describedby={[hintId, errorId].filter(Boolean).join(" ") || undefined}
           aria-invalid={error ? true : undefined}
           className={cn(
-            "h-10 w-full rounded-md border px-3 py-2 text-sm",
-            "bg-surface-default text-text-primary placeholder:text-text-muted",
-            "border-surface-muted transition-colors",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:border-brand-500",
+            "h-10 w-full rounded-lg px-3 py-2 text-sm transition-all",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--voya-accent)]",
             "disabled:cursor-not-allowed disabled:opacity-50",
-            error && "border-error focus-visible:ring-error",
             className,
           )}
+          style={{
+            background: "var(--voya-surface)",
+            border: error ? "1px solid var(--voya-red)" : "1px solid var(--voya-border)",
+            color: "var(--voya-text)",
+            ...style,
+          }}
           {...props}
         />
         {hint && !error && (
-          <p id={hintId} className="text-xs text-text-muted">
+          <p id={hintId} className="text-xs" style={{ color: "var(--voya-text-3)" }}>
             {hint}
           </p>
         )}
         {error && (
-          <p id={errorId} role="alert" className="text-xs text-error">
+          <p id={errorId} role="alert" className="text-xs" style={{ color: "var(--voya-red)" }}>
             {error}
           </p>
         )}

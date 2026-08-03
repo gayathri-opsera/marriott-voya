@@ -11,16 +11,16 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          50: "#f0f4ff",
-          100: "#e0e9ff",
-          200: "#c0d2ff",
-          300: "#93b0ff",
-          400: "#6080ff",
+          50: "rgba(60, 122, 145, 0.05)",
+          100: "rgba(60, 122, 145, 0.1)",
+          200: "rgba(60, 122, 145, 0.2)",
+          300: "rgba(60, 122, 145, 0.4)",
+          400: "#4d94ae",
           500: "var(--color-brand-primary)",
-          600: "#2f4ac7",
-          700: "#2340b0",
-          800: "#1a318e",
-          900: "#122470",
+          600: "var(--color-brand-600)",
+          700: "#2f6b82",
+          800: "#255669",
+          900: "#1b4050",
           primary: "var(--color-brand-primary)",
           secondary: "var(--color-brand-secondary)",
         },
@@ -53,7 +53,8 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+        sans: ["var(--font-sans)", "Work Sans", "-apple-system", "system-ui", "sans-serif"],
+        serif: ["var(--font-serif)", "Newsreader", "Georgia", "serif"],
         mono: ["var(--font-mono)", "monospace"],
       },
       fontSize: {

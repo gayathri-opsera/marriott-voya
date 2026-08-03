@@ -13,7 +13,7 @@ export { reportWebVitals };
 
 export const metadata: Metadata = {
   title: "Voya — AI Travel Booking",
-  description: "Search and book flights, hotels, and car rentals with AI-powered recommendations",
+  description: "Discover and book extraordinary homes, villas and experiences powered by AI",
 };
 
 export default function RootLayout({
@@ -27,6 +27,13 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        {/* Wayfare-aligned fonts: Newsreader (serif display) + Work Sans (body) */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Work+Sans:wght@400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
       </head>
       <body className="min-h-screen flex flex-col">
         <SkipLink />

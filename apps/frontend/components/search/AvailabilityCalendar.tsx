@@ -218,7 +218,7 @@ export function AvailabilityCalendar({
         <button
           type="button"
           onClick={() => setBaseMonth(b => addMonths(b, -1))}
-          className="p-1.5 rounded-full hover:bg-white/10 transition-colors"
+          className="p-1.5 rounded-full hover:bg-[var(--voya-surface-2)] transition-colors"
           aria-label="Previous month"
           style={{ color: "var(--voya-fg-secondary)" }}
         >
@@ -231,7 +231,7 @@ export function AvailabilityCalendar({
         <button
           type="button"
           onClick={() => setBaseMonth(b => addMonths(b, 1))}
-          className="p-1.5 rounded-full hover:bg-white/10 transition-colors"
+          className="p-1.5 rounded-full hover:bg-[var(--voya-surface-2)] transition-colors"
           aria-label="Next month"
           style={{ color: "var(--voya-fg-secondary)" }}
         >

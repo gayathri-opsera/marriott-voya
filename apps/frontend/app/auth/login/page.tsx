@@ -51,14 +51,14 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-[calc(100vh-8rem)] items-center justify-center bg-surface-subtle px-4 py-8">
-      <Card className="w-full max-w-md shadow-lg">
+    <div className="flex min-h-[calc(100vh-8rem)] items-center justify-center px-4 py-8" style={{ background: "var(--voya-bg)" }}>
+      <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-brand-primary text-lg font-bold text-text-inverse">
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full text-lg font-bold text-white" style={{ background: "var(--voya-accent)" }}>
             V
           </div>
-          <h1 className="text-xl font-semibold text-text-primary">Sign in to Voya</h1>
-          <p className="mt-1 text-sm text-text-secondary">
+          <h1 className="text-xl font-medium" style={{ color: "var(--voya-text)", fontFamily: "var(--font-serif)" }}>Sign in to Voya</h1>
+          <p className="mt-1 text-sm" style={{ color: "var(--voya-text-2)" }}>
             Welcome back! Enter your credentials to continue.
           </p>
         </CardHeader>

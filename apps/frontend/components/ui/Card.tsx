@@ -8,17 +8,20 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export const Card = React.forwardRef<HTMLDivElement, CardProps>(
-  function Card({ variant = "default", className, children, ...props }, ref) {
+  function Card({ variant = "default", className, style, children, ...props }, ref) {
+    const baseStyle: React.CSSProperties = {
+      background: "var(--voya-surface)",
+      border: "1px solid var(--voya-border)",
+      borderRadius: 12,
+      boxShadow: variant === "elevated" ? "var(--voya-shadow-md)" : "var(--voya-shadow-sm)",
+      ...style,
+    };
+
     return (
       <div
         ref={ref}
-        className={cn(
-          "rounded-xl bg-surface-default p-6",
-          variant === "default"  && "shadow-sm",
-          variant === "bordered" && "border border-surface-muted",
-          variant === "elevated" && "shadow-lg",
-          className,
-        )}
+        className={cn("p-6", className)}
+        style={baseStyle}
         {...props}
       >
         {children}
@@ -34,13 +37,27 @@ export const CardHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<
 );
 
 export const CardTitle = React.forwardRef<HTMLHeadingElement, React.HTMLAttributes<HTMLHeadingElement>>(
-  function CardTitle({ className, ...props }, ref) {
-    return <h3 ref={ref} className={cn("text-lg font-semibold text-text-primary", className)} {...props} />;
+  function CardTitle({ className, style, ...props }, ref) {
+    return (
+      <h3
+        ref={ref}
+        className={cn("text-lg font-medium", className)}
+        style={{ color: "var(--voya-text)", fontFamily: "var(--font-serif)", ...style }}
+        {...props}
+      />
+    );
   },
 );
 
 export const CardContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  function CardContent({ className, ...props }, ref) {
-    return <div ref={ref} className={cn("text-text-secondary", className)} {...props} />;
+  function CardContent({ className, style, ...props }, ref) {
+    return (
+      <div
+        ref={ref}
+        className={cn("text-sm", className)}
+        style={{ color: "var(--voya-text-2)", ...style }}
+        {...props}
+      />
+    );
   },
 );

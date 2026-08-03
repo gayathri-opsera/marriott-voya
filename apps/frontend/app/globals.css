@@ -3,124 +3,186 @@
 @tailwind utilities;
 
 /* ─────────────────────────────────────────────────────────────────────────
-   Voya theme tokens — two complete sets.
-   Dark is the default (matches .dark Tailwind class strategy).
-   Light activates when .dark is NOT on <html>.
+   Wayfare-aligned Voya theme tokens
+   Light is the default. Dark activates when .dark is on <html>.
    ───────────────────────────────────────────────────────────────────────── */
 
-/* ── Dark theme (default) ── */
+/* ── Light theme (default — Wayfare warm cream + teal) ── */
 :root {
-  --voya-bg:           #161826;
-  --voya-surface:      #232532;
-  --voya-surface-2:    #1e1f2e;
-  --voya-surface-3:    #1a1c28;
-  --voya-border:       rgba(145, 132, 217, 0.2);
-  --voya-border-sub:   rgba(145, 132, 217, 0.1);
-  --voya-text:         #e9e9ed;
-  --voya-text-2:       #9397ab;
-  --voya-text-3:       #75798c;
-  --voya-text-4:       #595d6c;
-  --voya-accent:       #9184d9;
-  --voya-accent-lt:    #b5abfc;
-  --voya-accent-dk:    #796cbf;
-  --voya-accent-f1:    rgba(145, 132, 217, 0.1);
-  --voya-accent-f2:    rgba(145, 132, 217, 0.2);
-  --voya-accent-btn:   #9184d9;
-  --voya-amber:        #fbbf24;
-  --voya-amber-f:      rgba(251, 191, 36, 0.12);
-  --voya-green:        #4ade80;
-  --voya-red:          #f87171;
-  --voya-photo-scrim:  rgba(22, 24, 38, 0.82);
-  --voya-photo-grad:   rgba(22, 24, 38, 0.85);
-  --voya-nav-bg:       rgba(30, 31, 46, 0.95);
-  --voya-nav-border:   rgba(145, 132, 217, 0.15);
-  --voya-logo:         #9184d9;
-  --voya-chip-bg:      rgba(145, 132, 217, 0.08);
-  --voya-chip-border:  rgba(145, 132, 217, 0.2);
-  --voya-hero-orb:     rgba(145, 132, 217, 0.15);
-}
-
-/* ── Light theme — applied when .dark is removed from <html> ── */
-html:not(.dark) {
-  --voya-bg:           #f2f1fc;
+  /* Backgrounds */
+  --voya-bg:           #fefdfb;
   --voya-surface:      #ffffff;
-  --voya-surface-2:    #eceaf8;
-  --voya-surface-3:    #e5e3f5;
-  --voya-border:       rgba(90, 75, 168, 0.18);
-  --voya-border-sub:   rgba(90, 75, 168, 0.1);
-  --voya-text:         #1a1830;
-  --voya-text-2:       #524e6a;
-  --voya-text-3:       #7a778f;
-  --voya-text-4:       #9e9cb4;
-  --voya-accent:       #6c5fc7;
-  --voya-accent-lt:    #4f44a5;
-  --voya-accent-dk:    #8272d8;
-  --voya-accent-f1:    rgba(108, 95, 199, 0.08);
-  --voya-accent-f2:    rgba(108, 95, 199, 0.15);
-  --voya-accent-btn:   #6c5fc7;
+  --voya-surface-2:    #f4f1ea;
+  --voya-surface-3:    #eceae3;
+  --voya-surface-alt:  #f4f1ea;
+
+  /* Borders */
+  --voya-border:       #e6e2d8;
+  --voya-border-sub:   #ede9e1;
+
+  /* Text */
+  --voya-text:         #22282b;
+  --voya-text-2:       #6b7478;
+  --voya-text-3:       #8a9196;
+  --voya-text-4:       #a8b0b5;
+  --voya-fg-secondary: #6b7478;
+  --voya-fg-tertiary:  #8a9196;
+
+  /* Accent — teal */
+  --voya-accent:       #3c7a91;
+  --voya-accent-lt:    #4d94ae;
+  --voya-accent-dk:    color-mix(in srgb, #3c7a91 65%, black);
+  --voya-accent-soft:  color-mix(in srgb, #3c7a91 14%, white);
+  --voya-accent-f1:    rgba(60, 122, 145, 0.09);
+  --voya-accent-f2:    rgba(60, 122, 145, 0.16);
+  --voya-accent-btn:   #3c7a91;
+
+  /* Status */
   --voya-amber:        #b45309;
   --voya-amber-f:      rgba(180, 83, 9, 0.1);
-  --voya-green:        #16a34a;
-  --voya-red:          #dc2626;
-  --voya-photo-scrim:  rgba(242, 241, 252, 0.82);
-  --voya-photo-grad:   rgba(242, 241, 252, 0.7);
-  --voya-nav-bg:       rgba(255, 255, 255, 0.96);
-  --voya-nav-border:   rgba(90, 75, 168, 0.12);
-  --voya-logo:         #6c5fc7;
-  --voya-chip-bg:      rgba(108, 95, 199, 0.07);
-  --voya-chip-border:  rgba(108, 95, 199, 0.18);
-  --voya-hero-orb:     rgba(108, 95, 199, 0.1);
+  --voya-green:        #2f6f4e;
+  --voya-red:          #b94040;
+
+  /* Navigation */
+  --voya-nav-bg:       rgba(254, 253, 251, 0.97);
+  --voya-nav-border:   #e6e2d8;
+  --voya-logo:         #3c7a91;
+
+  /* Chips / tags */
+  --voya-chip-bg:      rgba(60, 122, 145, 0.08);
+  --voya-chip-border:  rgba(60, 122, 145, 0.2);
+
+  /* Photo overlays */
+  --voya-photo-scrim:  rgba(34, 40, 43, 0.55);
+  --voya-photo-grad:   rgba(34, 40, 43, 0.65);
+  --voya-hero-orb:     rgba(60, 122, 145, 0.1);
+
+  /* Card shadow */
+  --voya-shadow-sm:    0 1px 3px rgba(34,40,43,0.07), 0 1px 2px rgba(34,40,43,0.04);
+  --voya-shadow-md:    0 4px 16px rgba(34,40,43,0.10), 0 2px 4px rgba(34,40,43,0.06);
+  --voya-shadow-lg:    0 8px 32px rgba(34,40,43,0.12), 0 4px 8px rgba(34,40,43,0.06);
+
+  /* Semantic aliases */
+  --voya-fg-primary:   var(--voya-text);
+  --voya-fg-secondary: var(--voya-text-2);
+  --voya-fg-tertiary:  var(--voya-text-3);
+  --voya-gold:         #b45309;
+  --voya-gold-f:       rgba(180, 83, 9, 0.1);
+}
+
+/* ── Dark theme — warm dark teal ── */
+html.dark {
+  --voya-bg:           #161e22;
+  --voya-surface:      #1c2529;
+  --voya-surface-2:    #1a2228;
+  --voya-surface-3:    #18202400;
+  --voya-surface-alt:  #1e2b30;
+
+  --voya-border:       rgba(60, 122, 145, 0.22);
+  --voya-border-sub:   rgba(60, 122, 145, 0.12);
+
+  --voya-text:         #e8eced;
+  --voya-text-2:       #8fa5ae;
+  --voya-text-3:       #6b8490;
+  --voya-text-4:       #4f6570;
+  --voya-fg-secondary: #8fa5ae;
+  --voya-fg-tertiary:  #6b8490;
+
+  --voya-accent:       #4d94ae;
+  --voya-accent-lt:    #6ab2cc;
+  --voya-accent-dk:    #3c7a91;
+  --voya-accent-soft:  rgba(77, 148, 174, 0.18);
+  --voya-accent-f1:    rgba(77, 148, 174, 0.1);
+  --voya-accent-f2:    rgba(77, 148, 174, 0.2);
+  --voya-accent-btn:   #4d94ae;
+
+  --voya-amber:        #f59e0b;
+  --voya-amber-f:      rgba(245, 158, 11, 0.12);
+  --voya-green:        #3aaa70;
+  --voya-red:          #e87272;
+
+  --voya-nav-bg:       rgba(22, 30, 34, 0.97);
+  --voya-nav-border:   rgba(60, 122, 145, 0.18);
+  --voya-logo:         #4d94ae;
+
+  --voya-chip-bg:      rgba(77, 148, 174, 0.1);
+  --voya-chip-border:  rgba(77, 148, 174, 0.22);
+
+  --voya-photo-scrim:  rgba(16, 24, 28, 0.72);
+  --voya-photo-grad:   rgba(16, 24, 28, 0.80);
+  --voya-hero-orb:     rgba(60, 122, 145, 0.15);
+
+  --voya-shadow-sm:    0 1px 3px rgba(0,0,0,0.25), 0 1px 2px rgba(0,0,0,0.15);
+  --voya-shadow-md:    0 4px 16px rgba(0,0,0,0.30), 0 2px 4px rgba(0,0,0,0.20);
+  --voya-shadow-lg:    0 8px 32px rgba(0,0,0,0.35), 0 4px 8px rgba(0,0,0,0.20);
+
+  --voya-fg-primary:   var(--voya-text);
+  --voya-fg-secondary: var(--voya-text-2);
+  --voya-fg-tertiary:  var(--voya-text-3);
+  --voya-gold:         #f59e0b;
+  --voya-gold-f:       rgba(245, 158, 11, 0.12);
 }
 
 @layer base {
   :root {
-    /* Surface */
-    --color-surface-default: #ffffff;
-    --color-surface-subtle: #f8f9fa;
-    --color-surface-muted: #e9ecef;
-    --color-surface-secondary: #f1f3f5;
-    --color-surface-tertiary: #dee2e6;
-
-    /* Text */
-    --color-text-primary: #1a1a2e;
-    --color-text-secondary: #495057;
-    --color-text-muted: #6c757d;
-    --color-text-tertiary: #868e96;
-    --color-text-inverse: #ffffff;
-
-    /* Brand */
-    --color-brand-primary: #3b5bdb;
-    --color-brand-secondary: #6080ff;
-
-    /* Status */
-    --color-success: #2f9e44;
-    --color-warning: #e67700;
-    --color-danger: #c92a2a;
-    --color-info: #1971c2;
-
-    /* Overlay & borders */
-    --color-overlay: rgb(0 0 0 / 0.5);
-    --color-border-default: #dee2e6;
-    --color-border-subtle: #e9ecef;
-
-    /* Focus */
-    --color-focus-ring: #3b5bdb;
-
-    /* Radius */
-    --radius-sm: 0.25rem;
-    --radius-md: 0.375rem;
-    --radius-lg: 0.5rem;
-    --radius-xl: 0.75rem;
-
     /* Legacy aliases used by existing components */
-    --color-brand-500: var(--color-brand-primary);
-    --color-brand-600: #2f4ac7;
-    --color-surface: var(--color-surface-default);
-    --color-error: var(--color-danger);
+    --color-surface-default:    var(--voya-surface);
+    --color-surface-subtle:     var(--voya-surface-2);
+    --color-surface-muted:      var(--voya-surface-3);
+    --color-surface-secondary:  var(--voya-surface-2);
+    --color-surface-tertiary:   var(--voya-surface-3);
 
-    --font-sans: "Inter", system-ui, sans-serif;
-    --font-mono: "JetBrains Mono", monospace;
-    --radius: var(--radius-md);
+    --color-text-primary:       var(--voya-text);
+    --color-text-secondary:     var(--voya-text-2);
+    --color-text-muted:         var(--voya-text-3);
+    --color-text-tertiary:      var(--voya-text-4);
+    --color-text-inverse:       #ffffff;
+
+    --color-brand-primary:      var(--voya-accent);
+    --color-brand-secondary:    var(--voya-accent-lt);
+    --color-brand-500:          var(--voya-accent);
+    --color-brand-600:          var(--voya-accent-dk);
+
+    --color-success:            #2f6f4e;
+    --color-warning:            #b45309;
+    --color-danger:             #b94040;
+    --color-info:               #3c7a91;
+    --color-error:              #b94040;
+
+    --color-overlay:            rgba(34, 40, 43, 0.5);
+    --color-border-default:     var(--voya-border);
+    --color-border-subtle:      var(--voya-border-sub);
+    --color-focus-ring:         var(--voya-accent);
+    --color-surface:            var(--voya-surface);
+
+    --radius-sm: 0.375rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    --radius:    var(--radius-md);
+
+    --font-sans: 'Work Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-serif: 'Newsreader', Georgia, serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  html.dark {
+    --color-surface-default:   var(--voya-surface);
+    --color-surface-subtle:    var(--voya-surface-2);
+    --color-surface-muted:     var(--voya-surface-3);
+    --color-surface-secondary: var(--voya-surface-2);
+    --color-surface-tertiary:  var(--voya-surface-alt);
+    --color-text-primary:      var(--voya-text);
+    --color-text-secondary:    var(--voya-text-2);
+    --color-text-muted:        var(--voya-text-3);
+    --color-text-tertiary:     var(--voya-text-4);
+    --color-border-default:    var(--voya-border);
+    --color-border-subtle:     var(--voya-border-sub);
+    --color-brand-primary:     var(--voya-accent);
+    --color-focus-ring:        var(--voya-accent);
+    --color-success:           #3aaa70;
+    --color-warning:           #f59e0b;
+    --color-danger:            #e87272;
   }
 
   *, *::before, *::after {
@@ -133,34 +195,24 @@ html:not(.dark) {
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+    letter-spacing: -0.01em;
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-focus-ring);
+    outline: 2px solid var(--voya-accent);
     outline-offset: 2px;
     border-radius: 2px;
   }
-
-  .dark {
-    --color-surface-default: #1a1a2e;
-    --color-surface-subtle: #16162a;
-    --color-surface-muted: #2a2a40;
-    --color-surface-secondary: #222238;
-    --color-surface-tertiary: #333350;
-
-    --color-text-primary: #f8f9fa;
-    --color-text-secondary: #ced4da;
-    --color-text-muted: #868e96;
-    --color-text-tertiary: #6c757d;
-    --color-text-inverse: #1a1a2e;
-
-    --color-border-default: #333350;
-    --color-border-subtle: #2a2a40;
-
-    --color-focus-ring: #6080ff;
-  }
 }
+
+/* ── Typography helpers ─────────────────────────────────────────────────── */
+.font-serif { font-family: var(--font-serif); }
+.font-sans  { font-family: var(--font-sans); }
 
 /* ── Accessibility utilities ─────────────────────────────────────────────── */
 .sr-only {
@@ -186,18 +238,138 @@ html:not(.dark) {
   white-space: normal;
 }
 
-/* ── Skip link (legacy) ──────────────────────────────────────────────────── */
+/* ── Skip link ───────────────────────────────────────────────────────────── */
 .skip-link {
   position: absolute;
   top: -9999px;
   left: 1rem;
   z-index: 9999;
   padding: 0.5rem 1rem;
-  background: var(--color-brand-primary);
-  color: var(--color-text-inverse);
+  background: var(--voya-accent);
+  color: #fff;
   border-radius: var(--radius-md);
   font-weight: 600;
 }
-.skip-link:focus {
-  top: 0.5rem;
+.skip-link:focus { top: 0.5rem; }
+
+/* ── Wayfare-style card ──────────────────────────────────────────────────── */
+.wf-card {
+  background: var(--voya-surface);
+  border: 1px solid var(--voya-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--voya-shadow-sm);
+  transition: box-shadow 0.18s ease, transform 0.18s ease;
 }
+.wf-card:hover {
+  box-shadow: var(--voya-shadow-md);
+  transform: translateY(-1px);
+}
+
+/* ── Wayfare-style button variants ──────────────────────────────────────── */
+.wf-btn-primary {
+  background: var(--voya-accent);
+  color: #fff;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s ease, opacity 0.15s ease;
+}
+.wf-btn-primary:hover { opacity: 0.88; }
+
+.wf-btn-secondary {
+  background: var(--voya-surface-2);
+  color: var(--voya-text);
+  border: 1px solid var(--voya-border);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.wf-btn-secondary:hover { background: var(--voya-surface-3); }
+
+/* ── Tab underline indicator (Wayfare style) ─────────────────────────────── */
+.wf-tab {
+  padding: 12px 18px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  color: var(--voya-text-3);
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.wf-tab.active {
+  color: var(--voya-text);
+  border-bottom-color: var(--voya-accent);
+}
+.wf-tab:hover { color: var(--voya-text); }
+
+/* ── Filter chips ────────────────────────────────────────────────────────── */
+.wf-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12.5px;
+  font-weight: 600;
+  border: 1px solid var(--voya-border);
+  background: var(--voya-surface);
+  color: var(--voya-text-2);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.wf-chip:hover, .wf-chip.active {
+  border-color: var(--voya-accent);
+  background: var(--voya-accent-f1);
+  color: var(--voya-accent);
+}
+
+/* ── Inputs ──────────────────────────────────────────────────────────────── */
+.wf-input {
+  background: var(--voya-surface);
+  border: 1px solid var(--voya-border);
+  border-radius: var(--radius-md);
+  color: var(--voya-text);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  padding: 10px 14px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  width: 100%;
+}
+.wf-input:focus {
+  outline: none;
+  border-color: var(--voya-accent);
+  box-shadow: 0 0 0 3px var(--voya-accent-f1);
+}
+.wf-input::placeholder { color: var(--voya-text-3); }
+
+/* ── Section divider ─────────────────────────────────────────────────────── */
+.wf-divider {
+  border: none;
+  border-top: 1px solid var(--voya-border);
+  margin: 0;
+}
+
+/* ── Accent badge / pill ─────────────────────────────────────────────────── */
+.wf-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  background: var(--voya-accent-f1);
+  color: var(--voya-accent);
+}
+
+/* ── Scrollbar (subtle Wayfare-style) ───────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--voya-border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--voya-text-4); }
