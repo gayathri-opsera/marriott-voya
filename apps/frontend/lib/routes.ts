@@ -1,6 +1,7 @@
 export const ROUTES = {
   HOME: "/",
   BROWSE: "/browse",
+  COLLECTIONS: "/collections",
   SEARCH: "/search",
   DASHBOARD: "/dashboard",
   ASSISTANT: "/assistant",
@@ -11,12 +12,12 @@ export const ROUTES = {
 } as const;
 
 export const NAV_LINKS = [
-  { href: ROUTES.HOME,       label: "Home" },
-  { href: ROUTES.BROWSE,     label: "Browse villas" },
-  { href: ROUTES.SEARCH,     label: "Search & book" },
-  { href: ROUTES.ASSISTANT,  label: "Plan with AI" },
-  { href: ROUTES.DASHBOARD,  label: "My trips" },
-  { href: ROUTES.PROFILE,    label: "Account" },
+  { href: ROUTES.HOME,        label: "Home" },
+  { href: ROUTES.COLLECTIONS, label: "Collections" },
+  { href: ROUTES.SEARCH,      label: "Search & book" },
+  { href: ROUTES.ASSISTANT,   label: "Plan with AI" },
+  { href: ROUTES.DASHBOARD,   label: "My trips" },
+  { href: ROUTES.PROFILE,     label: "Account" },
 ] as const;
 
 export type RoutePath = (typeof ROUTES)[keyof typeof ROUTES];

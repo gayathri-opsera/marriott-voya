@@ -1,13 +1,14 @@
 "use client";
 
 /**
- * Editable Itinerary Timeline — WOREF-030
+ * Editable Itinerary Timeline — WOREF-030 + WO-GAP-04 (PDF export)
  * Displays a day-by-day editable itinerary with accept/edit/abandon actions.
  */
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { use } from "react";
+import { downloadItineraryPdf } from "../../../lib/itinerary-pdf";
 
 interface ItineraryItem {
   date: string;
@@ -100,6 +101,41 @@ export default function ItineraryDetailPage({ params }: { params: Promise<{ id: 
     void fetchDraft();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
+
+  const [exportingPdf, setExportingPdf] = useState(false);
+
+  const handleExportPdf = async () => {
+    const itinerary = draft ?? demoItinerary;
+    setExportingPdf(true);
+    try {
+      const days = Object.entries(groupByDate(itinerary.items))
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([date, items]) => ({
+          date,
+          items: items.map(i => ({
+            type: (i.type.toLowerCase() as "accommodation" | "activity" | "transport" | "restaurant" | "flight"),
+            title: i.label,
+            description: i.detail,
+            price: i.price,
+            currency: i.currency,
+          })),
+        }));
+
+      await downloadItineraryPdf({
+        tripTitle: itinerary.destination,
+        destination: itinerary.destination,
+        checkIn: itinerary.checkIn,
+        checkOut: itinerary.checkOut,
+        travellers: 2,
+        bonvoyPoints: itinerary.totalBonvoyPoints,
+        totalCost: itinerary.totalUSD,
+        currency: "USD",
+        days,
+      });
+    } finally {
+      setExportingPdf(false);
+    }
+  };
 
   const handleAccept = async () => {
     if (!draft) return;
@@ -207,6 +243,19 @@ export default function ItineraryDetailPage({ params }: { params: Promise<{ id: 
               </div>
             </div>
           ))}
+        </div>
+
+        {/* PDF Export */}
+        <div className="mt-6 flex justify-end">
+          <button
+            type="button"
+            onClick={handleExportPdf}
+            disabled={exportingPdf}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border transition-colors hover:bg-white/5 disabled:opacity-50"
+            style={{ borderColor: "var(--voya-border)", color: "var(--voya-text-2)" }}
+          >
+            {exportingPdf ? "⏳ Generating…" : "📥 Export PDF"}
+          </button>
         </div>
 
         {/* Actions */}
