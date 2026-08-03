@@ -652,6 +652,7 @@ export async function POST(req: NextRequest) {
           totalIn += resp.usage.input_tokens;
           totalOut += resp.usage.output_tokens;
 
+          // Stream text blocks
           for (const block of resp.content) {
             if (block.type === "text") {
               const words = block.text.split(/(\s+)/);
@@ -659,13 +660,21 @@ export async function POST(req: NextRequest) {
                 if (word) { send({ type: "delta", content: word }); await new Promise<void>(r => setTimeout(r, 8)); }
               }
             }
-            if (block.type === "tool_use") {
+          }
+
+          // Collect ALL tool calls in this round, execute them, then push ONE assistant + ONE user turn
+          const toolBlocks = resp.content.filter(b => b.type === "tool_use") as Anthropic.ToolUseBlock[];
+          if (toolBlocks.length > 0) {
+            const toolResults: Anthropic.ToolResultBlockParam[] = [];
+            for (const block of toolBlocks) {
               send({ type: "tool_start", toolName: block.name, toolUseId: block.id, input: block.input });
               const result = execTool(block.name, block.input as Record<string, unknown>);
               send({ type: "tool_result", toolName: block.name, toolUseId: block.id, result });
-              history.push({ role: "assistant", content: resp.content });
-              history.push({ role: "user", content: [{ type: "tool_result", tool_use_id: block.id, content: JSON.stringify(result) }] });
+              toolResults.push({ type: "tool_result", tool_use_id: block.id, content: JSON.stringify(result) });
             }
+            // One assistant turn (the full response) + one user turn with ALL tool results
+            history.push({ role: "assistant", content: resp.content });
+            history.push({ role: "user", content: toolResults });
           }
 
           if (resp.stop_reason === "end_turn") {

@@ -296,13 +296,17 @@ export function LandingPageContent() {
           </h2>
           <p style={{ fontSize: 16, marginBottom: 32, color: "var(--voya-text-3)", fontFamily: "var(--font-sans)" }}>Plan the trip. Skip the tabs.</p>
           <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 12 }}>
-            <Link href="/browse"
-              style={{ background: "var(--voya-accent-btn)", borderRadius: 10, color: "#fff", padding: "11px 24px", fontSize: 14, fontWeight: 600, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 6, transition: "opacity 0.15s" }}>
-              🏡 Browse villas
-            </Link>
+            {/* Primary CTA — matches the HTML reference "Start planning →" button */}
             <Link href="/assistant"
-              style={{ background: "var(--voya-accent-f1)", border: "1px solid var(--voya-border)", borderRadius: 10, color: "var(--voya-accent-lt)", padding: "11px 24px", fontSize: 14, fontWeight: 600, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 6, transition: "background 0.15s" }}>
-              ◎ Plan with AI
+              style={{ background: "var(--voya-accent)", borderRadius: 999, color: "#fff", padding: "10px 28px", fontSize: 15, fontWeight: 600, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 6, boxShadow: "0 2px 12px rgba(0,0,0,0.15)", transition: "opacity 0.15s" }}
+              onMouseEnter={e => ((e.currentTarget as HTMLElement).style.opacity = "0.88")}
+              onMouseLeave={e => ((e.currentTarget as HTMLElement).style.opacity = "1")}
+            >
+              Start planning →
+            </Link>
+            <Link href="/browse"
+              style={{ background: "var(--voya-surface)", border: "1px solid var(--voya-border)", borderRadius: 999, color: "var(--voya-text)", padding: "10px 24px", fontSize: 14, fontWeight: 500, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 6, transition: "background 0.15s" }}>
+              🏡 Browse villas
             </Link>
           </div>
         </div>
