@@ -1,3 +1,6 @@
+// Re-export conversation API contracts (WO-007)
+export * from "./conversations.js";
+
 /**
  * AI Planning State Contracts — WO-001
  *

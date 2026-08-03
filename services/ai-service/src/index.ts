@@ -2,6 +2,7 @@ import express from "express";
 import Anthropic from "@anthropic-ai/sdk";
 import path from "path";
 import { fileURLToPath } from "url";
+import { SqliteConversationRepository } from "./domain/SqliteConversationRepository.js";
 
 // Load .env from service dir first, then root as fallback
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -529,6 +530,10 @@ interface Session {
 let sessionCounter = 0;
 const sessions = new Map<string, Session>();
 
+// ─── Durable conversation store (WO-007) ─────────────────────────────────────
+const DB_PATH = process.env["AI_CONVERSATIONS_DB"] ?? ":memory:";
+const conversationRepo = new SqliteConversationRepository(DB_PATH);
+
 // ─── Routes ────────────────────────────────────────────────────────────────
 
 app.get("/health", (_req, res) => {
@@ -641,6 +646,234 @@ app.post("/api/v1/ai/chat", async (req, res) => {
 
   res.end();
 });
+
+// ─── Durable Conversation APIs (WO-007) ──────────────────────────────────────
+
+/**
+ * POST /api/v1/ai/conversations
+ * Create a new durable conversation. Returns conversationId for all subsequent calls.
+ */
+app.post("/api/v1/ai/conversations", async (req, res) => {
+  try {
+    const { userId, clientSessionId, initialPrompt } = req.body as {
+      userId?: string;
+      clientSessionId?: string;
+      initialPrompt?: string;
+    };
+    const sid = clientSessionId ?? crypto.randomUUID();
+    const correlationId = (req.headers["x-correlation-id"] as string) ?? crypto.randomUUID();
+    const conversation = await conversationRepo.create({
+      userId: userId ?? null,
+      clientSessionId: sid,
+      correlationId,
+      initialPrompt,
+    });
+    return res.status(201).json({
+      conversationId: conversation.id,
+      status: conversation.status,
+      createdAt: conversation.createdAt,
+      nextAction: "stream",
+    });
+  } catch (err) {
+    return res.status(500).json({ error: "conversation_create_failed", message: (err as Error).message });
+  }
+});
+
+/**
+ * GET /api/v1/ai/conversations/:conversationId
+ * Return conversation metadata (no message content).
+ */
+app.get("/api/v1/ai/conversations/:conversationId", async (req, res) => {
+  try {
+    const conv = await conversationRepo.findById(req.params["conversationId"]);
+    if (!conv) return res.status(404).json({ error: "conversation_not_found" });
+    return res.json({
+      conversationId: conv.id,
+      status: conv.status,
+      correlationId: conv.correlationId,
+      createdAt: conv.createdAt,
+      updatedAt: conv.updatedAt,
+    });
+  } catch (err) {
+    return res.status(500).json({ error: "conversation_read_failed", message: (err as Error).message });
+  }
+});
+
+/**
+ * GET /api/v1/ai/conversations/:conversationId/messages
+ * Return ordered message history for conversation recovery after reload.
+ * Messages are returned in sequence order; interrupted assistant turns are included.
+ */
+app.get("/api/v1/ai/conversations/:conversationId/messages", async (req, res) => {
+  try {
+    const conv = await conversationRepo.findById(req.params["conversationId"]);
+    if (!conv) return res.status(404).json({ error: "conversation_not_found" });
+    const messages = await conversationRepo.getHistory(req.params["conversationId"]);
+    return res.json({
+      conversationId: conv.id,
+      messages: messages.map((m) => ({
+        id: m.id,
+        role: m.role,
+        content: m.content,
+        status: m.status,
+        sequence: m.sequence,
+        createdAt: m.createdAt,
+        completedAt: m.completedAt,
+        correlationId: m.correlationId,
+      })),
+      total: messages.length,
+    });
+  } catch (err) {
+    return res.status(500).json({ error: "history_read_failed", message: (err as Error).message });
+  }
+});
+
+/**
+ * POST /api/v1/ai/conversations/:conversationId/messages/stream
+ * Stream an assistant response, persisting the user turn before streaming
+ * and finalizing the assistant turn on completion or marking it interrupted.
+ */
+app.post("/api/v1/ai/conversations/:conversationId/messages/stream", async (req, res) => {
+  const { content, idempotencyKey, tripContext } = req.body as {
+    content?: string;
+    idempotencyKey?: string;
+    tripContext?: Record<string, unknown>;
+  };
+  const conversationId = req.params["conversationId"];
+  const correlationId = (req.headers["x-correlation-id"] as string) ?? crypto.randomUUID();
+
+  res.setHeader("Content-Type", "text/event-stream");
+  res.setHeader("Cache-Control", "no-cache");
+  res.setHeader("Connection", "keep-alive");
+  res.setHeader("X-Correlation-Id", correlationId);
+
+  const send = (chunk: object) => res.write(`data: ${JSON.stringify(chunk)}\n\n`);
+
+  if (!content?.trim()) {
+    send({ type: "error", code: "missing_content", correlationId });
+    return res.end();
+  }
+
+  const conv = await conversationRepo.findById(conversationId);
+  if (!conv) {
+    send({ type: "error", code: "conversation_not_found", correlationId });
+    return res.end();
+  }
+
+  // Fetch existing history to build Anthropic messages array
+  const existingMessages = await conversationRepo.getHistory(conversationId);
+  const history: Anthropic.MessageParam[] = existingMessages
+    .filter((m) => m.role === "user" || m.role === "assistant")
+    .map((m) => ({ role: m.role as "user" | "assistant", content: m.content }));
+
+  // Persist user turn before streaming begins (AC: durable before AI call)
+  const userSequence = existingMessages.length;
+  const userMsg = await conversationRepo.appendMessage({
+    conversationId,
+    role: "user",
+    content,
+    status: "completed",
+    sequence: userSequence,
+    correlationId,
+    metadata: idempotencyKey ? { idempotencyKey } : {},
+  });
+
+  history.push({ role: "user", content });
+
+  // Persist pending assistant turn so interruption is detectable
+  const assistantSequence = userSequence + 1;
+  const assistantMsg = await conversationRepo.appendMessage({
+    conversationId,
+    role: "assistant",
+    content: "",
+    status: "streaming",
+    sequence: assistantSequence,
+    correlationId,
+  });
+
+  send({ type: "acknowledged", messageId: userMsg.id, correlationId });
+
+  let assistantText = "";
+  let totalInput = 0;
+  let totalOutput = 0;
+
+  try {
+    const client = new Anthropic({ apiKey: process.env["ANTHROPIC_API_KEY"] ?? "" });
+
+    for (let round = 0; round < 8; round++) {
+      const response = await client.messages.create({
+        model: "claude-sonnet-4-5",
+        max_tokens: 4096,
+        system: SYSTEM_PROMPT,
+        tools: TRAVEL_TOOLS,
+        messages: history,
+      });
+
+      totalInput += response.usage.input_tokens;
+      totalOutput += response.usage.output_tokens;
+
+      for (const block of response.content) {
+        if (block.type === "text") {
+          assistantText += block.text;
+          const words = block.text.split(/(\s+)/);
+          for (const word of words) {
+            if (word) {
+              send({ type: "token", content: word, correlationId });
+              await new Promise<void>((r) => setTimeout(r, 12));
+            }
+          }
+        }
+        if (block.type === "tool_use") {
+          send({ type: "toolStatus", toolName: block.name, toolUseId: block.id, correlationId });
+        }
+      }
+
+      if (response.stop_reason !== "tool_use") {
+        // Finalize assistant turn in DB
+        await conversationRepo.finalizeMessage({
+          messageId: assistantMsg.id,
+          content: assistantText,
+          tokenInput: totalInput,
+          tokenOutput: totalOutput,
+        });
+        await conversationRepo.setStatus(conversationId, "active");
+
+        send({
+          type: "completed",
+          messageId: assistantMsg.id,
+          usage: { inputTokens: totalInput, outputTokens: totalOutput },
+          correlationId,
+        });
+        break;
+      }
+
+      const toolResults: Anthropic.ToolResultBlockParam[] = [];
+      for (const block of response.content) {
+        if (block.type === "tool_use") {
+          const result = executeTool(block.name, block.input as Record<string, unknown>);
+          send({ type: "toolStatus", toolName: block.name, toolUseId: block.id, status: "done", correlationId });
+          toolResults.push({ type: "tool_result", tool_use_id: block.id, content: result });
+        }
+      }
+      history.push({ role: "assistant", content: response.content });
+      history.push({ role: "user", content: toolResults });
+    }
+  } catch (err) {
+    // Mark assistant turn as interrupted so UI can recover
+    await conversationRepo.markInterrupted(assistantMsg.id).catch(() => undefined);
+    send({
+      type: "error",
+      code: "stream_error",
+      message: err instanceof Error ? err.message : "Stream failed",
+      correlationId,
+      recoverable: true,
+    });
+  }
+
+  res.end();
+});
+
+// ─── End Durable Conversation APIs ───────────────────────────────────────────
 
 app.listen(PORT, () => {
   console.log(`[ai-service] listening on :${PORT}`);
