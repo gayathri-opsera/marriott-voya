@@ -6,12 +6,14 @@
  * package via the pnpm workspace protocol.
  *
  * Domain modules:
- *   - search   : FlightSearchRequest, HotelSearchRequest, CarRentalSearchRequest, UnifiedOffer
- *   - booking  : CreateBookingRequest, BookingResponse, Itinerary, audit entries
- *   - payment  : PaymentIntentRequest/Response, RefundRequest/Response
- *   - auth     : RegisterRequest, LoginRequest, RefreshRequest, ActorContext, roles
- *   - user     : UserProfile, TravelPreferences, update requests
- *   - events   : BookingConfirmationEvent, BookingCancellationEvent, NotificationEvent
+ *   - search       : FlightSearchRequest, HotelSearchRequest, CarRentalSearchRequest, UnifiedOffer
+ *   - booking      : CreateBookingRequest, BookingResponse, Itinerary, audit entries
+ *   - payment      : PaymentIntentRequest/Response, RefundRequest/Response
+ *   - auth         : RegisterRequest, LoginRequest, RefreshRequest, ActorContext, roles
+ *   - user         : UserProfile, TravelPreferences, update requests
+ *   - events       : BookingConfirmationEvent, BookingCancellationEvent, NotificationEvent
+ *   - ai-planning  : PlanningSession, ConversationTurn, AgentOutput, ToolResult,
+ *                    ItineraryDraft, ItineraryRevision, PlanningStateSummary (WO-001)
  *
  * Usage:
  *   import { FlightSearchRequestSchema } from "@travel/contracts/search";
@@ -208,3 +210,48 @@ export type {
   PaymentEvent,
   BookingStatusChangedEvent,
 } from "./events/index.js";
+
+// ─── AI Planning State (WO-001) ───────────────────────────────────────────────
+export {
+  PlanningFlowTypeSchema,
+  PlanningSessionStatusSchema,
+  ConversationRoleSchema,
+  AgentNameSchema,
+  AgentOutputStatusSchema,
+  AiProvenanceSchema,
+  DataClassificationSchema,
+  ItineraryDraftStatusSchema,
+  ItineraryItemTypeSchema,
+  ActorReferenceSchema,
+  PlanningSessionSchema,
+  ConversationTurnSchema,
+  ToolResultSchema,
+  AgentOutputSchema,
+  SelectedOfferReferenceSchema,
+  ItineraryDayItemSchema,
+  ItineraryDraftSchema,
+  ItineraryRevisionSchema,
+  PlanningStateSummarySchema,
+  MARRIOTT_BOOKABLE_PROVENANCES,
+} from "./ai-planning/index.js";
+export type {
+  PlanningFlowType,
+  PlanningSessionStatus,
+  ConversationRole,
+  AgentName,
+  AgentOutputStatus,
+  AiProvenance,
+  DataClassification,
+  ItineraryDraftStatus,
+  ItineraryItemType,
+  ActorReference,
+  PlanningSession,
+  ConversationTurn,
+  ToolResult,
+  AgentOutput,
+  SelectedOfferReference,
+  ItineraryDayItem,
+  ItineraryDraft,
+  ItineraryRevision,
+  PlanningStateSummary,
+} from "./ai-planning/index.js";

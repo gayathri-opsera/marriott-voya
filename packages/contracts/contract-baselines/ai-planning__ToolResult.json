@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "bookable": {
+      "type": "boolean"
+    },
+    "dataClassification": {
+      "default": "INTERNAL",
+      "enum": [
+        "PUBLIC",
+        "INTERNAL",
+        "RESTRICTED",
+        "CONFIDENTIAL"
+      ],
+      "type": "string"
+    },
+    "expiresAt": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "freshnessAt": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "isMock": {
+      "type": "boolean"
+    },
+    "normalizedPayload": {
+      "additionalProperties": {},
+      "type": "object"
+    },
+    "source": {
+      "enum": [
+        "HVMI",
+        "MARRIOTT_HOTEL",
+        "MARRIOTT_PARTNER",
+        "AMADEUS",
+        "RAPIDAPI_HOTEL",
+        "RAPIDAPI_CAR",
+        "BONVOY_TOURS",
+        "GOOGLE_PLACES",
+        "WEATHER_SERVICE",
+        "ILLUSTRATIVE"
+      ],
+      "type": "string"
+    },
+    "toolName": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "toolName",
+    "source",
+    "freshnessAt",
+    "bookable",
+    "isMock",
+    "normalizedPayload"
+  ],
+  "type": "object"
+}

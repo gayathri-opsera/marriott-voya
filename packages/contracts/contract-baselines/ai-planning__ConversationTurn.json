@@ -1,0 +1,75 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "classification": {
+      "default": "INTERNAL",
+      "enum": [
+        "PUBLIC",
+        "INTERNAL",
+        "RESTRICTED",
+        "CONFIDENTIAL"
+      ],
+      "type": "string"
+    },
+    "completedAt": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "content": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "createdAt": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "interrupted": {
+      "type": "boolean"
+    },
+    "role": {
+      "enum": [
+        "user",
+        "assistant",
+        "system",
+        "tool"
+      ],
+      "type": "string"
+    },
+    "sequence": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "sessionId": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "tokenUsage": {
+      "additionalProperties": false,
+      "properties": {
+        "input": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "output": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "required": [
+    "id",
+    "sessionId",
+    "role",
+    "content",
+    "sequence",
+    "createdAt"
+  ],
+  "type": "object"
+}

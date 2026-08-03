@@ -1,0 +1,81 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "actor": {
+      "additionalProperties": false,
+      "properties": {
+        "anonymousId": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "authenticated",
+            "anonymous"
+          ],
+          "type": "string"
+        },
+        "userId": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
+    "correlationId": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "createdAt": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "currentDraftId": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "flowType": {
+      "enum": [
+        "ACCOMMODATION_LED",
+        "INTENT_LED",
+        "FREE_FORM_DISCOVERY"
+      ],
+      "type": "string"
+    },
+    "id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "metadata": {
+      "additionalProperties": {},
+      "type": "object"
+    },
+    "status": {
+      "enum": [
+        "ACTIVE",
+        "COMPLETED",
+        "ABANDONED",
+        "EXPIRED"
+      ],
+      "type": "string"
+    },
+    "updatedAt": {
+      "format": "date-time",
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "actor",
+    "flowType",
+    "status",
+    "correlationId",
+    "createdAt",
+    "updatedAt"
+  ],
+  "type": "object"
+}

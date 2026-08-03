@@ -57,6 +57,11 @@
       "import": "./src/audit/index.ts",
       "require": "./src/audit/index.ts",
       "types": "./src/audit/index.ts"
+    },
+    "./ai-planning": {
+      "import": "./src/ai-planning/index.ts",
+      "require": "./src/ai-planning/index.ts",
+      "types": "./src/ai-planning/index.ts"
     }
   },
   "files": ["dist"],

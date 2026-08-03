@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "enum": [
+    "HVMI",
+    "MARRIOTT_HOTEL",
+    "MARRIOTT_PARTNER",
+    "AMADEUS",
+    "RAPIDAPI_HOTEL",
+    "RAPIDAPI_CAR",
+    "BONVOY_TOURS",
+    "GOOGLE_PLACES",
+    "WEATHER_SERVICE",
+    "ILLUSTRATIVE"
+  ],
+  "type": "string"
+}

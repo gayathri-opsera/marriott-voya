@@ -84,6 +84,27 @@ import {
   ErrorEnvelopeSchema,
 } from "./errors/envelope.js";
 
+import {
+  PlanningFlowTypeSchema,
+  PlanningSessionStatusSchema,
+  ConversationRoleSchema,
+  AgentNameSchema,
+  AgentOutputStatusSchema,
+  AiProvenanceSchema,
+  DataClassificationSchema,
+  ItineraryDraftStatusSchema,
+  ItineraryItemTypeSchema,
+  PlanningSessionSchema,
+  ConversationTurnSchema,
+  ToolResultSchema,
+  AgentOutputSchema,
+  SelectedOfferReferenceSchema,
+  ItineraryDayItemSchema,
+  ItineraryDraftSchema,
+  ItineraryRevisionSchema,
+  PlanningStateSummarySchema,
+} from "./ai-planning/index.js";
+
 // ─── Registry entry ────────────────────────────────────────────────────────────
 
 export interface SchemaEntry {
@@ -166,6 +187,26 @@ export const SCHEMA_REGISTRY: Readonly<SchemaEntry[]> = [
   // ─── Errors ───────────────────────────────────────────────────────────────────
   { id: "errors.ErrorDetail",                schema: ErrorDetailSchema,            domain: "errors", isRequestSchema: false },
   { id: "errors.ErrorEnvelope",              schema: ErrorEnvelopeSchema,          domain: "errors", isRequestSchema: false },
+
+  // ─── AI Planning State (WO-001) ───────────────────────────────────────────────
+  { id: "ai-planning.PlanningFlowType",      schema: PlanningFlowTypeSchema,       domain: "ai-planning", isRequestSchema: false },
+  { id: "ai-planning.PlanningSessionStatus", schema: PlanningSessionStatusSchema,  domain: "ai-planning", isRequestSchema: false },
+  { id: "ai-planning.ConversationRole",      schema: ConversationRoleSchema,       domain: "ai-planning", isRequestSchema: false },
+  { id: "ai-planning.AgentName",             schema: AgentNameSchema,              domain: "ai-planning", isRequestSchema: false },
+  { id: "ai-planning.AgentOutputStatus",     schema: AgentOutputStatusSchema,      domain: "ai-planning", isRequestSchema: false },
+  { id: "ai-planning.AiProvenance",          schema: AiProvenanceSchema,           domain: "ai-planning", isRequestSchema: false },
+  { id: "ai-planning.DataClassification",    schema: DataClassificationSchema,     domain: "ai-planning", isRequestSchema: false },
+  { id: "ai-planning.ItineraryDraftStatus",  schema: ItineraryDraftStatusSchema,   domain: "ai-planning", isRequestSchema: false },
+  { id: "ai-planning.ItineraryItemType",     schema: ItineraryItemTypeSchema,      domain: "ai-planning", isRequestSchema: false },
+  { id: "ai-planning.PlanningSession",       schema: PlanningSessionSchema,        domain: "ai-planning", isRequestSchema: false },
+  { id: "ai-planning.ConversationTurn",      schema: ConversationTurnSchema,       domain: "ai-planning", isRequestSchema: false },
+  { id: "ai-planning.ToolResult",            schema: ToolResultSchema,             domain: "ai-planning", isRequestSchema: false },
+  { id: "ai-planning.AgentOutput",           schema: AgentOutputSchema,            domain: "ai-planning", isRequestSchema: false },
+  { id: "ai-planning.SelectedOfferReference",schema: SelectedOfferReferenceSchema, domain: "ai-planning", isRequestSchema: false },
+  { id: "ai-planning.ItineraryDayItem",      schema: ItineraryDayItemSchema,       domain: "ai-planning", isRequestSchema: false },
+  { id: "ai-planning.ItineraryDraft",        schema: ItineraryDraftSchema,         domain: "ai-planning", isRequestSchema: false },
+  { id: "ai-planning.ItineraryRevision",     schema: ItineraryRevisionSchema,      domain: "ai-planning", isRequestSchema: false },
+  { id: "ai-planning.PlanningStateSummary",  schema: PlanningStateSummarySchema,   domain: "ai-planning", isRequestSchema: false },
 ] as const;
 
 /** Look up a schema entry by stable ID */
